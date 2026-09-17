@@ -89,8 +89,10 @@ const emailDomain = site.email.split('@')[1] ?? '';
           )
         }
         <button type="submit" class="btn-primary">{t('contact.send')}</button>
-        <p class="text-meta" data-email-obfuscated data-user={emailUser} data-domain={emailDomain}>
-          {t('contact.orEmail')} <noscript><a href={`mailto:${site.email}`} class="text-signal">{site.email}</a></noscript>
+        <p class="text-meta" data-user={emailUser} data-domain={emailDomain} data-email-obfuscated>
+          {t('contact.orEmail')}
+          <span data-email-slot></span>
+          <noscript><a href={`mailto:${site.email}`} class="text-signal">{site.email}</a></noscript>
         </p>
       </form>
 
@@ -108,15 +110,28 @@ const emailDomain = site.email.split('@')[1] ?? '';
 
 <script>
   // Reconstruit l'email sans le mettre en clair dans le HTML (anti-scraping §5.7)
-  document.querySelectorAll<HTMLElement>('[data-email-obfuscated]').forEach((el) => {
-    const email = `${el.dataset.user}@${el.dataset.domain}`;
+  const user = document.querySelector<HTMLElement>('[data-email-obfuscated]')?.dataset.user;
+  const domain = document.querySelector<HTMLElement>('[data-email-obfuscated]')?.dataset.domain;
+  const slot = document.querySelector<HTMLElement>('[data-email-slot]');
+  if (user && domain && slot) {
+    const email = `${user}@${domain}`;
     const link = document.createElement('a');
     link.href = `mailto:${email}`;
     link.textContent = email;
     link.className = 'text-signal hover:underline';
-    const label = document.createTextNode(
-      el.textContent?.match(/^[^a-z]*/i)?.[0] ?? '',
-    );
-    el.replaceChildren(label, link);
-  });
+    slot.replaceChildren(link);
+  }
+
+  // Pré-sélection du type de demande depuis ?type= (boutons Consulting/Musique, spec §5.4)
+  const typeParam = new URLSearchParams(window.location.search).get('type');
+  if (typeParam) {
+    const select = document.querySelector<HTMLSelectElement>('#request-type');
+    if (select) {
+      const match = [...select.options].find((o) =>
+        o.value.toLowerCase() === typeParam.toLowerCase() ||
+        o.textContent?.toLowerCase().startsWith(typeParam.toLowerCase()),
+      );
+      if (match) select.value = match.value;
+    }
+  }
 </script>

@@ -102,6 +102,10 @@
   }
   .btn-primary {
     @apply bg-signal text-white hover:bg-[#23389e];
+    /* outline signal invisible sur fond signal → contour ink décalé (§8) */
+    &:focus-visible {
+      outline-color: var(--color-ink);
+    }
   }
   .btn-secondary {
     @apply border border-rule text-ink hover:border-ink-muted;

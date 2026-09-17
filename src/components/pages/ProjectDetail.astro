@@ -29,7 +29,7 @@ const schema = {
   '@type': 'CreativeWork',
   name: title,
   description,
-  genre: d.disciplines.map((discipline) => t('disciplines')[discipline]),
+  genre: d.disciplines.map((discipline) => tGroup('disciplines')[discipline][lang]),
   ...(d.years && { dateCreated: d.years }),
   author: { '@type': 'Person', name: site.name, url: Astro.site?.href },
   ...(d.studio && { producer: { '@type': 'Organization', name: d.studio } }),
@@ -39,7 +39,7 @@ const schema = {
 };
 ---
 
-<Layout title={`${title} — ${site.name}`} description={description} lang={lang} altPath={altPath} skipLabel={t('skipToContent')} ogImage={ogImage} schema={schema}>
+<Layout title={`${title} — ${site.name}`} description={description} lang={lang} altPath={altPath} skipLabel={t('skipToContent')} ogImage={ogImage} schema={schema} ogType="article">
   <Header lang={lang} altPath={altPath} />
 
   <main id="main">

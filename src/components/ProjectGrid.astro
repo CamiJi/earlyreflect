@@ -31,7 +31,7 @@ const usedDisciplines = disciplineKeys.filter((d) => projects.some((p) => p.data
           href={`${pageUrl(lang, '/work/')}${activeDiscipline ? '' : ''}`}
           class="pill filter-btn pill-active"
           data-filter="all"
-          aria-pressed="true"
+          aria-current={activeDiscipline ? undefined : 'true'}
         >
           {t('work.all')}
         </a>
@@ -40,7 +40,7 @@ const usedDisciplines = disciplineKeys.filter((d) => projects.some((p) => p.data
             href={`${pageUrl(lang, '/work/')}?discipline=${d}`}
             class="pill filter-btn"
             data-filter={d}
-            aria-pressed="false"
+            aria-current={activeDiscipline === d ? 'true' : undefined}
           >
             {tGroup('disciplines')[d][lang]}
           </a>
@@ -72,7 +72,8 @@ const usedDisciplines = disciplineKeys.filter((d) => projects.some((p) => p.data
         buttons.forEach((b) => {
           const active = b === btn;
           b.classList.toggle('pill-active', active);
-          b.setAttribute('aria-pressed', String(active));
+          if (active) b.setAttribute('aria-current', 'true');
+          else b.removeAttribute('aria-current');
         });
         items.forEach((item) => {
           const show =
