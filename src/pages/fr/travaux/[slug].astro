@@ -1,0 +1,20 @@
+---
+import { getCollection } from 'astro:content';
+import ProjectDetail from '../../../components/pages/ProjectDetail.astro';
+
+export async function getStaticPaths() {
+  const projects = (await getCollection('projects')).filter((p) => p.id.startsWith('fr/'));
+  const sorted = projects.sort((a, b) => {
+    const oa = a.data.order ?? Infinity;
+    const ob = b.data.order ?? Infinity;
+    if (oa !== ob) return oa - ob;
+    return b.data.years.localeCompare(a.data.years);
+  });
+  return sorted.map((project, i) => ({
+    params: { slug: project.id.replace('fr/', '') },
+    props: { project, prev: sorted[i - 1], next: sorted[i + 1] },
+  }));
+}
+---
+
+<ProjectDetail project={Astro.props.project} lang="fr" prev={Astro.props.prev} next={Astro.props.next} />

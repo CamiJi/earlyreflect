@@ -1,0 +1,65 @@
+---
+/** Mentions légales / Confidentialité — spec §8 RGPD : éditeur, hébergeur (Automattic/WordPress.com → à mettre à jour après bascule GitHub Pages) */
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { useTranslations, type Lang } from '../../i18n/ui';
+import { site } from '../../data/site';
+
+interface Props {
+  lang: Lang;
+  variant: 'legal' | 'privacy';
+}
+
+const { lang, variant } = Astro.props;
+const { t, tGroup } = useTranslations(lang);
+const altPath = variant === 'legal' ? '/legal/' : '/privacy/';
+const title = variant === 'legal' ? t('footer.legal') : t('footer.privacy');
+
+const content = {
+  en: {
+    legal: [
+      ['Publisher', `${site.name} — ${site.email} — Sole proprietor`],
+      ['Host', 'GitHub, Inc., 88 Colin P Kelly Jr St, San Francisco, CA 94107, USA (GitHub Pages)'],
+      ['Intellectual property', 'All content on this site (text, images, audio, video) is the property of Mathieu Fiorentini or of the respective rights holders (publishers, press kits).'],
+    ],
+    privacy: [
+      ['No cookies, no tracking', 'This site sets no cookies and embeds no third-party trackers. Video and audio players are facades: the third-party player (YouTube, Vimeo, SoundCloud) only loads after an explicit click, at which point their own policies apply.'],
+      ['Contact form', 'Form submissions are processed by Formspree (see their privacy policy) and sent to the site owner, who uses them solely to reply to your inquiry.'],
+      ['Data retention', 'Contact emails are kept only as long as necessary to handle your request.'],
+      ['Your rights', `You may request access, rectification or deletion of your data at ${site.email}.`],
+    ],
+  },
+  fr: {
+    legal: [
+      ['Éditeur', `${site.name} — ${site.email} — Entrepreneur individuel`],
+      ['Hébergeur', 'GitHub, Inc., 88 Colin P Kelly Jr St, San Francisco, CA 94107, USA (GitHub Pages)'],
+      ['Propriété intellectuelle', 'L’ensemble des contenus de ce site (textes, images, audio, vidéo) est la propriété de Mathieu Fiorentini ou de leurs ayants droit respectifs (éditeurs, kits presse).'],
+    ],
+    privacy: [
+      ['Zéro cookie, zéro tracking', 'Ce site ne dépose aucun cookie et n’embarque aucun traceur tiers. Les lecteurs vidéo et audio sont des façades : le lecteur tiers (YouTube, Vimeo, SoundCloud) ne se charge qu’après un clic explicite, moment où leur propre politique s’applique.'],
+      ['Formulaire de contact', 'Les soumissions sont traitées par Formspree (voir leur politique de confidentialité) et transmises au propriétaire du site, qui ne les utilise que pour répondre à votre demande.'],
+      ['Conservation des données', 'Les emails de contact ne sont conservés que le temps nécessaire au traitement de votre demande.'],
+      ['Vos droits', `Vous pouvez demander l’accès, la rectification ou la suppression de vos données à ${site.email}.`],
+    ],
+  },
+}[lang][variant];
+---
+
+<Layout title={`${title} — ${site.name}`} description={title} lang={lang} altPath={altPath} skipLabel={t('skipToContent')}>
+  <Header lang={lang} altPath={altPath} />
+  <main id="main">
+    <section class="container-site section !pt-16">
+      <h1 class="text-2xl font-bold">{title}</h1>
+      <div class="measure mt-8 space-y-8">
+        {content.map(([heading, text]) => (
+          <div>
+            <h2 class="font-semibold">{heading}</h2>
+            <p class="mt-2">{text}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  </main>
+  <Footer lang={lang} altPath={altPath} />
+</Layout>

@@ -1,0 +1,78 @@
+---
+/**
+ * Dispatcher média — spec §4.1/§7 :
+ * détecte le type de média principal et rend la bonne façade.
+ * - YouTube/Vimeo/SoundCloud → façade (iframe au clic)
+ * - fichier audio auto-hébergé → lecteur natif stylé
+ * - NDA → encart « Médias sous NDA » + key art
+ */
+import LiteYouTube from './LiteYouTube.astro';
+import LiteVimeo from './LiteVimeo.astro';
+import SoundCloudFacade from './SoundCloudFacade.astro';
+import AudioPlayer from './AudioPlayer.astro';
+import EarlyReflections from './EarlyReflections.astro';
+import { useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  mediaUrl?: string;
+  mediaCaption?: string;
+  title: string;
+  keyArt?: string;
+  keyArtAlt?: string;
+  nda: { active: boolean; note?: string };
+  lang: Lang;
+  class?: string;
+}
+
+const { mediaUrl, mediaCaption, title, keyArt, keyArtAlt, nda, lang, class: className = '' } = Astro.props;
+const { t, tGroup } = useTranslations(lang);
+
+const youtube = mediaUrl?.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]{6,})/);
+const vimeo = mediaUrl?.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+const soundcloud = mediaUrl?.includes('soundcloud.com/');
+const audioFile = mediaUrl && /\.(mp3|wav|ogg|m4a|flac)$/i.test(mediaUrl);
+---
+
+{
+  nda.active ? (
+    <figure class={className}>
+      {keyArt && (
+        <div class="media-16x9 bg-rule">
+          <img src={keyArt} alt={keyArtAlt ?? ''} width="1600" height="900" loading="lazy" />
+        </div>
+      )}
+      <figcaption class="media-caption text-meta mt-2 flex items-center gap-3 rounded-(--radius-media) border border-rule bg-surface p-4">
+        <EarlyReflections variant="bars" class="text-ink-muted" />
+        <span>
+          {t('work.underNda')}
+          {nda.note && <span class="block text-sm"> {nda.note}</span>}
+        </span>
+      </figcaption>
+    </figure>
+  ) : youtube ? (
+    <figure class={className}>
+      <LiteYouTube id={youtube[1]} title={title} />
+      {mediaCaption && <figcaption class="media-caption text-meta mt-2">{mediaCaption}</figcaption>}
+    </figure>
+  ) : vimeo ? (
+    <figure class={className}>
+      <LiteVimeo id={vimeo[1]} title={title} />
+      {mediaCaption && <figcaption class="media-caption text-meta mt-2">{mediaCaption}</figcaption>}
+    </figure>
+  ) : soundcloud && mediaUrl ? (
+    <figure class={className}>
+      <SoundCloudFacade url={mediaUrl} title={title} />
+      {mediaCaption && <figcaption class="media-caption text-meta mt-2">{mediaCaption}</figcaption>}
+    </figure>
+  ) : audioFile && mediaUrl ? (
+    <figure class={className}>
+      <AudioPlayer src={mediaUrl} title={title} />
+      {mediaCaption && <figcaption class="media-caption text-meta mt-2">{mediaCaption}</figcaption>}
+    </figure>
+  ) : mediaUrl ? (
+    <figure class={className}>
+      <p class="text-meta">Média : <a href={mediaUrl} rel="noopener" target="_blank" class="text-signal">{mediaUrl}</a></p>
+      {mediaCaption && <figcaption class="media-caption text-meta mt-2">{mediaCaption}</figcaption>}
+    </figure>
+  ) : null
+}

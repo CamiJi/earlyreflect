@@ -1,0 +1,60 @@
+---
+/** À propos / CV — spec §5.6 : bio, timeline inversée, compétences, formation, CV PDF EN/FR */
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import EarlyReflections from '../../components/EarlyReflections.astro';
+import { useTranslations, pageUrl, type Lang } from '../../i18n/ui';
+import { pages } from '../../data/pages';
+import { site } from '../../data/site';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const { t, tGroup } = useTranslations(lang);
+const p = pages.about;
+const altPath = lang === 'en' ? '/about/' : '/a-propos/';
+const cv = lang === 'en' ? site.cvPdf.en : site.cvPdf.fr;
+---
+
+<Layout title={`${p.title[lang]} — ${t('home.heroTitle')}`} description={p.bioShort[lang]} lang={lang} altPath={altPath} skipLabel={t('skipToContent')}>
+  <Header lang={lang} altPath={altPath} />
+  <main id="main">
+    <section class="container-site section !pt-16">
+      <h1 class="text-2xl font-bold">{p.title[lang]}</h1>
+      <p class="measure mt-4">{p.bioShort[lang]}</p>
+      <a href={cv} class="btn-secondary mt-6 inline-flex" download>{p.cvLabel[lang]}</a>
+    </section>
+
+    <!-- Parcours : timeline chronologique inversée (frise justifiée ici) -->
+    <section class="container-site section" aria-labelledby="timeline-title">
+      <h2 id="timeline-title" class="text-lg font-bold">{lang === 'fr' ? 'Parcours' : 'Career'}</h2>
+      <ol class="measure mt-6 space-y-0 border-l-2 border-rule">
+        {p.timeline.map((step) => (
+          <li class="tabular relative pb-8 pl-8 last:pb-0">
+            <span class="absolute -left-[5px] top-1.5 h-2 w-2 rounded-full bg-signal" aria-hidden="true"></span>
+            <span class="text-meta font-semibold">{step.years}</span>
+            <p class="mt-1">{step.role}</p>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <!-- Compétences + Formation -->
+    <section class="container-site section">
+      <div class="grid gap-12 md:grid-cols-2">
+        <div>
+          <h2 class="text-lg font-bold">{p.skills.title[lang]}</h2>
+          <p class="measure mt-3">{p.skills.items[lang]}</p>
+        </div>
+        <div>
+          <h2 class="text-lg font-bold">{p.education.title[lang]}</h2>
+          <p class="measure mt-3">{p.education.text[lang]}</p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer lang={lang} altPath={altPath} />
+</Layout>

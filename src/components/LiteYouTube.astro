@@ -1,0 +1,64 @@
+---
+/**
+ * Façade YouTube — spec §7 : youtube-nocookie.com + façade (miniature + bouton),
+ * l'iframe se charge au clic (type lite-youtube). Sans JS : lien vers la vidéo.
+ */
+interface Props {
+  id: string;
+  title: string;
+  class?: string;
+}
+
+const { id, title, class: className = '' } = Astro.props;
+const watchUrl = `https://www.youtube.com/watch?v=${id}`;
+const embedUrl = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1`;
+---
+
+<div class:list={['lite-embed media-16x9 relative bg-surface', className]} data-embed={embedUrl}>
+  <a
+    href={watchUrl}
+    rel="noopener"
+    target="_blank"
+    class="lite-embed-trigger group absolute inset-0 block"
+    aria-label={title}
+  >
+    <img
+      src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`}
+      alt=""
+      loading="lazy"
+      width="480"
+      height="360"
+      class="absolute inset-0 h-full w-full object-cover"
+    />
+    <span
+      class="absolute inset-0 z-10 flex items-center justify-center"
+      aria-hidden="true"
+    >
+      <span
+        class="flex h-14 w-14 items-center justify-center rounded-full bg-signal text-white transition-transform group-hover:scale-105"
+      >
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path d="M6 4l10 6-10 6V4z"></path>
+        </svg>
+      </span>
+    </span>
+  </a>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.lite-embed[data-embed]').forEach((el) => {
+    if (el.dataset.embedInit) return;
+    el.dataset.embedInit = '1';
+    const trigger = el.querySelector<HTMLAnchorElement>('.lite-embed-trigger');
+    trigger?.addEventListener('click', (e) => {
+      e.preventDefault();
+      const iframe = document.createElement('iframe');
+      iframe.src = el.dataset.embed!;
+      iframe.title = trigger.getAttribute('aria-label') ?? '';
+      iframe.allow = 'autoplay; encrypted-media; picture-in-picture';
+      iframe.allowFullscreen = true;
+      iframe.className = 'absolute inset-0 h-full w-full';
+      el.replaceChildren(iframe);
+    });
+  });
+</script>

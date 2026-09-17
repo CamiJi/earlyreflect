@@ -1,0 +1,122 @@
+---
+/** Contact — spec §5.7 : formulaire (nom, email, type de demande, message), anti-spam Formspree, email obfusqué, liens sociaux */
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { useTranslations, type Lang } from '../../i18n/ui';
+import { pages } from '../../data/pages';
+import { site } from '../../data/site';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const { t, tGroup } = useTranslations(lang);
+const altPath = '/contact/';
+const formspreeUrl = `https://formspree.io/f/${site.formspreeId}`;
+const isPlaceholder = site.formspreeId === 'YOUR_FORM_ID';
+
+// Email obfusqué anti-scraping (§5.7) — reconstruit côté client
+const emailUser = site.email.split('@')[0] ?? '';
+const emailDomain = site.email.split('@')[1] ?? '';
+---
+
+<Layout title={`${t('contact.title')} — ${t('home.heroTitle')}`} description={t('contact.intro')} lang={lang} altPath={altPath} skipLabel={t('skipToContent')}>
+  <Header lang={lang} altPath={altPath} />
+  <main id="main">
+    <section class="container-site section !pt-16">
+      <h1 class="text-2xl font-bold">{t('contact.title')}</h1>
+      <p class="measure mt-3">{t('contact.intro')}</p>
+
+      <form
+        class="mt-10 max-w-xl space-y-6"
+        method="POST"
+        action={formspreeUrl}
+        data-formspree
+      >
+        <div>
+          <label for="name" class="block font-medium">{t('contact.name')}</label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            required
+            autocomplete="name"
+            class="mt-2 w-full rounded-(--radius-media) border border-rule bg-surface px-4 py-3 focus:border-signal"
+          />
+        </div>
+        <div>
+          <label for="email" class="block font-medium">{t('contact.email')}</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            required
+            autocomplete="email"
+            class="mt-2 w-full rounded-(--radius-media) border border-rule bg-surface px-4 py-3 focus:border-signal"
+          />
+        </div>
+        <div>
+          <label for="request-type" class="block font-medium">{t('contact.requestType')}</label>
+          <select
+            id="request-type"
+            name="request-type"
+            class="mt-2 w-full rounded-(--radius-media) border border-rule bg-surface px-4 py-3 focus:border-signal"
+          >
+            {pages.contactTypes.map((type) => (
+              <option value={type}>{tGroup('contact.requestTypes')[type][lang]}</option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label for="message" class="block font-medium">{t('contact.message')}</label>
+          <textarea
+            id="message"
+            name="message"
+            required
+            rows="6"
+            class="mt-2 w-full rounded-(--radius-media) border border-rule bg-surface px-4 py-3 focus:border-signal"
+          ></textarea>
+        </div>
+        {
+          isPlaceholder && (
+            <p class="text-meta text-sm" data-formspree-note>
+              {lang === 'fr'
+                ? '⚠️ Formulaire branché sur Formspree avec un endpoint à configurer (voir README). En attendant, utilisez l’email ci-dessous.'
+                : '⚠️ Form wired to Formspree with a placeholder endpoint (see README). Until then, use the email below.'}
+            </p>
+          )
+        }
+        <button type="submit" class="btn-primary">{t('contact.send')}</button>
+        <p class="text-meta" data-email-obfuscated data-user={emailUser} data-domain={emailDomain}>
+          {t('contact.orEmail')} <noscript><a href={`mailto:${site.email}`} class="text-signal">{site.email}</a></noscript>
+        </p>
+      </form>
+
+      <ul class="mt-10 flex flex-wrap gap-4">
+        {site.socials.map((social) => (
+          <li>
+            <a href={social.url} rel="me noopener" target="_blank" class="text-signal hover:underline">{social.label}</a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  </main>
+  <Footer lang={lang} altPath={altPath} />
+</Layout>
+
+<script>
+  // Reconstruit l'email sans le mettre en clair dans le HTML (anti-scraping §5.7)
+  document.querySelectorAll<HTMLElement>('[data-email-obfuscated]').forEach((el) => {
+    const email = `${el.dataset.user}@${el.dataset.domain}`;
+    const link = document.createElement('a');
+    link.href = `mailto:${email}`;
+    link.textContent = email;
+    link.className = 'text-signal hover:underline';
+    const label = document.createTextNode(
+      el.textContent?.match(/^[^a-z]*/i)?.[0] ?? '',
+    );
+    el.replaceChildren(label, link);
+  });
+</script>

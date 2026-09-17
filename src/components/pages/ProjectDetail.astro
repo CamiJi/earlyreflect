@@ -1,0 +1,150 @@
+---
+/** Fiche projet — spec §5.3 : bandeau infos, média principal (ou NDA), description + liens, médias secondaires, navigation prev/next */
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import EarlyReflections from '../../components/EarlyReflections.astro';
+import MediaFacade from '../../components/MediaFacade.astro';
+import { useTranslations, pageUrl, type Lang } from '../../i18n/ui';
+import { site } from '../../data/site';
+
+interface Props {
+  project: import('astro:content').CollectionEntry<'projects'>;
+  lang: Lang;
+  prev?: import('astro:content').CollectionEntry<'projects'>;
+  next?: import('astro:content').CollectionEntry<'projects'>;
+}
+
+const { project, lang, prev, next } = Astro.props;
+const { t, tGroup } = useTranslations(lang);
+const { Content } = await render(project);
+const d = project.data;
+const altPath = lang === 'en' ? `/work/${project.id.replace(`${lang}/`, '')}/` : `/travaux/${project.id.replace(`${lang}/`, '')}/`;
+const title = d.title;
+const description = d.summary;
+const ogImage = d.keyArt ? new URL(d.keyArt, Astro.site ?? site.url).href : undefined;
+---
+
+<Layout title={`${title} — ${site.name}`} description={description} lang={lang} altPath={altPath} skipLabel={t('skipToContent')}>
+  {ogImage && <meta slot="og-image" property="og:image" content={ogImage} />}
+  <meta slot="og-image" property="og:type" content="article" />
+  <Header lang={lang} altPath={altPath} />
+
+  <main id="main">
+    <article class="container-site section !pt-12">
+      <!-- Retour -->
+      <a href={pageUrl(lang, '/work/')} class="text-signal hover:underline">← {t('work.backToWork')}</a>
+
+      <!-- Titre + bandeau d'infos + pastilles -->
+      <header class="mt-6">
+        <h1 class="text-2xl font-bold tracking-tight">{title}</h1>
+        <p class="tabular text-meta mt-2">{d.studio} · {d.years} · {d.role}{d.platforms ? ` · ${d.platforms}` : ''}</p>
+        <ul class="mt-3 flex flex-wrap gap-1.5">
+          {d.disciplines.map((discipline) => (
+            <li class="pill">{tGroup('disciplines')[discipline][lang]}</li>
+          ))}
+        </ul>
+      </header>
+
+      <!-- Média principal ou « Médias sous NDA » -->
+      <div class="mt-10">
+        <MediaFacade
+          mediaUrl={d.mediaUrl}
+          mediaCaption={d.mediaCaption}
+          title={title}
+          keyArt={d.keyArt}
+          keyArtAlt={d.keyArtAlt}
+          nda={d.nda}
+          lang={lang}
+        />
+      </div>
+
+      <!-- Description + liens (§5.3 : description ≤ 68 caractères, liens à droite) -->
+      <div class="mt-12 grid gap-12 md:grid-cols-[2fr_1fr]">
+        <div class="measure prose-er">
+          <Content />
+        </div>
+        {
+          d.links.length > 0 && (
+            <aside>
+              <h2 class="font-semibold">{lang === 'fr' ? 'Liens' : 'Links'}</h2>
+              <ul class="mt-3 space-y-2">
+                {d.links.map((link) => (
+                  <li>
+                    <a href={link.url} rel="noopener" target="_blank" class="text-signal hover:underline">
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </aside>
+          )
+        }
+      </div>
+
+      <!-- Médias secondaires -->
+      {
+        d.secondaryMedia.length > 0 && (
+          <section class="section" aria-label={lang === 'fr' ? 'Médias secondaires' : 'Secondary media'}>
+            <h2 class="text-lg font-bold">{lang === 'fr' ? 'Médias secondaires' : 'Secondary media'}</h2>
+            <div class="mt-6 grid gap-8 sm:grid-cols-2">
+              {d.secondaryMedia.map((media) => (
+                <MediaFacade
+                  mediaUrl={media.url}
+                  mediaCaption={media.caption}
+                  title={media.caption ?? title}
+                  nda={{ active: false }}
+                  lang={lang}
+                />
+              ))}
+            </div>
+          </section>
+        )
+      }
+
+      <!-- Navigation précédent / suivant -->
+      <nav class="mt-16 flex justify-between border-t border-rule pt-6" aria-label={lang === 'fr' ? 'Navigation entre projets' : 'Project navigation'}>
+        {prev ? (
+          <a href={pageUrl(lang, `/work/${prev.id.replace(`${lang}/`, '')}/`)} class="hover:text-signal">
+            ← <span class="font-medium">{prev.data.title}</span>
+            <span class="sr-only">{t('work.previousProject')}</span>
+          </a>
+        ) : (
+          <EarlyReflections variant="mark" class="text-rule" />
+        )}
+        {next ? (
+          <a href={pageUrl(lang, `/work/${next.id.replace(`${lang}/`, '')}/`)} class="hover:text-signal">
+            <span class="font-medium">{next.data.title}</span> →
+            <span class="sr-only">{t('work.nextProject')}</span>
+          </a>
+        ) : (
+          <EarlyReflections variant="mark" class="text-rule" />
+        )}
+      </nav>
+    </article>
+  </main>
+  <Footer lang={lang} altPath={altPath} />
+</Layout>
+
+<style is:global>
+  .prose-er :where(p) {
+    margin-top: 1rem;
+    line-height: 1.7;
+  }
+  .prose-er :where(h2) {
+    margin-top: 2rem;
+    font-size: var(--text-md);
+    font-weight: 600;
+  }
+  .prose-er :where(ul, ol) {
+    margin-top: 1rem;
+    padding-left: 1.25rem;
+    list-style: disc;
+  }
+  .prose-er :where(a) {
+    color: var(--color-signal);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+</style>

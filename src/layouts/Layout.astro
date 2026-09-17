@@ -1,0 +1,63 @@
+---
+import '../styles/global.css';
+import { site } from '../data/site';
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  title: string;
+  description: string;
+  lang: Lang;
+  /** Chemin (sans base ni préfixe de langue) de l'équivalent dans l'autre langue, ex. "/work/" */
+  altPath?: string;
+  /** Libellé du lien d'évitement (§8 accessibilité) */
+  skipLabel: string;
+  /** Désactiver l'alternance hreflang (pages uniques) */
+  noAlternate?: boolean;
+}
+
+const { title, description, lang, altPath, skipLabel, noAlternate = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? site.url).href;
+const otherLang: Lang = lang === 'en' ? 'fr' : 'en';
+const alternates = noAlternate || !altPath
+  ? []
+  : [
+      { lang, href: canonical },
+      { lang: otherLang, href: new URL(`${otherLang === 'fr' ? '/fr' : ''}${altPath}`, Astro.site ?? site.url).href },
+      // x-default = version EN (langue par défaut à la racine, spec §2.4)
+      { lang: 'x-default', href: new URL(altPath, Astro.site ?? site.url).href },
+    ];
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#f6f7f5" />
+    <meta name="generator" content={Astro.generator} />
+
+    {alternates.map((alt) => <link rel="alternate" hreflang={alt.lang} href={alt.href} />)}
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <!-- Open Graph — image par défaut ; les fiches projet passent leur key art -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={site.name} />
+    <slot name="og-image" />
+  </head>
+  <body>
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:bg-surface focus:px-4 focus:py-2"
+    >
+      {skipLabel}
+    </a>
+    <slot />
+  </body>
+</html>

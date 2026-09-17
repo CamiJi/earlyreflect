@@ -1,0 +1,85 @@
+---
+import EarlyReflections from './EarlyReflections.astro';
+import { site } from '../data/site';
+import { pageUrl, useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  /** Path courant sans base ni préfixe langue — pour l'alternance EN/FR */
+  altPath?: string;
+}
+
+const { lang, altPath = '/' } = Astro.props;
+const { t, tGroup } = useTranslations(lang);
+const otherLang: Lang = lang === 'en' ? 'fr' : 'en';
+const otherLangUrl = pageUrl(otherLang, altPath);
+
+const nav = [
+  { href: '/work/', label: t('nav.work') },
+  { href: '/consulting/', label: t('nav.consulting') },
+  { href: '/music/', label: t('nav.music') },
+  { href: '/about/', label: t('nav.about') },
+  { href: '/contact/', label: t('nav.contact') },
+];
+
+const current = Astro.url.pathname;
+const isActive = (href: string) =>
+  current === pageUrl(lang, href) || current.startsWith(pageUrl(lang, href));
+---
+
+<header class="section !pt-6">
+  <div class="container-site flex flex-wrap items-center justify-between gap-4">
+    <a href={pageUrl(lang, '/')} class="flex items-center gap-2 font-semibold" aria-current={current === pageUrl(lang, '/') ? 'page' : undefined}>
+      <EarlyReflections variant="mark" class="text-signal" />
+      <span>{site.name}</span>
+    </a>
+
+    <nav aria-label={lang === 'fr' ? 'Navigation principale' : 'Main navigation'}>
+      <button
+        id="menu-toggle"
+        type="button"
+        class="rounded border border-rule px-3 py-2 md:hidden"
+        aria-expanded="false"
+        aria-controls="main-nav"
+      >
+        <span class="sr-only">{lang === 'fr' ? 'Ouvrir le menu' : 'Open menu'}</span>
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+        </svg>
+      </button>
+      <ul id="main-nav" class="hidden flex-col gap-2 md:flex md:flex-row md:items-center md:gap-6" data-open="false">
+        {nav.map((item) => (
+          <li>
+            <a
+              href={pageUrl(lang, item.href)}
+              aria-current={isActive(item.href) ? 'page' : undefined}
+              class:list={['hover:text-signal', { 'text-signal': isActive(item.href) }]}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+        <li>
+          <a
+            href={otherLangUrl}
+            hreflang={otherLang}
+            class="tabular rounded-(--radius-media) border border-rule px-2 py-1 text-sm font-medium hover:border-signal hover:text-signal"
+            aria-label={otherLang === 'fr' ? 'Voir cette page en français' : 'View this page in English'}
+          >
+            {otherLang.toUpperCase()}
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const toggle = document.getElementById('menu-toggle');
+  const nav = document.getElementById('main-nav');
+  toggle?.addEventListener('click', () => {
+    const expanded = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!expanded));
+    nav?.classList.toggle('hidden');
+  });
+</script>

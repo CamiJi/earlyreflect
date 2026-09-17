@@ -1,0 +1,99 @@
+---
+/**
+ * Grille projet filtrable — spec §5.1/§5.2 :
+ * filtres par discipline sans rechargement ; sans JS, repli sur des liens
+ * vers /work/?discipline=… (la grille complète reste visible).
+ */
+import ProjectCard from './ProjectCard.astro';
+import { useTranslations, pageUrl, type Lang } from '../i18n/ui';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  projects: CollectionEntry<'projects'>[];
+  lang: Lang;
+  /** Désactiver les filtres (grille home sans JS pur) */
+  withFilters?: boolean;
+  activeDiscipline?: string;
+}
+
+const { projects, lang, withFilters = true, activeDiscipline } = Astro.props;
+const { t, tGroup } = useTranslations(lang);
+
+const disciplineKeys = ['show-reel', 'technical-sound-design', 'field-recording', 'music'] as const;
+const usedDisciplines = disciplineKeys.filter((d) => projects.some((p) => p.data.disciplines.includes(d)));
+---
+
+<div data-project-grid>
+  {
+    withFilters && (
+      <div class="mb-8 flex flex-wrap items-center gap-2" role="group" aria-label={t('work.filters')}>
+        <a
+          href={`${pageUrl(lang, '/work/')}${activeDiscipline ? '' : ''}`}
+          class="pill filter-btn pill-active"
+          data-filter="all"
+          aria-pressed="true"
+        >
+          {t('work.all')}
+        </a>
+        {usedDisciplines.map((d) => (
+          <a
+            href={`${pageUrl(lang, '/work/')}?discipline=${d}`}
+            class="pill filter-btn"
+            data-filter={d}
+            aria-pressed="false"
+          >
+            {tGroup('disciplines')[d][lang]}
+          </a>
+        ))}
+      </div>
+    )
+  }
+
+  <ul class="grid list-none grid-cols-1 gap-x-6 gap-y-12 p-0 sm:grid-cols-2 lg:grid-cols-3">
+    {
+      projects.map((project) => (
+        <li data-project-item data-disciplines={project.data.disciplines.join(' ')}>
+          <ProjectCard project={project} lang={lang} />
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<script>
+  const grid = document.querySelector<HTMLElement>('[data-project-grid]');
+  if (grid) {
+    const buttons = grid.querySelectorAll<HTMLAnchorElement>('.filter-btn');
+    const items = grid.querySelectorAll<HTMLElement>('[data-project-item]');
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const filter = btn.dataset.filter ?? 'all';
+        buttons.forEach((b) => {
+          const active = b === btn;
+          b.classList.toggle('pill-active', active);
+          b.setAttribute('aria-pressed', String(active));
+        });
+        items.forEach((item) => {
+          const show =
+            filter === 'all' ||
+            (item.dataset.disciplines ?? '').split(' ').includes(filter);
+          item.classList.toggle('hidden', !show);
+        });
+        // URL partageable sans rechargement (spec §5.2)
+        const url = new URL(window.location.href);
+        if (filter === 'all') url.searchParams.delete('discipline');
+        else url.searchParams.set('discipline', filter);
+        window.history.replaceState(null, '', url);
+      });
+    });
+
+    // Pré-sélection depuis ?discipline=… (liens de repli no-JS)
+    const params = new URLSearchParams(window.location.search);
+    const initial = params.get('discipline');
+    if (initial) {
+      const target = grid.querySelector<HTMLAnchorElement>(`.filter-btn[data-filter="${initial}"]`);
+      target?.click();
+    }
+  }
+</script>

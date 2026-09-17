@@ -1,0 +1,54 @@
+---
+/** Musique (Yakie) — spec §5.5 : radio, sorties, distinction + grille des projets « Music » */
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import ProjectGrid from '../../components/ProjectGrid.astro';
+import { useTranslations, pageUrl, type Lang } from '../../i18n/ui';
+import { pages } from '../../data/pages';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const { t, tGroup } = useTranslations(lang);
+const p = pages.music;
+const altPath = lang === 'en' ? '/music/' : '/musique/';
+
+const musicProjects = (await getCollection('projects'))
+  .filter((proj) => proj.id.startsWith(`${lang}/`) && proj.data.disciplines.includes('music'))
+  .sort((a, b) => (a.data.order ?? Infinity) - (b.data.order ?? Infinity));
+---
+
+<Layout title={`${p.title[lang]} — Yakie — ${t('home.heroTitle')}`} description={p.intro[lang]} lang={lang} altPath={altPath} skipLabel={t('skipToContent')}>
+  <Header lang={lang} altPath={altPath} />
+  <main id="main">
+    <section class="container-site section !pt-16">
+      <h1 class="text-2xl font-bold">{p.title[lang]}</h1>
+      <p class="measure mt-3">{p.intro[lang]}</p>
+    </section>
+
+    <!-- Radio · Sorties · Distinction -->
+    <section class="container-site section">
+      <div class="grid gap-8 md:grid-cols-3">
+        {p.sections.map((section) => (
+          <div>
+            <h2 class="font-semibold">{section.title[lang]}</h2>
+            <p class="text-meta mt-2">{section.text[lang]}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Projets de discipline « Music » en grille -->
+    <section class="container-site section" aria-labelledby="music-grid-title">
+      <h2 id="music-grid-title" class="text-lg font-bold">{t('work.title')}</h2>
+      <div class="mt-8">
+        <ProjectGrid projects={musicProjects} lang={lang} withFilters={false} />
+      </div>
+    </section>
+  </main>
+  <Footer lang={lang} altPath={altPath} />
+</Layout>

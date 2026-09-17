@@ -1,0 +1,39 @@
+---
+import EarlyReflections from './EarlyReflections.astro';
+import { site } from '../data/site';
+import { pageUrl, useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  altPath?: string;
+}
+
+const { lang, altPath = '/' } = Astro.props;
+const { t, tGroup } = useTranslations(lang);
+const otherLang: Lang = lang === 'en' ? 'fr' : 'en';
+---
+
+<footer class="section">
+  <div class="container-site border-t border-rule pt-8 pb-12">
+    <div class="flex flex-wrap items-center justify-between gap-4">
+      <a href={pageUrl(lang, '/')} class="flex items-center gap-2">
+        <EarlyReflections variant="mark" class="text-ink-muted" />
+        <span class="font-semibold">{site.name}</span>
+      </a>
+      <ul class="flex flex-wrap gap-4">
+        {site.socials.map((social) => (
+          <li>
+            <a href={social.url} rel="me noopener" target="_blank" class="text-meta hover:text-signal">
+              {social.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+      <ul class="flex flex-wrap gap-4 text-sm">
+        <li><a href={pageUrl(lang, '/legal/')} class="text-meta hover:text-signal">{t('footer.legal')}</a></li>
+        <li><a href={pageUrl(lang, '/privacy/')} class="text-meta hover:text-signal">{t('footer.privacy')}</a></li>
+        <li><a href={pageUrl(otherLang, altPath)} hreflang={otherLang} class="tabular text-meta hover:text-signal">{otherLang.toUpperCase()}</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,99 @@
+---
+/**
+ * Lecteur audio auto-hébergé — spec §7 : lecteur natif <audio> stylé,
+ * progression indiquée par le motif signature « early reflections » (§6.4, usage 3).
+ * Sans JS : <audio controls> natif affiché.
+ */
+import EarlyReflections from './EarlyReflections.astro';
+
+interface Props {
+  src: string;
+  title: string;
+  class?: string;
+}
+
+const { src, title, class: className = '' } = Astro.props;
+---
+
+<div class:list={['audio-player', className]} data-audio-player>
+  <button
+    type="button"
+    class="flex h-12 w-12 items-center justify-center rounded-full bg-signal text-white"
+    data-audio-toggle
+    aria-label="Play"
+  >
+    <svg data-icon-play width="18" height="18" viewBox="0 0 18 18" fill="currentColor" aria-hidden="true">
+      <path d="M5 3l10 6-10 6V3z"></path>
+    </svg>
+    <svg data-icon-pause width="18" height="18" viewBox="0 0 18 18" fill="currentColor" aria-hidden="true" class="hidden">
+      <path d="M5 3h3v12H5zM10 3h3v12h-3z"></path>
+    </svg>
+  </button>
+
+  <div class="relative min-w-0 flex-1">
+    <EarlyReflections variant="bars" class="text-signal h-8 w-full" data-audio-progress />
+    <span class="tabular text-meta mt-1 block text-sm" data-audio-time>0:00</span>
+  </div>
+
+  <audio src={src} preload="none" class="hidden" data-audio-source></audio>
+</div>
+
+<style>
+  @reference "../styles/global.css";
+  /* Les barres de progression sont remplies par le JS (opacité par barre) */
+  .audio-player {
+    @apply flex items-center gap-4 rounded-(--radius-media) bg-surface p-4;
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-audio-player]').forEach((player) => {
+    const audio = player.querySelector<HTMLAudioElement>('[data-audio-source]');
+    const toggle = player.querySelector<HTMLButtonElement>('[data-audio-toggle]');
+    const progress = player.querySelector<SVGSVGElement>('[data-audio-progress]');
+    const time = player.querySelector<HTMLElement>('[data-audio-time]');
+    const iconPlay = player.querySelector<SVGElement>('[data-icon-play]');
+    const iconPause = player.querySelector<SVGElement>('[data-icon-pause]');
+    if (!audio || !toggle || !progress || !time || !iconPlay || !iconPause) return;
+
+    const bars = progress.querySelectorAll<SVGRectElement>('.er-bar');
+    const totalBars = bars.length;
+    const initialOpacity = Array.from(bars).map((b) => Number(b.getAttribute('opacity') ?? 1));
+
+    const fmt = (s: number) => {
+      if (!Number.isFinite(s)) return '0:00';
+      const m = Math.floor(s / 60);
+      return `${m}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+    };
+
+    const render = () => {
+      const ratio = audio.duration ? audio.currentTime / audio.duration : 0;
+      bars.forEach((bar, i) => {
+        // la barre est « allumée » si sa position dans la séquence est atteinte
+        const lit = totalBars > 0 && i / totalBars <= ratio;
+        bar.setAttribute('opacity', lit ? '1' : String(initialOpacity[i]));
+      });
+      time.textContent = fmt(audio.duration ? audio.currentTime : 0);
+    };
+
+    const setPlaying = (playing: boolean) => {
+      iconPlay.classList.toggle('hidden', playing);
+      iconPause.classList.toggle('hidden', !playing);
+      toggle.setAttribute('aria-label', playing ? 'Pause' : 'Play');
+    };
+
+    toggle.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play();
+      } else {
+        audio.pause();
+      }
+    });
+    audio.addEventListener('play', () => setPlaying(true));
+    audio.addEventListener('pause', () => setPlaying(false));
+    audio.addEventListener('timeupdate', render);
+    audio.addEventListener('loadedmetadata', render);
+    audio.addEventListener('ended', () => setPlaying(false));
+    render();
+  });
+</script>

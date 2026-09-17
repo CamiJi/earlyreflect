@@ -1,0 +1,90 @@
+---
+/**
+ * Élément signature — motif « early reflections » (spec §6.4)
+ * Un trait plein (le son direct) suivi de 6-8 traits plus fins,
+ * de plus en plus espacés et atténués.
+ *
+ * - `variant="mark"`  : petite marque à côté du nom dans le header
+ * - `variant="hero"`  : motif large du hero, animation unique au chargement (< 1,2 s)
+ * - `variant="bars"`  : pour l'indicateur de progression des lecteurs audio (JS pilote)
+ */
+interface Props {
+  variant?: 'mark' | 'hero' | 'bars';
+  class?: string;
+  label?: string;
+}
+
+const { variant = 'mark', class: className = '', label } = Astro.props;
+
+// Réflexions : espacement croissant, opacité décroissante (atténuation)
+const reflections = [
+  { x: 18, w: 4, o: 0.75 },
+  { x: 27, w: 3.5, o: 0.6 },
+  { x: 38, w: 3, o: 0.45 },
+  { x: 51, w: 2.5, o: 0.32 },
+  { x: 66, w: 2, o: 0.2 },
+  { x: 83, w: 1.5, o: 0.1 },
+];
+
+const bars = [{ x: 0, w: 6, o: 1 }, ...reflections];
+const isHero = variant === 'hero';
+const isBars = variant === 'bars';
+const height = isHero ? 72 : isBars ? 32 : 20;
+const barHeight = isHero ? 72 : isBars ? 32 : 20;
+---
+
+<svg
+  class={`early-reflections ${className}`}
+  width={isHero ? 96 : isBars ? 72 : 24}
+  height={height}
+  viewBox={`0 0 96 ${barHeight}`}
+  fill="none"
+  aria-hidden={label ? undefined : 'true'}
+  role={label ? 'img' : undefined}
+  {...(label ? { 'aria-label': label } : {})}
+>
+  {bars.map((bar, i) => (
+    <rect
+      class:list={[
+        'er-bar',
+        { 'er-direct': i === 0, 'er-animated': isHero },
+      ]}
+      x={bar.x}
+      y={0}
+      width={bar.w}
+      height={barHeight}
+      rx={bar.w / 2}
+      fill="currentColor"
+      opacity={bar.o}
+      style={isHero ? `animation-delay:${i * 0.14}s` : undefined}
+    />
+  ))}
+</svg>
+
+<style>
+  .er-bar {
+    transform-origin: bottom;
+  }
+  /* §6.4 : les réflexions apparaissent dans l'ordre, < 1,2 s, une seule fois */
+  .er-animated {
+    animation: er-appear 0.5s cubic-bezier(0.2, 0.6, 0.3, 1) both;
+  }
+  .er-direct.er-animated {
+    animation-duration: 0.2s;
+  }
+  @keyframes er-appear {
+    from {
+      transform: scaleY(0);
+      opacity: 0.05;
+    }
+    to {
+      transform: scaleY(1);
+    }
+  }
+  /* prefers-reduced-motion : motif statique (géré aussi par le reset global) */
+  @media (prefers-reduced-motion: reduce) {
+    .er-animated {
+      animation: none;
+    }
+  }
+</style>

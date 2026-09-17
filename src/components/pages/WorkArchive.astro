@@ -1,0 +1,41 @@
+---
+/** Archive travaux — spec §5.2 : filtres, grille 3/2/1 colonnes, cartes épurées */
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import ProjectGrid from '../../components/ProjectGrid.astro';
+import { useTranslations, pageUrl, type Lang } from '../../i18n/ui';
+import { site } from '../../data/site';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const { t, tGroup } = useTranslations(lang);
+const altPath = lang === 'en' ? '/work/' : '/travaux/';
+
+const projects = (await getCollection('projects'))
+  .filter((p) => p.id.startsWith(`${lang}/`))
+  .sort((a, b) => {
+    const oa = a.data.order ?? Infinity;
+    const ob = b.data.order ?? Infinity;
+    if (oa !== ob) return oa - ob;
+    return b.data.years.localeCompare(a.data.years);
+  });
+---
+
+<Layout title={`${t('work.title')} — ${site.name}`} description={t('work.intro')} lang={lang} altPath={altPath} skipLabel={t('skipToContent')}>
+  <Header lang={lang} altPath={altPath} />
+  <main id="main">
+    <section class="container-site section !pt-16">
+      <h1 class="text-2xl font-bold">{t('work.title')}</h1>
+      <p class="measure text-meta mt-3">{t('work.intro')}</p>
+      <div class="mt-10">
+        <ProjectGrid projects={projects} lang={lang} withFilters={true} />
+      </div>
+    </section>
+  </main>
+  <Footer lang={lang} altPath={altPath} />
+</Layout>

@@ -1,0 +1,11 @@
+# build
+node_modules/
+dist/
+.astro/
+
+# scratch
+scripts/scrape-report.json
+src/assets/scraped/
+
+# system
+.DS_Store
