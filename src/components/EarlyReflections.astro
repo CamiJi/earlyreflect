@@ -1,8 +1,8 @@
 ---
 /**
  * Élément signature — motif « early reflections » (spec §6.4)
- * Un trait plein (le son direct) suivi de 6-8 traits plus fins,
- * de plus en plus espacés et atténués.
+ * Une impulsion (son direct) suivie de réflexions qui s'espacent et s'atténuent :
+ * hauteur décroissante (amplitude), trait plus fin, opacité moindre, espacements croissants.
  *
  * - `variant="mark"`  : petite marque à côté du nom dans le header
  * - `variant="hero"`  : motif large du hero, animation unique au chargement (< 1,2 s)
@@ -16,28 +16,30 @@ interface Props {
 
 const { variant = 'mark', class: className = '', label } = Astro.props;
 
-// Réflexions : espacement croissant, opacité décroissante (atténuation)
-const reflections = [
-  { x: 18, w: 4, o: 0.75 },
-  { x: 27, w: 3.5, o: 0.6 },
-  { x: 38, w: 3, o: 0.45 },
-  { x: 51, w: 2.5, o: 0.32 },
-  { x: 66, w: 2, o: 0.2 },
-  { x: 83, w: 1.5, o: 0.1 },
+// Décroissance exponentielle ~0.72 : amplitude, épaisseur, opacité
+// Espacements croissants : 6, 9, 12, 15, 18
+const bars = [
+  { x: 0, w: 8, h: 32, o: 1 }, // son direct — pleine amplitude
+  { x: 14, w: 6, h: 23, o: 0.68 },
+  { x: 29, w: 5, h: 16.5, o: 0.5 },
+  { x: 46, w: 4, h: 11.5, o: 0.36 },
+  { x: 65, w: 3.25, h: 8, o: 0.24 },
+  { x: 86, w: 2.75, h: 5.5, o: 0.15 },
+  { x: 108.75, w: 2.25, h: 3.5, o: 0.08 },
 ];
 
-const bars = [{ x: 0, w: 6, o: 1 }, ...reflections];
 const isHero = variant === 'hero';
 const isBars = variant === 'bars';
-const height = isHero ? 72 : isBars ? 32 : 20;
-const barHeight = isHero ? 72 : isBars ? 32 : 20;
+// viewBox 112×32 ; rendus : mark ≈ 64×18, hero ≈ 168×48, bars ≈ 112×24
+const width = isHero ? 168 : isBars ? 112 : 64;
+const height = isHero ? 48 : isBars ? 24 : 18;
 ---
 
 <svg
   class={`early-reflections ${className}`}
-  width={isHero ? 96 : isBars ? 72 : 24}
+  width={width}
   height={height}
-  viewBox={`0 0 96 ${barHeight}`}
+  viewBox="0 0 112 32"
   fill="none"
   aria-hidden={label ? undefined : 'true'}
   role={label ? 'img' : undefined}
@@ -50,20 +52,20 @@ const barHeight = isHero ? 72 : isBars ? 32 : 20;
         { 'er-direct': i === 0, 'er-animated': isHero },
       ]}
       x={bar.x}
-      y={0}
+      y={(32 - bar.h) / 2}
       width={bar.w}
-      height={barHeight}
+      height={bar.h}
       rx={bar.w / 2}
       fill="currentColor"
       opacity={bar.o}
-      style={isHero ? `animation-delay:${i * 0.14}s` : undefined}
+      style={isHero ? `animation-delay:${i * 0.13}s` : undefined}
     />
   ))}
 </svg>
 
 <style>
   .er-bar {
-    transform-origin: bottom;
+    transform-origin: center;
   }
   /* §6.4 : les réflexions apparaissent dans l'ordre, < 1,2 s, une seule fois */
   .er-animated {
