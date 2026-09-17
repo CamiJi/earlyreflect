@@ -4,6 +4,7 @@
  * Pas d'ombre, pas de carte « boîte » : l'image et le texte suffisent.
  */
 import { pageUrl, useTranslations, type Lang } from '../i18n/ui';
+import EarlyReflections from './EarlyReflections.astro';
 import type { CollectionEntry } from 'astro:content';
 
 interface Props {
@@ -31,7 +32,7 @@ const href = pageUrl(lang, `/work/${project.id}/`);
         />
       ) : (
         <div class="flex h-full items-center justify-center" aria-hidden="true">
-          <span class="text-meta text-sm">{title}</span>
+          <EarlyReflections variant="hero" class="text-ink-muted/25 transition-transform duration-300 group-hover:scale-105" />
         </div>
       )
     }

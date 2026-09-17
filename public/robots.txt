@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://camiji.github.io/earlyreflect/sitemap-index.xml

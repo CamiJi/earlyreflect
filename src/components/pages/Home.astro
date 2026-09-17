@@ -51,6 +51,18 @@ const skills = {
     ['Direction & encadrement', 'Encadrement d’équipe, guidelines, coordination de production.'],
   ],
 }[lang];
+
+// Données structurées schema.org — spec §8 (Person sur l'accueil)
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.name,
+  jobTitle: 'Senior sound designer, Wwise consultant and composer',
+  url: Astro.site?.href,
+  sameAs: site.socials.map((s) => s.url),
+  knowsAbout: skills.map(([skillTitle]) => skillTitle),
+  worksFor: { '@type': 'Organization', name: "Don't Nod" },
+};
 ---
 
 <Layout
@@ -59,6 +71,7 @@ const skills = {
   lang={lang}
   altPath={altPath}
   skipLabel={t('skipToContent')}
+  schema={personSchema}
 >
   <Header lang={lang} altPath={altPath} />
 

@@ -48,6 +48,21 @@ const cv = lang === 'en' ? site.cvPdf.en : site.cvPdf.fr;
         <div>
           <h2 class="text-lg font-bold">{p.skills.title[lang]}</h2>
           <p class="measure mt-3">{p.skills.items[lang]}</p>
+          <!-- Image compétences : affichage cross-origin depuis earlyreflect.com (srcset natif WP).
+               À remplacer par une version locale/WebP quand Mathieu fournira les assets (§9.6). -->
+          <img
+            src="https://earlyreflect.com/wp-content/uploads/2021/09/2021-09-22_14h55_02.png?w=1152"
+            srcset="https://earlyreflect.com/wp-content/uploads/2021/09/2021-09-22_14h55_02.png?w=300 300w,
+                    https://earlyreflect.com/wp-content/uploads/2021/09/2021-09-22_14h55_02.png?w=768 768w,
+                    https://earlyreflect.com/wp-content/uploads/2021/09/2021-09-22_14h55_02.png?w=1024 1024w,
+                    https://earlyreflect.com/wp-content/uploads/2021/09/2021-09-22_14h55_02.png 1770w"
+            sizes="(max-width: 768px) 100vw, 600px"
+            alt={lang === 'fr' ? 'Aperçu des compétences (ancien site)' : 'Skills overview (previous site)'}
+            width="1770"
+            height="435"
+            loading="lazy"
+            class="mt-6 w-full rounded-(--radius-media) border border-rule bg-surface"
+          />
         </div>
         <div>
           <h2 class="text-lg font-bold">{p.education.title[lang]}</h2>

@@ -24,11 +24,22 @@ const altPath = lang === 'en' ? `/work/${project.id.replace(`${lang}/`, '')}/` :
 const title = d.title;
 const description = d.summary;
 const ogImage = d.keyArt ? new URL(d.keyArt, Astro.site ?? site.url).href : undefined;
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: title,
+  description,
+  genre: d.disciplines.map((discipline) => t('disciplines')[discipline]),
+  ...(d.years && { dateCreated: d.years }),
+  author: { '@type': 'Person', name: site.name, url: Astro.site?.href },
+  ...(d.studio && { producer: { '@type': 'Organization', name: d.studio } }),
+  ...(d.mediaUrl && !d.nda.active && { associatedMedia: d.mediaUrl }),
+  ...(d.links.length > 0 && { mainEntityOfPage: d.links.map((link) => link.url) }),
+  ...(ogImage && { image: ogImage }),
+};
 ---
 
-<Layout title={`${title} — ${site.name}`} description={description} lang={lang} altPath={altPath} skipLabel={t('skipToContent')}>
-  {ogImage && <meta slot="og-image" property="og:image" content={ogImage} />}
-  <meta slot="og-image" property="og:type" content="article" />
+<Layout title={`${title} — ${site.name}`} description={description} lang={lang} altPath={altPath} skipLabel={t('skipToContent')} ogImage={ogImage} schema={schema}>
   <Header lang={lang} altPath={altPath} />
 
   <main id="main">
