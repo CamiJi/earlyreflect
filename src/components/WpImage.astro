@@ -1,0 +1,42 @@
+---
+/**
+ * Image hotlinkée depuis l'ancien site WordPress (earlyreflect.com), avec accord de Mathieu.
+ * Génère le srcset natif WordPress.com (?w=…) à partir des dimensions réelles
+ * connues (src/data/wp-assets.json, inventoriées au build).
+ *
+ * NOTE bascule finale : si le site WordPress.com est fermé, ces URLs meurent.
+ * À remplacer par des assets locaux au moment de la mise en prod définitive (§9.6).
+ */
+import wpAssets from '../data/wp-assets.json';
+
+interface Props {
+  /** Clé dans wp-assets.json */
+  asset: keyof typeof wpAssets;
+  alt?: string;
+  sizes?: string;
+  class?: string;
+  loading?: 'lazy' | 'eager';
+}
+
+const { asset, alt, sizes = '(max-width: 768px) 100vw, 600px', class: className = '', loading = 'lazy' } = Astro.props;
+
+const info = wpAssets[asset];
+if (!info) throw new Error(`Asset inconnu: ${asset}`);
+
+const widths = [300, 768, 1024, 1440].filter((w) => w <= info.width);
+const srcset = [
+  ...widths.map((w) => `${info.url}?w=${w} ${w}w`),
+  `${info.url} ${info.width}w`,
+].join(', ');
+---
+
+<img
+  src={`${info.url}?w=1152`}
+  srcset={srcset}
+  sizes={sizes}
+  alt={alt ?? info.alt.en}
+  width={info.width}
+  height={info.height}
+  loading={loading}
+  class={className}
+/>

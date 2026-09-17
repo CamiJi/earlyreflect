@@ -1,0 +1,92 @@
+{
+  "logoQuanticDream": {
+    "url": "https://earlyreflect.com/wp-content/uploads/2016/03/quantic-dream1.png",
+    "alt": {
+      "en": "Quantic Dream logo",
+      "fr": "Logo Quantic Dream"
+    },
+    "width": 1000,
+    "height": 125,
+    "format": "png"
+  },
+  "logoUbisoft": {
+    "url": "https://earlyreflect.com/wp-content/uploads/2016/03/ubisoft-stacked-logo_black.png",
+    "alt": {
+      "en": "Ubisoft logo",
+      "fr": "Logo Ubisoft"
+    },
+    "width": 2032,
+    "height": 1867,
+    "format": "png"
+  },
+  "logoIsart": {
+    "url": "https://earlyreflect.com/wp-content/uploads/2016/03/logo_isart_seul_noir_300dpi_3100pixel_2013-12.png",
+    "alt": {
+      "en": "ISART Digital logo",
+      "fr": "Logo ISART Digital"
+    },
+    "width": 3100,
+    "height": 958,
+    "format": "png"
+  },
+  "logoIna": {
+    "url": "https://earlyreflect.com/wp-content/uploads/2019/10/1200px-logo_ina.svg_.png",
+    "alt": {
+      "en": "INA logo",
+      "fr": "Logo INA"
+    },
+    "width": 1200,
+    "height": 1200,
+    "format": "png"
+  },
+  "logoGaumont": {
+    "url": "https://earlyreflect.com/wp-content/uploads/2016/03/gaumont_animation_logo-svg.png",
+    "alt": {
+      "en": "Gaumont Animation logo",
+      "fr": "Logo Gaumont Animation"
+    },
+    "width": 2000,
+    "height": 673,
+    "format": "png"
+  },
+  "photoStudio": {
+    "url": "https://earlyreflect.com/wp-content/uploads/2013/11/mat-stud-crop.jpg",
+    "alt": {
+      "en": "Mathieu Fiorentini in his studio",
+      "fr": "Mathieu Fiorentini dans son studio"
+    },
+    "width": 1024,
+    "height": 541,
+    "format": "jpeg"
+  },
+  "photoPloupi": {
+    "url": "https://earlyreflect.com/wp-content/uploads/2013/11/ploupi.jpg",
+    "alt": {
+      "en": "Mathieu Fiorentini portrait",
+      "fr": "Portrait de Mathieu Fiorentini"
+    },
+    "width": 616,
+    "height": 960,
+    "format": "jpeg"
+  },
+  "yakieUniverse": {
+    "url": "https://earlyreflect.com/wp-content/uploads/2013/11/yakie_univers-graphique_201413.jpg",
+    "alt": {
+      "en": "Yakie graphic identity",
+      "fr": "Univers graphique Yakie"
+    },
+    "width": 882,
+    "height": 876,
+    "format": "jpeg"
+  },
+  "yakieLogo": {
+    "url": "https://earlyreflect.com/wp-content/uploads/2013/11/yakie_logo_white_trash.jpg",
+    "alt": {
+      "en": "Yakie logo",
+      "fr": "Logo Yakie"
+    },
+    "width": 1164,
+    "height": 532,
+    "format": "jpeg"
+  }
+}

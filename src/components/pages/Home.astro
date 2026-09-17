@@ -11,6 +11,7 @@ import Footer from '../../components/Footer.astro';
 import EarlyReflections from '../../components/EarlyReflections.astro';
 import LiteYouTube from '../../components/LiteYouTube.astro';
 import ProjectGrid from '../../components/ProjectGrid.astro';
+import WpImage from '../../components/WpImage.astro';
 import { site } from '../../data/site';
 import { pages } from '../../data/pages';
 import { pageUrl, useTranslations, type Lang } from '../../i18n/ui';
@@ -106,8 +107,8 @@ const personSchema = {
               <img src={`${import.meta.env.BASE_URL}images/portrait.webp`} alt="" width="800" height="800" loading="lazy" />
             </div>
           ) : (
-            <div class="media-16x9 flex items-center justify-center bg-rule" aria-hidden="true">
-              <EarlyReflections variant="hero" class="text-ink-muted/30" />
+            <div class="media-16x9 bg-rule">
+              <WpImage asset="photoStudio" sizes="(max-width: 768px) 100vw, 400px" loading="lazy" />
             </div>
           )
         }
@@ -166,17 +167,24 @@ const personSchema = {
       </div>
     </section>
 
-    <!-- CRÉDITS + OUTILS §5.1 : logos monochromes (texte en attendant les SVG, §9.6) -->
+    <!-- CRÉDITS + OUTILS §5.1 : logos monochromes (hotlink ancien site ; SVG définitifs à venir, §9.6) -->
     <section class="container-site section" aria-labelledby="credits-title">
       <h2 id="credits-title" class="text-lg font-bold">{t('home.creditsTitle')}</h2>
-      <ul class="mt-6 flex flex-wrap gap-x-10 gap-y-4">
-        {
-          site.credits.map((name) => (
-            <li class="text-meta font-semibold transition-colors hover:text-ink" data-credit={name}>
-              {name}
-            </li>
-          ))
-        }
+      <ul class="mt-6 flex flex-wrap items-center gap-x-10 gap-y-6">
+        {(['logoQuanticDream', 'logoUbisoft', 'logoIsart', 'logoIna', 'logoGaumont'] as const).map((key) => (
+          <li class="flex h-10 items-center">
+            <WpImage
+              asset={key}
+              sizes="180px"
+              class="h-10 w-auto max-w-[170px] object-contain object-left opacity-55 grayscale transition-all hover:opacity-100 hover:grayscale-0"
+            />
+          </li>
+        ))}
+        {["Don't Nod", 'Focus Entertainment', 'France Inter'].map((name) => (
+          <li class="text-meta font-semibold transition-colors hover:text-ink" data-credit={name}>
+            {name}
+          </li>
+        ))}
       </ul>
       <h2 class="mt-12 text-lg font-bold">{t('home.toolsTitle')}</h2>
       <ul class="mt-6 flex flex-wrap gap-x-10 gap-y-4">
@@ -188,6 +196,11 @@ const personSchema = {
           ))
         }
       </ul>
+      <p class="text-meta mt-3 text-sm">
+        {lang === 'fr'
+          ? 'Logos Don’t Nod, Focus et France Inter en texte — SVG monochromes à intégrer (§9.6).'
+          : 'Don’t Nod, Focus and France Inter logos as text — monochrome SVGs to be added (§9.6).'}
+      </p>
     </section>
 
     <!-- CONTACT §5.1 -->
