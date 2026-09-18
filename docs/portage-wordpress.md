@@ -38,6 +38,28 @@ C'est là qu'on perd du temps, pas sur la palette ni les patterns.
   ou hébergement self-hosted (~5 €/mois, ex. o2switch)
 - Assets définitifs : key arts HD (droits presse), CV PDF EN/FR, SVG logos
 
+## Options d'infrastructure WordPress (documentées pour Mathieu)
+
+| Option | Coût | Avantages | Inconvénients |
+|---|---|---|---|
+| **WordPress.com Business** | ~25-35 €/mois (annuel) | Zéro maintenance, staging inclus, plugins + thème custom autorisés, Automattic gère tout | Le plus cher sur 3 ans (~1 000 €) |
+| **Self-hosted o2switch** (FR) | ~5 €/mois tout inclus | Hébergement illimité, cPanel, support FR réputé, e-mail inclus | Maintenance basique à soi (mises à jour) |
+| **Self-hosted OVH (Perso/Pro)** | ~5-10 €/mois | Proximité, e-mail inclus, module WP 1 clic | Interface datée, perf variables |
+| **AWS Lightsail (Bitnami WP)** | ~4-6 €/mois | Puissant, facturation à l'usage, snapshots | Plus technique (SSH, console AWS) |
+| **Kimsufi / dédié** | ~5 €+/mois |machine dédiée complète | Overkill pour un portfolio, admin serveur complète |
+
+### Découplage du domaine (self-hosted)
+
+`earlyreflect.com` n'a pas besoin de bouger de registrar :
+1. Créer l'hébergement + installer WordPress (ou migrer via Duplicator)
+2. Porter le site (thème, contenu)
+3. Chez le registrar du domaine : pointer les DNS (A/CNAME) vers le nouvel hébergeur
+4. Propagation (~quelques heures), HTTPS gratuit via Let's Encrypt
+
+Le site actuel WordPress.com reste en ligne jusqu'à l'étape 3 → zéro interruption.
+La v1 Astro (contenu en Markdown) s'importe ensuite dans le CPT Projet via un
+script de migration, ou une resaisie assistée par les patterns verrouillés.
+
 ## Ce qui rend le portage mécanique (déjà en place)
 
 - Tokens centralisés dans `src/styles/global.css` (→ deviennent `theme.json`)
