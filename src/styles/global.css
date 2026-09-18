@@ -1,29 +1,25 @@
 @import "tailwindcss";
 
-/* Schibsted Grotesk — self-hosted variable font (OFL license) */
-@font-face {
-  font-family: "Schibsted Grotesk";
-  src: url("@fontsource-variable/schibsted-grotesk/files/schibsted-grotesk-latin-wght-normal.woff2") format("woff2");
-  font-weight: 400 900;
-  font-style: normal;
-  font-display: swap;
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
+/* Lato — self-hosted (retour V1 §4.1 : grotesque neutre, graisses utilisées seulement) */
+@import "@fontsource/lato/400.css";
+@import "@fontsource/lato/400-italic.css";
+@import "@fontsource/lato/700.css";
 
 /* ============================================================
-   Design tokens — Spec §6.2 (couleurs) §6.3 (typo) §6.5 (layout)
+   Design tokens — retour V1 §4.2 (remplace spec §6.2)
    ============================================================ */
 @theme {
-  /* §6.2 Couleurs */
-  --color-paper: #f6f7f5;
+  /* Couleurs — retour V1 §4.2 */
+  --color-paper: #f4f4f0;
   --color-surface: #ffffff;
-  --color-ink: #1e2226;
+  --color-ink: #000000;
   --color-ink-muted: #5e656c;
   --color-rule: #dce0dd;
-  --color-signal: #2e46c8;
+  --color-brand: #007190;
+  --color-brand-deep: #005a75;
 
-  /* §6.3 Typographie — base 18px, ratio 1.25 → 18/22.5/28/35/44/55 */
-  --font-sans: "Schibsted Grotesk", system-ui, sans-serif;
+  /* §4.1 Typographie — Lato, base 18px, ratio 1.25 → 18/22.5/28/35/44/55 */
+  --font-sans: "Lato", system-ui, sans-serif;
   --text-base: 1.125rem; /* 18px */
   --text-base--line-height: 1.6;
   --text-md: 1.25rem; /* 22.5px */
@@ -58,13 +54,13 @@
 
   /* Focus clavier = signal (§8 accessibilité) */
   :focus-visible {
-    outline: 2px solid var(--color-signal);
+    outline: 2px solid var(--color-brand);
     outline-offset: 2px;
     border-radius: var(--radius-media);
   }
 
   ::selection {
-    background-color: color-mix(in srgb, var(--color-signal) 20%, transparent);
+    background-color: color-mix(in srgb, var(--color-brand) 20%, transparent);
   }
 
   /* Chiffres tabulaires pour années et dates (§6.3) */
@@ -101,7 +97,7 @@
     @apply inline-flex items-center rounded-(--radius-media) px-5 py-3 text-base font-medium transition-colors;
   }
   .btn-primary {
-    @apply bg-signal text-white hover:bg-[#23389e];
+    @apply bg-brand text-white hover:bg-brand-deep;
     /* outline signal invisible sur fond signal → contour ink décalé (§8) */
     &:focus-visible {
       outline-color: var(--color-ink);
@@ -116,7 +112,7 @@
     @apply inline-flex items-center rounded-full border border-rule px-3 py-0.5 text-sm text-ink-muted;
   }
   .pill-active {
-    @apply border-signal bg-signal text-white;
+    @apply border-brand bg-brand text-white;
   }
 
   /* Images : pas d'ombre, rayon 2px max, ratio 16:9 (§6.5) */

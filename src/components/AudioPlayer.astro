@@ -18,7 +18,7 @@ const { src, title, class: className = '' } = Astro.props;
 <div class:list={['audio-player', className]} data-audio-player>
   <button
     type="button"
-    class="flex h-12 w-12 items-center justify-center rounded-full bg-signal text-white"
+    class="flex h-12 w-12 items-center justify-center rounded-full bg-brand text-white"
     data-audio-toggle
     aria-label="Play"
   >
@@ -31,7 +31,7 @@ const { src, title, class: className = '' } = Astro.props;
   </button>
 
   <div class="relative min-w-0 flex-1">
-    <EarlyReflections variant="bars" class="text-signal h-8 w-full" data-audio-progress />
+    <EarlyReflections variant="bars" class="text-brand h-8 w-full" data-audio-progress />
     <span class="tabular text-meta mt-1 block text-sm" data-audio-time>0:00</span>
   </div>
 

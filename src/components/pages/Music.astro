@@ -40,6 +40,14 @@ const musicProjects = (await getCollection('projects'))
       </div>
     </section>
 
+    <!-- Grille des projets « Music » en premier — retour V1 §3 : ce sont les morceaux écoutables qui accrochent -->
+    <section class="container-site section !pt-16" aria-labelledby="music-grid-title">
+      <h2 id="music-grid-title" class="text-lg font-bold">{t('work.title')}</h2>
+      <div class="mt-8">
+        <ProjectGrid projects={musicProjects} lang={lang} withFilters={false} />
+      </div>
+    </section>
+
     <!-- Radio · Sorties · Distinction -->
     <section class="container-site section">
       <div class="grid gap-8 md:grid-cols-3">
@@ -49,14 +57,6 @@ const musicProjects = (await getCollection('projects'))
             <p class="text-meta mt-2">{section.text[lang]}</p>
           </div>
         ))}
-      </div>
-    </section>
-
-    <!-- Projets de discipline « Music » en grille -->
-    <section class="container-site section" aria-labelledby="music-grid-title">
-      <h2 id="music-grid-title" class="text-lg font-bold">{t('work.title')}</h2>
-      <div class="mt-8">
-        <ProjectGrid projects={musicProjects} lang={lang} withFilters={false} />
       </div>
     </section>
   </main>

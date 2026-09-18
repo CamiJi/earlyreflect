@@ -23,11 +23,12 @@ const embedUrl = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1`;
     aria-label={title}
   >
     <img
-      src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`}
+      src={`https://i.ytimg.com/vi/${id}/maxresdefault.jpg`}
+      onerror="this.onerror=null;this.src=`https://i.ytimg.com/vi/${id}/hqdefault.jpg`"
       alt=""
       loading="lazy"
-      width="480"
-      height="360"
+      width="1280"
+      height="720"
       class="absolute inset-0 h-full w-full object-cover"
     />
     <span
@@ -35,7 +36,7 @@ const embedUrl = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1`;
       aria-hidden="true"
     >
       <span
-        class="flex h-14 w-14 items-center justify-center rounded-full bg-signal text-white transition-transform group-hover:scale-105"
+        class="flex h-14 w-14 items-center justify-center rounded-full bg-brand text-white transition-transform group-hover:scale-105"
       >
         <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
           <path d="M6 4l10 6-10 6V4z"></path>

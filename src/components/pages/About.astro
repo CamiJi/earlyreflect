@@ -44,7 +44,7 @@ const cv = lang === 'en' ? site.cvPdf.en : site.cvPdf.fr;
       <ol class="measure mt-6 space-y-0 border-l-2 border-rule">
         {p.timeline.map((step) => (
           <li class="tabular relative pb-8 pl-8 last:pb-0">
-            <span class="absolute -left-[5px] top-1.5 h-2 w-2 rounded-full bg-signal" aria-hidden="true"></span>
+            <span class="absolute -left-[5px] top-1.5 h-2 w-2 rounded-full bg-brand" aria-hidden="true"></span>
             <span class="text-meta font-semibold">{step.years}</span>
             <p class="mt-1">{step.role}</p>
           </li>

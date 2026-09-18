@@ -1,8 +1,8 @@
 ---
 /**
- * Accueil one-page — spec §5.1 :
- * HERO → SHOWREEL → INTRO → TROIS FACETTES → TRAVAUX SÉLECTIONNÉS
- * → COMPÉTENCES → CRÉDITS → OUTILS → CONTACT
+ * Accueil one-page — retour V1 §2 :
+ * HERO (4 boutons + ligne crédits) → BANDEAU image 16:6 → CRÉDITS → SHOWREEL
+ * → INTRO (texte) → TROIS FACETTES chiffrées → TRAVAUX → COMPÉTENCES → OUTILS → CONTACT
  */
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
@@ -34,9 +34,22 @@ const projects = (await getCollection('projects'))
   });
 const featured = projects.filter((p) => p.data.featured).slice(0, 9);
 
-// Portrait : affiché seulement si le fichier existe (à fournir par Mathieu, §9.6)
-const portraitFiles = Object.keys(import.meta.glob('/src/assets/portrait.*'));
-const hasPortrait = portraitFiles.length > 0;
+// Ligne de crédits jeux sous l'accroche (retour V1 §5, à valider par Mathieu)
+const heroCredits = ['Heavy Rain', 'Detroit: Become Human', 'Watch Dogs: Legion', 'Tell Me Why', 'Banishers'];
+
+// Facettes chiffrées (retour V1 §5) — chiffres issus de la spec (20 ans, ISART 2017, 45 étudiants, 2 BAFTA)
+const facets = {
+  en: [
+    { title: 'Game audio', text: 'Nearly 20 years and 8 shipped titles — from Heavy Rain to Banishers: Ghosts of New Eden. Sound design, integration and dynamic mixing.' },
+    { title: 'Consulting & teaching', text: 'Wwise/WAAPI consulting and pipeline audits. 45 students a year in interactive audio at ISART Digital since 2017 — 2 of their projects BAFTA-awarded.' },
+    { title: 'Music', text: 'Yakie: 1 vinyl EP, official remix releases and France Inter commissions since 2020.' },
+  ],
+  fr: [
+    { title: 'Game audio', text: 'Près de 20 ans et 8 titres livrés — de Heavy Rain à Banishers: Ghosts of New Eden. Sound design, intégration et mix dynamique.' },
+    { title: 'Consulting & formation', text: 'Consulting Wwise/WAAPI et audits de pipeline. 45 étudiants par an en audio interactif à ISART Digital depuis 2017 — 2 de leurs projets primés aux BAFTA.' },
+    { title: 'Musique', text: 'Yakie : 1 EP vinyle, remixes parus officiellement et commandes France Inter depuis 2020.' },
+  ],
+}[lang];
 
 const skills = {
   en: [
@@ -77,19 +90,59 @@ const personSchema = {
   <Header lang={lang} altPath={altPath} />
 
   <main id="main">
-    <!-- HERO §5.1 -->
-    <section class="container-site section !pt-16 md:!pt-24" aria-labelledby="hero-title">
+    <!-- HERO §5.1 + retour V1 §2.2/§5 : 4 boutons (1 primary, 3 secondaires), ligne crédits jeux -->
+    <section class="container-site section !pt-16 md:!pt-20" aria-labelledby="hero-title">
       <h1 id="hero-title" class="text-fluid-hero font-bold tracking-tight">{t('home.heroTitle')}</h1>
       <p class="text-md mt-3 max-w-xl text-ink-muted">{t('home.heroTagline')}</p>
+      <p class="text-meta mt-2 text-base">
+        {heroCredits.join(' · ')}
+      </p>
       <EarlyReflections
         variant="hero"
-        class="text-signal mt-8"
+        class="text-brand mt-6"
         label={lang === 'fr' ? 'Motif early reflections' : 'Early reflections motif'}
       />
-      <div class="mt-8 flex flex-wrap gap-3">
+      <div class="mt-8 grid max-w-xl grid-cols-2 gap-3 sm:flex sm:flex-wrap">
         <a href="#showreel" class="btn-primary">{t('home.seeShowreel')}</a>
         <a href={pageUrl(lang, '/contact/')} class="btn-secondary">{t('home.contactMe')}</a>
+        <a href={site.cvPdf[lang]} target="_blank" rel="noopener" class="btn-secondary">
+          {lang === 'fr' ? 'Télécharger le CV (PDF)' : 'Download CV (PDF)'}
+        </a>
+        <a href="https://www.linkedin.com/in/mathieu-fiorentini-8b18b045" target="_blank" rel="me noopener" class="btn-secondary">LinkedIn</a>
       </div>
+    </section>
+
+    <!-- BANDEAU image 16:6 pleine largeur — retour V1 §2.3 (recadrage HD à fournir par Mathieu) -->
+    <section class="container-site" aria-label={lang === 'fr' ? 'Bandeau : en studio' : 'Banner: in the studio'}>
+      <div class="w-full overflow-hidden rounded-(--radius-media)" style="aspect-ratio: 16/6;">
+        <WpImage asset="photoStudio" sizes="(max-width: 1200px) 100vw, 1200px" class="h-full w-full object-cover" loading="eager" />
+      </div>
+    </section>
+
+    <!-- CRÉDITS — remontés sous le bandeau, retour V1 §2.1/§2.4 -->
+    <section class="container-site section" aria-labelledby="credits-title">
+      <h2 id="credits-title" class="text-lg font-bold">{t('home.creditsTitle')}</h2>
+      <ul class="mt-6 flex flex-wrap items-center gap-x-10 gap-y-6 md:flex-nowrap md:justify-between">
+        {(['logoQuanticDream', 'logoUbisoft', 'logoIsart', 'logoIna', 'logoGaumont'] as const).map((key) => (
+          <li class="flex h-8 items-center">
+            <WpImage
+              asset={key}
+              sizes="160px"
+              class="h-8 w-auto max-w-[150px] object-contain object-left opacity-55 grayscale transition-all hover:opacity-100 hover:grayscale-0"
+            />
+          </li>
+        ))}
+        {["Don't Nod", 'Focus Entertainment', 'France Inter'].map((name) => (
+          <li class="text-meta font-semibold transition-colors hover:text-ink" data-credit={name}>
+            {name}
+          </li>
+        ))}
+      </ul>
+      <p class="text-meta mt-3 text-sm">
+        {lang === 'fr'
+          ? 'Logos Don’t Nod, Focus et France Inter à fournir (SVG monochromes) pour l’homogénéité — retour V1 §2.4.'
+          : 'Don’t Nod, Focus and France Inter logos to be provided (monochrome SVGs) for consistency — retour V1 §2.4.'}
+      </p>
     </section>
 
     <!-- SHOWREEL §5.1 : vidéo 16:9 large, façade cliquable, légende courte -->
@@ -98,41 +151,22 @@ const personSchema = {
       <p class="text-meta mt-2">{t('home.showreelCaption')}</p>
     </section>
 
-    <!-- INTRO §5.1 : 3–4 lignes de bio + photo portrait -->
+    <!-- INTRO §5.1 : texte seul (l'image est passée en bandeau, retour V1 §2.3) -->
     <section class="container-site section" aria-labelledby="intro-title">
-      <div class="grid items-center gap-8 md:grid-cols-[1fr_2fr]">
-        {
-          hasPortrait ? (
-            <div class="media-16x9 bg-rule">
-              <img src={`${import.meta.env.BASE_URL}images/portrait.webp`} alt="" width="800" height="800" loading="lazy" />
-            </div>
-          ) : (
-            <div class="media-16x9 bg-rule">
-              <WpImage asset="photoStudio" sizes="(max-width: 768px) 100vw, 400px" loading="lazy" />
-            </div>
-          )
-        }
-        <div>
-          <h2 id="intro-title" class="text-lg font-bold">{t('home.introTitle')}</h2>
-          <p class="measure mt-3">{pages.about.bioShort[lang]}</p>
-        </div>
-      </div>
+      <h2 id="intro-title" class="text-lg font-bold">{t('home.introTitle')}</h2>
+      <p class="measure mt-3">{pages.about.bioShort[lang]}</p>
     </section>
 
-    <!-- TROIS FACETTES §5.1 : ce qui porte le profil hybride -->
+    <!-- TROIS FACETTES §5.1 : chiffrées (retour V1 §5), porte le profil hybride -->
     <section class="container-site section" aria-labelledby="facets-title">
       <h2 id="facets-title" class="text-lg font-bold">{t('home.facetsTitle')}</h2>
       <div class="mt-8 grid gap-8 md:grid-cols-3">
         {
-          [
-            { title: t('home.facetGame'), text: t('home.facetGameText'), href: pageUrl(lang, '/work/') },
-            { title: t('home.facetConsulting'), text: t('home.facetConsultingText'), href: pageUrl(lang, '/consulting/') },
-            { title: t('home.facetMusic'), text: t('home.facetMusicText'), href: pageUrl(lang, '/music/') },
-          ].map((facet) => (
+          facets.map((facet, i) => (
             <div>
-              <h3 class="font-semibold text-signal">{facet.title}</h3>
+              <h3 class="font-semibold text-brand">{facet.title}</h3>
               <p class="mt-2">{facet.text}</p>
-              <a href={facet.href} class="mt-3 inline-block font-medium hover:text-signal" aria-label={facet.title}>
+              <a href={[pageUrl(lang, '/work/'), pageUrl(lang, '/consulting/'), pageUrl(lang, '/music/')][i]} class="mt-3 inline-block font-medium hover:text-brand" aria-label={facet.title}>
                 {lang === 'fr' ? 'En savoir plus' : 'Learn more'}
               </a>
             </div>
@@ -145,7 +179,7 @@ const personSchema = {
     <section class="container-site section" aria-labelledby="work-title">
       <div class="flex items-baseline justify-between gap-4">
         <h2 id="work-title" class="text-lg font-bold">{t('home.selectedWork')}</h2>
-        <a href={pageUrl(lang, '/work/')} class="text-signal hover:underline">{t('home.allWork')}</a>
+        <a href={pageUrl(lang, '/work/')} class="text-brand hover:underline">{t('home.allWork')}</a>
       </div>
       <div class="mt-8">
         <ProjectGrid projects={featured} lang={lang} withFilters={false} />
@@ -167,26 +201,9 @@ const personSchema = {
       </div>
     </section>
 
-    <!-- CRÉDITS + OUTILS §5.1 : logos monochromes (hotlink ancien site ; SVG définitifs à venir, §9.6) -->
-    <section class="container-site section" aria-labelledby="credits-title">
-      <h2 id="credits-title" class="text-lg font-bold">{t('home.creditsTitle')}</h2>
-      <ul class="mt-6 flex flex-wrap items-center gap-x-10 gap-y-6">
-        {(['logoQuanticDream', 'logoUbisoft', 'logoIsart', 'logoIna', 'logoGaumont'] as const).map((key) => (
-          <li class="flex h-10 items-center">
-            <WpImage
-              asset={key}
-              sizes="180px"
-              class="h-10 w-auto max-w-[170px] object-contain object-left opacity-55 grayscale transition-all hover:opacity-100 hover:grayscale-0"
-            />
-          </li>
-        ))}
-        {["Don't Nod", 'Focus Entertainment', 'France Inter'].map((name) => (
-          <li class="text-meta font-semibold transition-colors hover:text-ink" data-credit={name}>
-            {name}
-          </li>
-        ))}
-      </ul>
-      <h2 class="mt-12 text-lg font-bold">{t('home.toolsTitle')}</h2>
+    <!-- OUTILS §5.1 : logos monochromes (texte en attendant les SVG, §9.6) -->
+    <section class="container-site section" aria-labelledby="tools-title">
+      <h2 id="tools-title" class="text-lg font-bold">{t('home.toolsTitle')}</h2>
       <ul class="mt-6 flex flex-wrap gap-x-10 gap-y-4">
         {
           site.tools.map((name) => (
@@ -196,21 +213,13 @@ const personSchema = {
           ))
         }
       </ul>
-      <p class="text-meta mt-3 text-sm">
-        {lang === 'fr'
-          ? 'Logos Don’t Nod, Focus et France Inter en texte — SVG monochromes à intégrer (§9.6).'
-          : 'Don’t Nod, Focus and France Inter logos as text — monochrome SVGs to be added (§9.6).'}
-      </p>
     </section>
 
-    <!-- CONTACT §5.1 -->
+    <!-- CONTACT §5.1 + retour V1 §2.5 : bouton seulement, pas d'email en clair -->
     <section class="container-site section" aria-labelledby="contact-title">
       <h2 id="contact-title" class="text-lg font-bold">{t('home.contactTitle')}</h2>
       <p class="measure mt-3">{t('home.contactText')}</p>
-      <div class="mt-6 flex flex-wrap items-center gap-4">
-        <a href={pageUrl(lang, '/contact/')} class="btn-primary">{t('home.contactMe')}</a>
-        <a href={`mailto:${site.email}`} class="text-signal hover:underline">{site.email}</a>
-      </div>
+      <a href={pageUrl(lang, '/contact/')} class="btn-primary mt-6 inline-flex">{t('home.contactMe')}</a>
     </section>
   </main>
 

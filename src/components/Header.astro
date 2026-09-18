@@ -30,7 +30,7 @@ const isActive = (href: string) =>
 <header class="section !pt-6">
   <div class="container-site flex flex-wrap items-center justify-between gap-4">
     <a href={pageUrl(lang, '/')} class="flex items-center gap-2 font-semibold" aria-current={current === pageUrl(lang, '/') ? 'page' : undefined}>
-      <EarlyReflections variant="mark" class="text-signal" />
+      <EarlyReflections variant="mark" class="text-brand" />
       <span>{site.name}</span>
     </a>
 
@@ -53,7 +53,7 @@ const isActive = (href: string) =>
             <a
               href={pageUrl(lang, item.href)}
               aria-current={isActive(item.href) ? 'page' : undefined}
-              class:list={['hover:text-signal', { 'text-signal': isActive(item.href) }]}
+              class:list={['hover:text-brand', { 'text-brand': isActive(item.href) }]}
             >
               {item.label}
             </a>
@@ -63,7 +63,7 @@ const isActive = (href: string) =>
           <a
             href={otherLangUrl}
             hreflang={otherLang}
-            class="tabular rounded-(--radius-media) border border-rule px-2 py-1 text-sm font-medium hover:border-signal hover:text-signal"
+            class="tabular rounded-(--radius-media) border border-rule px-2 py-1 text-sm font-medium hover:border-brand hover:text-brand"
             aria-label={otherLang === 'fr' ? 'Voir cette page en français' : 'View this page in English'}
           >
             {otherLang.toUpperCase()}

@@ -7,7 +7,22 @@
     },
     "width": 1000,
     "height": 125,
-    "format": "png"
+    "format": "png",
+    "localVariants": [
+      {
+        "width": 300,
+        "path": "/images/logoQuanticDream_300.webp"
+      },
+      {
+        "width": 768,
+        "path": "/images/logoQuanticDream_768.webp"
+      },
+      {
+        "width": 1000,
+        "path": "/images/logoQuanticDream_1000.webp"
+      }
+    ],
+    "localSrc": "/images/logoQuanticDream_1000.webp"
   },
   "logoUbisoft": {
     "url": "https://earlyreflect.com/wp-content/uploads/2016/03/ubisoft-stacked-logo_black.png",
@@ -17,7 +32,34 @@
     },
     "width": 2032,
     "height": 1867,
-    "format": "png"
+    "format": "png",
+    "localVariants": [
+      {
+        "width": 300,
+        "path": "/images/logoUbisoft_300.webp"
+      },
+      {
+        "width": 768,
+        "path": "/images/logoUbisoft_768.webp"
+      },
+      {
+        "width": 1024,
+        "path": "/images/logoUbisoft_1024.webp"
+      },
+      {
+        "width": 1440,
+        "path": "/images/logoUbisoft_1440.webp"
+      },
+      {
+        "width": 1920,
+        "path": "/images/logoUbisoft_1920.webp"
+      },
+      {
+        "width": 2032,
+        "path": "/images/logoUbisoft_2032.webp"
+      }
+    ],
+    "localSrc": "/images/logoUbisoft_2032.webp"
   },
   "logoIsart": {
     "url": "https://earlyreflect.com/wp-content/uploads/2016/03/logo_isart_seul_noir_300dpi_3100pixel_2013-12.png",
@@ -27,7 +69,34 @@
     },
     "width": 3100,
     "height": 958,
-    "format": "png"
+    "format": "png",
+    "localVariants": [
+      {
+        "width": 300,
+        "path": "/images/logoIsart_300.webp"
+      },
+      {
+        "width": 768,
+        "path": "/images/logoIsart_768.webp"
+      },
+      {
+        "width": 1024,
+        "path": "/images/logoIsart_1024.webp"
+      },
+      {
+        "width": 1440,
+        "path": "/images/logoIsart_1440.webp"
+      },
+      {
+        "width": 1920,
+        "path": "/images/logoIsart_1920.webp"
+      },
+      {
+        "width": 3100,
+        "path": "/images/logoIsart_3100.webp"
+      }
+    ],
+    "localSrc": "/images/logoIsart_3100.webp"
   },
   "logoIna": {
     "url": "https://earlyreflect.com/wp-content/uploads/2019/10/1200px-logo_ina.svg_.png",
@@ -37,7 +106,26 @@
     },
     "width": 1200,
     "height": 1200,
-    "format": "png"
+    "format": "png",
+    "localVariants": [
+      {
+        "width": 300,
+        "path": "/images/logoIna_300.webp"
+      },
+      {
+        "width": 768,
+        "path": "/images/logoIna_768.webp"
+      },
+      {
+        "width": 1024,
+        "path": "/images/logoIna_1024.webp"
+      },
+      {
+        "width": 1200,
+        "path": "/images/logoIna_1200.webp"
+      }
+    ],
+    "localSrc": "/images/logoIna_1200.webp"
   },
   "logoGaumont": {
     "url": "https://earlyreflect.com/wp-content/uploads/2016/03/gaumont_animation_logo-svg.png",
@@ -47,7 +135,34 @@
     },
     "width": 2000,
     "height": 673,
-    "format": "png"
+    "format": "png",
+    "localVariants": [
+      {
+        "width": 300,
+        "path": "/images/logoGaumont_300.webp"
+      },
+      {
+        "width": 768,
+        "path": "/images/logoGaumont_768.webp"
+      },
+      {
+        "width": 1024,
+        "path": "/images/logoGaumont_1024.webp"
+      },
+      {
+        "width": 1440,
+        "path": "/images/logoGaumont_1440.webp"
+      },
+      {
+        "width": 1920,
+        "path": "/images/logoGaumont_1920.webp"
+      },
+      {
+        "width": 2000,
+        "path": "/images/logoGaumont_2000.webp"
+      }
+    ],
+    "localSrc": "/images/logoGaumont_2000.webp"
   },
   "photoStudio": {
     "url": "https://earlyreflect.com/wp-content/uploads/2013/11/mat-stud-crop.jpg",
@@ -57,7 +172,26 @@
     },
     "width": 1024,
     "height": 541,
-    "format": "jpeg"
+    "format": "jpeg",
+    "localVariants": [
+      {
+        "width": 300,
+        "path": "/images/photoStudio_300.webp"
+      },
+      {
+        "width": 768,
+        "path": "/images/photoStudio_768.webp"
+      },
+      {
+        "width": 1024,
+        "path": "/images/photoStudio_1024.webp"
+      },
+      {
+        "width": 1024,
+        "path": "/images/photoStudio_1024.webp"
+      }
+    ],
+    "localSrc": "/images/photoStudio_1024.webp"
   },
   "photoPloupi": {
     "url": "https://earlyreflect.com/wp-content/uploads/2013/11/ploupi.jpg",
@@ -67,7 +201,18 @@
     },
     "width": 616,
     "height": 960,
-    "format": "jpeg"
+    "format": "jpeg",
+    "localVariants": [
+      {
+        "width": 300,
+        "path": "/images/photoPloupi_300.webp"
+      },
+      {
+        "width": 616,
+        "path": "/images/photoPloupi_616.webp"
+      }
+    ],
+    "localSrc": "/images/photoPloupi_616.webp"
   },
   "yakieUniverse": {
     "url": "https://earlyreflect.com/wp-content/uploads/2013/11/yakie_univers-graphique_201413.jpg",
@@ -77,7 +222,22 @@
     },
     "width": 882,
     "height": 876,
-    "format": "jpeg"
+    "format": "jpeg",
+    "localVariants": [
+      {
+        "width": 300,
+        "path": "/images/yakieUniverse_300.webp"
+      },
+      {
+        "width": 768,
+        "path": "/images/yakieUniverse_768.webp"
+      },
+      {
+        "width": 882,
+        "path": "/images/yakieUniverse_882.webp"
+      }
+    ],
+    "localSrc": "/images/yakieUniverse_882.webp"
   },
   "yakieLogo": {
     "url": "https://earlyreflect.com/wp-content/uploads/2013/11/yakie_logo_white_trash.jpg",
@@ -87,6 +247,25 @@
     },
     "width": 1164,
     "height": 532,
-    "format": "jpeg"
+    "format": "jpeg",
+    "localVariants": [
+      {
+        "width": 300,
+        "path": "/images/yakieLogo_300.webp"
+      },
+      {
+        "width": 768,
+        "path": "/images/yakieLogo_768.webp"
+      },
+      {
+        "width": 1024,
+        "path": "/images/yakieLogo_1024.webp"
+      },
+      {
+        "width": 1164,
+        "path": "/images/yakieLogo_1164.webp"
+      }
+    ],
+    "localSrc": "/images/yakieLogo_1164.webp"
   }
 }

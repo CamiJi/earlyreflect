@@ -20,9 +20,9 @@ const bars = [
 ];
 
 const svg = `<svg width="${W}" height="${H}" xmlns="http://www.w3.org/2000/svg">
-  <rect width="${W}" height="${H}" fill="#f6f7f5"/>
+  <rect width="${W}" height="${H}" fill="#f4f4f0"/>
   ${bars
-    .map((b) => `<rect x="${b.x}" y="${(H - b.h) / 2}" width="${b.w}" height="${b.h}" rx="${b.w / 2}" fill="#2e46c8" opacity="${b.o}"/>`)
+    .map((b) => `<rect x="${b.x}" y="${(H - b.h) / 2}" width="${b.w}" height="${b.h}" rx="${b.w / 2}" fill="#007190" opacity="${b.o}"/>`)
     .join('\n  ')}
   <text x="${W - 90}" y="${H / 2 - 60}" text-anchor="end" font-family="system-ui, -apple-system, sans-serif" font-size="58" font-weight="700" fill="#1e2226">Mathieu Fiorentini</text>
   <text x="${W - 90}" y="${H / 2 + 10}" text-anchor="end" font-family="system-ui, -apple-system, sans-serif" font-size="30" fill="#5e656c">Senior sound designer · Wwise consultant · Composer</text>

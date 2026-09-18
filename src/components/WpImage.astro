@@ -1,11 +1,9 @@
 ---
 /**
- * Image hotlinkée depuis l'ancien site WordPress (earlyreflect.com), avec accord de Mathieu.
- * Génère le srcset natif WordPress.com (?w=…) à partir des dimensions réelles
- * connues (src/data/wp-assets.json, inventoriées au build).
- *
- * NOTE bascule finale : si le site WordPress.com est fermé, ces URLs meurent.
- * À remplacer par des assets locaux au moment de la mise en prod définitive (§9.6).
+ * Image du site (assets locaux WebP, srcset responsive).
+ * Fichiers générés par scripts/localize-wp-assets.mjs depuis les originaux HD
+ * de l'ancien site WordPress (retour V1 §1.3/§1.4 : aucune dépendance à
+ * l'ancien hébergement). key art fourni par Mathieu → remplacera ces files.
  */
 import wpAssets from '../data/wp-assets.json';
 
@@ -23,20 +21,10 @@ const { asset, alt, sizes = '(max-width: 768px) 100vw, 600px', class: className 
 const info = wpAssets[asset];
 if (!info) throw new Error(`Asset inconnu: ${asset}`);
 
-const widths = [300, 768, 1024, 1440].filter((w) => w <= info.width);
-const srcset = [
-  ...widths.map((w) => `${info.url}?w=${w} ${w}w`),
-  `${info.url} ${info.width}w`,
-].join(', ');
+// srcset local WebP (variants triées par largeur)
+const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+const srcset = info.localVariants.map((v) => `${base}${v.path.replace(/^\//, '')} ${v.width}w`).join(', ');
+const src = `${base}${info.localSrc.replace(/^\//, '')}`;
 ---
 
-<img
-  src={`${info.url}?w=1152`}
-  srcset={srcset}
-  sizes={sizes}
-  alt={alt ?? info.alt.en}
-  width={info.width}
-  height={info.height}
-  loading={loading}
-  class={className}
-/>
+<img src={src} srcset={srcset} sizes={sizes} alt={alt ?? info.alt.en} width={info.width} height={info.height} loading={loading} class={className} />

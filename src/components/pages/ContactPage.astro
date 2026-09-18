@@ -43,7 +43,7 @@ const emailDomain = site.email.split('@')[1] ?? '';
             type="text"
             required
             autocomplete="name"
-            class="mt-2 w-full rounded-(--radius-media) border border-rule bg-surface px-4 py-3 focus:border-signal"
+            class="mt-2 w-full rounded-(--radius-media) border border-rule bg-surface px-4 py-3 focus:border-brand"
           />
         </div>
         <div>
@@ -54,7 +54,7 @@ const emailDomain = site.email.split('@')[1] ?? '';
             type="email"
             required
             autocomplete="email"
-            class="mt-2 w-full rounded-(--radius-media) border border-rule bg-surface px-4 py-3 focus:border-signal"
+            class="mt-2 w-full rounded-(--radius-media) border border-rule bg-surface px-4 py-3 focus:border-brand"
           />
         </div>
         <div>
@@ -62,7 +62,7 @@ const emailDomain = site.email.split('@')[1] ?? '';
           <select
             id="request-type"
             name="request-type"
-            class="mt-2 w-full rounded-(--radius-media) border border-rule bg-surface px-4 py-3 focus:border-signal"
+            class="mt-2 w-full rounded-(--radius-media) border border-rule bg-surface px-4 py-3 focus:border-brand"
           >
             {pages.contactTypes.map((type) => (
               <option value={type}>{tGroup('contact.requestTypes')[type][lang]}</option>
@@ -76,7 +76,7 @@ const emailDomain = site.email.split('@')[1] ?? '';
             name="message"
             required
             rows="6"
-            class="mt-2 w-full rounded-(--radius-media) border border-rule bg-surface px-4 py-3 focus:border-signal"
+            class="mt-2 w-full rounded-(--radius-media) border border-rule bg-surface px-4 py-3 focus:border-brand"
           ></textarea>
         </div>
         {
@@ -92,14 +92,14 @@ const emailDomain = site.email.split('@')[1] ?? '';
         <p class="text-meta" data-user={emailUser} data-domain={emailDomain} data-email-obfuscated>
           {t('contact.orEmail')}
           <span data-email-slot></span>
-          <noscript><a href={`mailto:${site.email}`} class="text-signal">{site.email}</a></noscript>
+          <noscript><a href={`mailto:${site.email}`} class="text-brand">{site.email}</a></noscript>
         </p>
       </form>
 
       <ul class="mt-10 flex flex-wrap gap-4">
         {site.socials.map((social) => (
           <li>
-            <a href={social.url} rel="me noopener" target="_blank" class="text-signal hover:underline">{social.label}</a>
+            <a href={social.url} rel="me noopener" target="_blank" class="text-brand hover:underline">{social.label}</a>
           </li>
         ))}
       </ul>
@@ -118,7 +118,7 @@ const emailDomain = site.email.split('@')[1] ?? '';
     const link = document.createElement('a');
     link.href = `mailto:${email}`;
     link.textContent = email;
-    link.className = 'text-signal hover:underline';
+    link.className = 'text-brand hover:underline';
     slot.replaceChildren(link);
   }
 

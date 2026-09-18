@@ -5,7 +5,7 @@ import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://camijii.github.io',
+  site: 'https://camiji.github.io',
   base: '/earlyreflect',
   i18n: {
     defaultLocale: 'en',

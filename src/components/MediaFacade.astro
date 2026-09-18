@@ -71,7 +71,7 @@ const audioFile = mediaUrl && /\.(mp3|wav|ogg|m4a|flac)$/i.test(mediaUrl);
     </figure>
   ) : mediaUrl ? (
     <figure class={className}>
-      <p class="text-meta">Média : <a href={mediaUrl} rel="noopener" target="_blank" class="text-signal">{mediaUrl}</a></p>
+      <p class="text-meta">Média : <a href={mediaUrl} rel="noopener" target="_blank" class="text-brand">{mediaUrl}</a></p>
       {mediaCaption && <figcaption class="media-caption text-meta mt-2">{mediaCaption}</figcaption>}
     </figure>
   ) : null
