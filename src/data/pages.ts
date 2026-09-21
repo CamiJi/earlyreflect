@@ -95,9 +95,9 @@ export const pages = {
     timeline: [
       { years: '2019–', role: "Lead sound designer — Don't Nod" }, // [À VALIDER]
       { years: '2017–2018', role: 'Sound designer — Ubisoft' },
+      { years: '2017–', role: 'Interactive audio teacher — ISART Digital (parallèle)' },
       { years: '2011–2016', role: 'Sound designer — Quantic Dream' },
       { years: '2009–2011', role: 'Sound designer — freelance' }, // [À VALIDER]
-      { years: '2017–', role: 'Interactive audio teacher — ISART Digital' },
     ],
     skills: {
       title: localized('Skills', 'Compétences'),
