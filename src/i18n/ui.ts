@@ -149,3 +149,8 @@ export function pageUrl(lang: Lang, path = '/'): string {
   const prefix = lang === 'fr' ? '/fr' : '';
   return `${BASE}${prefix}${clean === '/' && lang === 'fr' ? '/' : clean}`.replace(/\/$/, '') || '/';
 }
+
+/** URL d'une fiche projet — spec §3 : /work/{slug} en EN, /fr/travaux/{slug} en FR */
+export function projectUrl(lang: Lang, slug: string): string {
+  return pageUrl(lang, lang === 'fr' ? `/travaux/${slug}/` : `/work/${slug}/`);
+}

@@ -6,7 +6,7 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import EarlyReflections from '../../components/EarlyReflections.astro';
 import MediaFacade from '../../components/MediaFacade.astro';
-import { useTranslations, pageUrl, type Lang } from '../../i18n/ui';
+import { useTranslations, pageUrl, projectUrl, type Lang } from '../../i18n/ui';
 import { site } from '../../data/site';
 
 interface Props {
@@ -117,7 +117,7 @@ const schema = {
       <!-- Navigation précédent / suivant -->
       <nav class="mt-16 flex justify-between border-t border-rule pt-6" aria-label={lang === 'fr' ? 'Navigation entre projets' : 'Project navigation'}>
         {prev ? (
-          <a href={pageUrl(lang, `/work/${prev.id.replace(`${lang}/`, '')}/`)} class="hover:text-brand">
+          <a href={projectUrl(lang, prev.id.replace(lang + '/', ''))} class="hover:text-brand">
             ← <span class="font-medium">{prev.data.title}</span>
             <span class="sr-only">{t('work.previousProject')}</span>
           </a>
@@ -125,7 +125,7 @@ const schema = {
           <EarlyReflections variant="mark" class="text-rule" />
         )}
         {next ? (
-          <a href={pageUrl(lang, `/work/${next.id.replace(`${lang}/`, '')}/`)} class="hover:text-brand">
+          <a href={projectUrl(lang, next.id.replace(lang + '/', ''))} class="hover:text-brand">
             <span class="font-medium">{next.data.title}</span> →
             <span class="sr-only">{t('work.nextProject')}</span>
           </a>

@@ -1,8 +1,8 @@
 ---
 /**
- * Accueil one-page — retour V1 §2 :
- * HERO (4 boutons + ligne crédits) → BANDEAU image 16:6 → CRÉDITS → SHOWREEL
- * → INTRO (texte) → TROIS FACETTES chiffrées → TRAVAUX → COMPÉTENCES → OUTILS → CONTACT
+ * Accueil one-page — retour V2 §2 :
+ * HERO (nom, accroche, présentation, 4 boutons) → CRÉDITS (bannière clients)
+ * → DEMO REEL → TROIS FACETTES → TRAVAUX → COMPÉTENCES → OUTILS → CONTACT
  */
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
@@ -11,7 +11,6 @@ import Footer from '../../components/Footer.astro';
 import EarlyReflections from '../../components/EarlyReflections.astro';
 import LiteYouTube from '../../components/LiteYouTube.astro';
 import ProjectGrid from '../../components/ProjectGrid.astro';
-import WpImage from '../../components/WpImage.astro';
 import { site } from '../../data/site';
 import { pages } from '../../data/pages';
 import { pageUrl, useTranslations, type Lang } from '../../i18n/ui';
@@ -34,8 +33,9 @@ const projects = (await getCollection('projects'))
   });
 const featured = projects.filter((p) => p.data.featured).slice(0, 9);
 
-// Ligne de crédits jeux sous l'accroche (retour V1 §5, à valider par Mathieu)
-const heroCredits = ['Heavy Rain', 'Detroit: Become Human', 'Watch Dogs: Legion', 'Tell Me Why', 'Banishers'];
+// Ligne de crédits jeux retirée du hero — retour V2 §3.5
+// La présentation remonte de l'ancienne section About — retour V2 §3.4
+const heroIntro = pages.about.bioShort[lang];
 
 // Facettes chiffrées (retour V1 §5) — chiffres issus de la spec (20 ans, ISART 2017, 45 étudiants, 2 BAFTA)
 const facets = {
@@ -90,13 +90,11 @@ const personSchema = {
   <Header lang={lang} altPath={altPath} />
 
   <main id="main">
-    <!-- HERO §5.1 + retour V1 §2.2/§5 : 4 boutons (1 primary, 3 secondaires), ligne crédits jeux -->
+    <!-- HERO — retour V2 §3.4 : nom, accroche, présentation, 4 boutons (plus de ligne de jeux) -->
     <section class="container-site section !pt-16 md:!pt-20" aria-labelledby="hero-title">
       <h1 id="hero-title" class="text-fluid-hero font-bold tracking-tight">{t('home.heroTitle')}</h1>
       <p class="text-md mt-3 max-w-xl text-ink-muted">{t('home.heroTagline')}</p>
-      <p class="text-meta mt-2 text-base">
-        {heroCredits.join(' · ')}
-      </p>
+      <p class="mt-4 max-w-[34rem]">{heroIntro}</p>
       <EarlyReflections
         variant="hero"
         class="text-brand mt-6"
@@ -112,49 +110,30 @@ const personSchema = {
       </div>
     </section>
 
-    <!-- BANDEAU image 16:6 pleine largeur — retour V1 §2.3 (recadrage HD à fournir par Mathieu) -->
-    <section class="container-site" aria-label={lang === 'fr' ? 'Bandeau : en studio' : 'Banner: in the studio'}>
-      <div class="w-full overflow-hidden rounded-(--radius-media)" style="aspect-ratio: 16/6;">
-        <WpImage asset="photoStudio" sizes="(max-width: 1200px) 100vw, 1200px" class="h-full w-full object-cover" loading="eager" />
-      </div>
-    </section>
-
-    <!-- CRÉDITS — remontés sous le bandeau, retour V1 §2.1/§2.4 -->
+    <!-- CRÉDITS — retour V2 §3.2 : bannière clients unique, pleine largeur du conteneur -->
     <section class="container-site section" aria-labelledby="credits-title">
       <h2 id="credits-title" class="text-lg font-bold">{t('home.creditsTitle')}</h2>
-      <ul class="mt-6 flex flex-wrap items-center gap-x-10 gap-y-6 md:flex-nowrap md:justify-between">
-        {(['logoQuanticDream', 'logoUbisoft', 'logoIsart', 'logoIna', 'logoGaumont'] as const).map((key) => (
-          <li class="flex h-8 items-center">
-            <WpImage
-              asset={key}
-              sizes="160px"
-              class="h-8 w-auto max-w-[150px] object-contain object-left opacity-55 grayscale transition-all hover:opacity-100 hover:grayscale-0"
-            />
-          </li>
-        ))}
-        {["Don't Nod", 'Focus Entertainment', 'France Inter'].map((name) => (
-          <li class="text-meta font-semibold transition-colors hover:text-ink" data-credit={name}>
-            {name}
-          </li>
-        ))}
-      </ul>
-      <p class="text-meta mt-3 text-sm">
-        {lang === 'fr'
-          ? 'Logos Don’t Nod, Focus et France Inter à fournir (SVG monochromes) pour l’homogénéité — retour V1 §2.4.'
-          : 'Don’t Nod, Focus and France Inter logos to be provided (monochrome SVGs) for consistency — retour V1 §2.4.'}
-      </p>
+      <img
+        src={`${import.meta.env.BASE_URL}images/banniere-clients.webp`}
+        alt={
+          lang === 'fr'
+            ? 'Clients et employeurs : Don’t Nod, Ubisoft, Quantic Dream, France Inter, ISART Digital'
+            : 'Clients and employers: Don’t Nod, Ubisoft, Quantic Dream, France Inter, ISART Digital'
+        }
+        width="1920"
+        height="420"
+        loading="lazy"
+        class="mt-6 w-full rounded-(--radius-media) bg-surface"
+      />
     </section>
 
-    <!-- SHOWREEL §5.1 : vidéo 16:9 large, façade cliquable, légende courte -->
-    <section id="showreel" class="container-site section" aria-label="Showreel">
-      <LiteYouTube id={site.showreelYouTubeId} title="Showreel 2014–2025" />
+    <!-- DEMO REEL — retour V2 §3.3 : titre de section au même niveau que les autres -->
+    <section id="showreel" class="container-site section" aria-labelledby="showreel-title">
+      <h2 id="showreel-title" class="text-lg font-bold">Demo Reel</h2>
+      <div class="mt-8">
+        <LiteYouTube id={site.showreelYouTubeId} title="Demo Reel 2014–2025" />
+      </div>
       <p class="text-meta mt-2">{t('home.showreelCaption')}</p>
-    </section>
-
-    <!-- INTRO §5.1 : texte seul (l'image est passée en bandeau, retour V1 §2.3) -->
-    <section class="container-site section" aria-labelledby="intro-title">
-      <h2 id="intro-title" class="text-lg font-bold">{t('home.introTitle')}</h2>
-      <p class="measure mt-3">{pages.about.bioShort[lang]}</p>
     </section>
 
     <!-- TROIS FACETTES §5.1 : chiffrées (retour V1 §5), porte le profil hybride -->

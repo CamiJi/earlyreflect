@@ -3,7 +3,7 @@
  * Carte projet — spec §5.2 : key art 16:9, titre, studio, années, pastilles.
  * Pas d'ombre, pas de carte « boîte » : l'image et le texte suffisent.
  */
-import { pageUrl, useTranslations, type Lang } from '../i18n/ui';
+import { projectUrl, useTranslations, type Lang } from '../i18n/ui';
 import EarlyReflections from './EarlyReflections.astro';
 import type { CollectionEntry } from 'astro:content';
 
@@ -15,7 +15,8 @@ interface Props {
 const { project, lang } = Astro.props;
 const { t, tGroup } = useTranslations(lang);
 const { title, keyArt, keyArtAlt, studio, years, disciplines, nda } = project.data;
-const href = pageUrl(lang, `/work/${project.id}/`);
+const slug = project.id.replace(lang + '/', '');
+const href = projectUrl(lang, slug);
 ---
 
 <a href={href} class="group block" data-project-card data-disciplines={disciplines.join(' ')}>
