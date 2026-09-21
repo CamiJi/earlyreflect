@@ -1,0 +1,77 @@
+{
+  "$comment": "Fiche d'identité structurée pour agents IA et assistants — earlyreflect.com",
+  "@context": {
+    "name": "https://schema.org/name",
+    "jobTitle": "https://schema.org/jobTitle",
+    "url": "https://schema.org/url",
+    "email": "https://schema.org/email",
+    "sameAs": "https://schema.org/sameAs",
+    "knowsAbout": "https://schema.org/knowsAbout",
+    "alumniOf": "https://schema.org/alumniOf"
+  },
+  "name": "Mathieu Fiorentini",
+  "jobTitle": "Senior Sound Designer — Video Games · Wwise Consultant · Composer",
+  "alternateName": "Yakie",
+  "description": "Senior sound designer in the video game industry for nearly 20 years (Quantic Dream, Ubisoft, Don't Nod). Interactive audio teacher at ISART Digital, Wwise/Unreal consultant and trainer, electronic/ambient composer under the name Yakie (France Inter commissions, vinyl EP).",
+  "location": "Paris, France",
+  "languages": ["fr", "en"],
+  "url": "https://earlyreflect.com",
+  "websites": [
+    { "url": "https://earlyreflect.com", "type": "portfolio" }
+  ],
+  "disciplines": [
+    { "id": "show-reel", "name": "Show Reel" },
+    { "id": "technical-sound-design", "name": "Technical Sound Design" },
+    { "id": "field-recording", "name": "Field Recording" },
+    { "id": "music", "name": "Music" }
+  ],
+  "credits": ["Quantic Dream", "Ubisoft", "Don't Nod", "Focus Entertainment", "France Inter", "ISART Digital"],
+  "games": [
+    { "title": "Aphelion", "studio": "Don't Nod", "years": "in production", "role": "Senior audio designer — VO production coordination" },
+    { "title": "Banishers: Ghosts of New Eden", "studio": "Don't Nod / Focus", "years": "2020–2024", "role": "Senior sound designer, lead mix" },
+    { "title": "Tell Me Why", "studio": "Don't Nod / Microsoft", "years": "2019–2020", "role": "Senior sound designer" },
+    { "title": "Watch Dogs: Legion", "studio": "Ubisoft", "years": "2017–2018", "role": "Sound designer" },
+    { "title": "Watch Dogs 2 (DLC)", "studio": "Ubisoft", "years": "2016", "role": "Audio designer" },
+    { "title": "Detroit: Become Human", "studio": "Quantic Dream", "years": "2013–2016", "role": "Sound designer" },
+    { "title": "Beyond: Two Souls", "studio": "Quantic Dream", "years": "2011–2013", "role": "Sound designer" },
+    { "title": "Heavy Rain", "studio": "Quantic Dream / Sony", "years": "2009", "role": "Sound designer" },
+    { "title": "Ones", "studio": "Supinfogame", "years": "2009", "role": "Sound designer" }
+  ],
+  "music": {
+    "artistName": "Yakie",
+    "genre": "electronic / ambient",
+    "highlights": [
+      "France Inter commissions (SACEM) since 2020 — radio and podcast opening titles",
+      "Hivernelle — vinyl EP, 2018, 5 tracks",
+      "Official vinyl remix of Chapelier Fou",
+      "Acousmatic piece awarded at Mixage Fou 2014, composed from field recordings"
+    ],
+    "soundcloud": "https://soundcloud.com/yakiemusic"
+  },
+  "teaching": {
+    "school": "ISART Digital",
+    "subject": "Interactive audio",
+    "since": 2017,
+    "studentsPerYear": 45,
+    "gameProjectsPerYear": 9,
+    "notable": "Two student projects awarded at BAFTA"
+  },
+  "consulting": {
+    "offers": ["Wwise / WAAPI consulting (tooling, automation, pipeline)", "Audio pipeline audit", "Training and workshops"],
+    "tools": ["Wwise", "Unreal Engine", "Reaper", "Pro Tools", "Soundminer", "Kyma"]
+  },
+  "contact": {
+    "email": "mathieu.fiorentini@gmail.com",
+    "linkedin": "https://www.linkedin.com/in/mathieu-fiorentini-8b18b045",
+    "soundcloud": "https://soundcloud.com/yakiemusic",
+    "form": "https://earlyreflect.com/contact/"
+  },
+  "cv": {
+    "en": "https://earlyreflect.com/documents/cv-en.pdf",
+    "fr": "https://earlyreflect.com/documents/cv-fr.pdf"
+  },
+  "sameAs": [
+    "https://www.linkedin.com/in/mathieu-fiorentini-8b18b045",
+    "https://soundcloud.com/yakiemusic"
+  ]
+}
