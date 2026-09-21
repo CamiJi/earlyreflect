@@ -46,7 +46,7 @@ export async function GET() {
     '',
     `- Form: ${site.url}/contact/`,
     `- Email: ${site.email}`,
-    `- LinkedIn: https://www.linkedin.com/in/mathieu-fiorentini-8b18b045`,
+    `- LinkedIn: https://www.linkedin.com/in/mathieu-fiorentini-681441344`,
     `- SoundCloud: https://soundcloud.com/yakiemusic`,
     `- CV (PDF): ${site.url}/documents/cv-en.pdf (EN) · ${site.url}/documents/cv-fr.pdf (FR)`,
     '',

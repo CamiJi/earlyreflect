@@ -7,7 +7,7 @@ export const site = {
   cvPdf: { en: '/earlyreflect/documents/cv-en.pdf', fr: '/earlyreflect/documents/cv-fr.pdf' },
   socials: [
     { label: 'SoundCloud (Yakie)', url: 'https://soundcloud.com/yakiemusic' },
-    { label: 'LinkedIn', url: 'https://www.linkedin.com/in/mathieu-fiorentini-8b18b045' },
+    { label: 'LinkedIn', url: 'https://www.linkedin.com/in/mathieu-fiorentini-681441344' },
   ],
   /** [À VALIDER : lesquels] — Bandcamp à ajouter si retenu */
   socialsTodo: ['Bandcamp'],
