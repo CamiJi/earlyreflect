@@ -14,7 +14,7 @@ interface Props {
 
 const { lang } = Astro.props;
 const { t, tGroup } = useTranslations(lang);
-const altPath = lang === 'en' ? '/work/' : '/travaux/';
+const altPath = '/work/';
 
 const projects = (await getCollection('projects'))
   .filter((p) => p.id.startsWith(`${lang}/`))

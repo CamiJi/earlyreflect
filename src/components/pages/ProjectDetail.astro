@@ -20,7 +20,7 @@ const { project, lang, prev, next } = Astro.props;
 const { t, tGroup } = useTranslations(lang);
 const { Content } = await render(project);
 const d = project.data;
-const altPath = lang === 'en' ? `/work/${project.id.replace(`${lang}/`, '')}/` : `/travaux/${project.id.replace(`${lang}/`, '')}/`;
+const altPath = `/work/${project.id.replace(lang + '/', '')}/`;
 const title = d.title;
 const description = d.summary;
 const ogImage = d.keyArt ? new URL(d.keyArt, Astro.site ?? site.url).href : undefined;

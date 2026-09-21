@@ -1,7 +1,7 @@
 ---
 import '../styles/global.css';
 import { site } from '../data/site';
-import type { Lang } from '../i18n/ui';
+import { pageUrl, type Lang } from '../i18n/ui';
 
 interface Props {
   title: string;
@@ -32,9 +32,9 @@ const alternates = noAlternate || !altPath
   ? []
   : [
       { lang, href: canonical },
-      { lang: otherLang, href: new URL(`${otherLang === 'fr' ? '/fr' : ''}${altPath}`, Astro.site ?? site.url).href },
+      { lang: otherLang, href: new URL(pageUrl(otherLang, altPath), Astro.site ?? site.url).href },
       // x-default = version EN (langue par défaut à la racine, spec §2.4)
-      { lang: 'x-default', href: new URL(altPath, Astro.site ?? site.url).href },
+      { lang: 'x-default', href: new URL(pageUrl('en', altPath), Astro.site ?? site.url).href },
     ];
 ---
 

@@ -143,11 +143,32 @@ export function getLangFromUrl(url: URL): Lang {
 /** Base GitHub Pages (ex. '/earlyreflect'), normalisée */
 export const BASE = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
 
+/**
+ * Mapping des chemins localisés (spec §3).
+ * Convention : on passe TOUJOURS le chemin canonique EN à pageUrl/localizedPath,
+ * la traduction FR est appliquée automatiquement (idempotent).
+ */
+const FR_PATHS: [string, string][] = [
+  ['/work/', '/travaux/'],
+  ['/about/', '/a-propos/'],
+  ['/music/', '/musique/'],
+  ['/legal/', '/mentions-legales/'],
+  ['/privacy/', '/confidentialite/'],
+];
+
+export function localizedPath(lang: Lang, p: string): string {
+  if (lang !== 'fr') return p;
+  for (const [en, fr] of FR_PATHS) {
+    if (p.startsWith(en)) return fr + p.slice(en.length);
+  }
+  return p;
+}
+
 /** Construit une URL absolue de chemin avec base + préfixe de langue */
 export function pageUrl(lang: Lang, path = '/'): string {
-  const clean = path.startsWith('/') ? path : `/${path}`;
   const prefix = lang === 'fr' ? '/fr' : '';
-  return `${BASE}${prefix}${clean === '/' && lang === 'fr' ? '/' : clean}`.replace(/\/$/, '') || '/';
+  const local = localizedPath(lang, path);
+  return `${BASE}${prefix}${local === '/' && lang === 'fr' ? '/' : local}`.replace(/\/$/, '') || '/';
 }
 
 /** URL d'une fiche projet — spec §3 : /work/{slug} en EN, /fr/travaux/{slug} en FR */

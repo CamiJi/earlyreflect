@@ -16,7 +16,7 @@ interface Props {
 const { lang } = Astro.props;
 const { t, tGroup } = useTranslations(lang);
 const p = pages.music;
-const altPath = lang === 'en' ? '/music/' : '/musique/';
+const altPath = '/music/';
 
 const musicProjects = (await getCollection('projects'))
   .filter((proj) => proj.id.startsWith(`${lang}/`) && proj.data.disciplines.includes('music'))

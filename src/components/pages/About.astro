@@ -16,11 +16,13 @@ interface Props {
 const { lang } = Astro.props;
 const { t, tGroup } = useTranslations(lang);
 const p = pages.about;
-const altPath = lang === 'en' ? '/about/' : '/a-propos/';
+const altPath = '/about/';
 const cv = lang === 'en' ? site.cvPdf.en : site.cvPdf.fr;
+// meta description ≤ 160 car. (audit : bioShort fait 200+)
+const metaDesc = p.bioShort[lang].slice(0, 155).replace(/\s+\S*$/, '') + '…';
 ---
 
-<Layout title={`${p.title[lang]} — ${t('home.heroTitle')}`} description={p.bioShort[lang]} lang={lang} altPath={altPath} skipLabel={t('skipToContent')}>
+<Layout title={`${p.title[lang]} — ${t('home.heroTitle')}`} description={metaDesc} lang={lang} altPath={altPath} skipLabel={t('skipToContent')}>
   <Header lang={lang} altPath={altPath} />
   <main id="main">
     <section class="container-site section !pt-16">
