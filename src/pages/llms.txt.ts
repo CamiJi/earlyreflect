@@ -34,6 +34,10 @@ export async function GET() {
     '',
     `- [persona.json](${site.url}/persona.json): structured identity, credits, games, contact`,
     '',
+    '## Site',
+    '',
+    'Site design & development: [Camille Aubert](https://camilleaubert.com) — AI solutions architect & lead developer.',
+    '',
   ].join('\n');
 
   return new Response(lines, {

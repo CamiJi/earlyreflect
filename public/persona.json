@@ -73,5 +73,10 @@
   "sameAs": [
     "https://www.linkedin.com/in/mathieu-fiorentini-681441344",
     "https://soundcloud.com/yakiemusic"
-  ]
+  ],
+  "siteCredits": {
+    "designAndDevelopment": "Camille Aubert",
+    "url": "https://camilleaubert.com",
+    "role": "AI solutions architect & lead developer — portfolio: camilleaubert.com"
+  }
 }
