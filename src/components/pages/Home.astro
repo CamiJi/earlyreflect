@@ -80,7 +80,7 @@ const personSchema = {
 ---
 
 <Layout
-  title={lang === 'fr' ? 'Mathieu Fiorentini — Sound designer senior & compositeur' : 'Mathieu Fiorentini — Senior sound designer & composer'}
+  title={lang === 'fr' ? 'Mathieu Fiorentini — Sound designer senior, Wwise & compositeur' : 'Mathieu Fiorentini — Sound designer, Wwise consultant & composer'}
   description={t('home.heroTagline')}
   lang={lang}
   altPath={altPath}
@@ -90,38 +90,56 @@ const personSchema = {
   <Header lang={lang} altPath={altPath} />
 
   <main id="main">
-    <!-- HERO — retour V2 §3.4 : nom, accroche, présentation, 4 boutons (plus de ligne de jeux) -->
+    <!-- HERO — retour V3 §2 : deux colonnes ≥1024px (gauche contenu, droite image clients) -->
     <section class="container-site section !pt-16 md:!pt-20" aria-labelledby="hero-title">
-      <h1 id="hero-title" class="text-fluid-hero font-bold tracking-tight">{t('home.heroTitle')}</h1>
-      <p class="text-md mt-3 max-w-xl text-ink-muted">{t('home.heroTagline')}</p>
-      <p class="mt-4 max-w-[34rem]">{heroIntro}</p>
-      <EarlyReflections
-        variant="hero"
-        class="text-brand mt-6"
-        label={lang === 'fr' ? 'Motif early reflections' : 'Early reflections motif'}
-      />
-      <div class="mt-8 grid max-w-xl grid-cols-2 gap-3 sm:flex sm:flex-wrap">
-        <a href="#showreel" class="btn-primary">{t('home.seeShowreel')}</a>
-        <a href={pageUrl(lang, '/contact/')} class="btn-secondary">{t('home.contactMe')}</a>
-        <a href={site.cvPdf[lang]} target="_blank" rel="noopener" class="btn-secondary">
-          {lang === 'fr' ? 'Télécharger le CV (PDF)' : 'Download CV (PDF)'}
-        </a>
-        <a href="https://www.linkedin.com/in/mathieu-fiorentini-681441344" target="_blank" rel="me noopener" class="btn-secondary">LinkedIn</a>
+      <div class="grid gap-10 lg:grid-cols-[55fr_40fr] lg:items-center">
+        <div>
+          <h1 id="hero-title" class="text-fluid-hero font-bold tracking-tight">{t('home.heroTitle')}</h1>
+          <p class="text-md mt-3 max-w-xl text-ink-muted">{t('home.heroTagline')}</p>
+          <p class="mt-4 max-w-[34rem]">{heroIntro}</p>
+          <EarlyReflections
+            variant="hero"
+            class="text-brand mt-6"
+            label={lang === 'fr' ? 'Motif early reflections' : 'Early reflections motif'}
+          />
+          <div class="mt-8 grid max-w-md grid-cols-2 gap-3">
+            <a href="#showreel" class="btn-primary">{t('home.seeShowreel')}</a>
+            <a href={pageUrl(lang, '/contact/')} class="btn-secondary">{t('home.contactMe')}</a>
+            <a href={site.cvPdf[lang]} target="_blank" rel="noopener" class="btn-secondary">
+              {lang === 'fr' ? 'Télécharger le CV (PDF)' : 'Download CV (PDF)'}
+            </a>
+            <a href="https://www.linkedin.com/in/mathieu-fiorentini-681441344" target="_blank" rel="me noopener" class="btn-secondary">LinkedIn</a>
+          </div>
+        </div>
+        <div class="flex justify-center lg:justify-end">
+          <img
+            src={`${import.meta.env.BASE_URL}/images/clients-square.webp`}
+            alt={
+              lang === 'fr'
+                ? 'Clients et employeurs : Don’t Nod, Ubisoft, Quantic Dream, France Inter, ISART Digital'
+                : 'Clients and employers: Don’t Nod, Ubisoft, Quantic Dream, France Inter, ISART Digital'
+            }
+            width="1024"
+            height="1024"
+            loading="eager"
+            class="w-full max-w-[320px] lg:max-w-[480px]"
+          />
+        </div>
       </div>
     </section>
 
-    <!-- CRÉDITS — retour V2 §3.2 : bannière clients unique, pleine largeur du conteneur -->
+    <!-- CRÉDITS — retour V3 §3 : bannière jeux, les clients sont passés dans le hero -->
     <section class="container-site section" aria-labelledby="credits-title">
       <h2 id="credits-title" class="text-lg font-bold">{t('home.creditsTitle')}</h2>
       <img
-        src={`${import.meta.env.BASE_URL}/images/banniere-clients-alpha.webp`}
+        src={`${import.meta.env.BASE_URL}/images/banniere-jeux.webp`}
         alt={
           lang === 'fr'
-            ? 'Clients et employeurs : Don’t Nod, Ubisoft, Quantic Dream, France Inter, ISART Digital'
-            : 'Clients and employers: Don’t Nod, Ubisoft, Quantic Dream, France Inter, ISART Digital'
+            ? 'Jeux sur lesquels j’ai travaillé : Heavy Rain, Detroit: Become Human, Watch Dogs, Watch Dogs: Legion, Tell Me Why, Banishers: Ghosts of New Eden, Aphelion'
+            : 'Games I worked on: Heavy Rain, Detroit: Become Human, Watch Dogs, Watch Dogs: Legion, Tell Me Why, Banishers: Ghosts of New Eden, Aphelion'
         }
-        width="1920"
-        height="420"
+        width="3092"
+        height="633"
         loading="lazy"
         class="mt-6 w-full"
       />

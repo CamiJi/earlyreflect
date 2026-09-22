@@ -82,6 +82,42 @@ vérifie sur https://camiji.github.io/earlyreflect/ deux minutes plus tard.
 | Bannière clients / images globales | `public/images/` |
 | CV PDF | `public/documents/cv-en.pdf` + `cv-fr.pdf` (même nom de fichier) |
 
+## Basculer sur ton propre hébergement (quand tu veux)
+
+Le site est 100 % statique — rien de spécial à installer chez un hébergeur. Trois
+scénarios, du plus simple au plus autonome :
+
+### Scénario A — rester où c'est (recommandé, 0 €/mois)
+
+On garde le repo GitHub + GitHub Pages, et on branche ton domaine :
+1. GitHub (Settings → Pages) → Custom domain : `earlyreflect.com`
+2. Chez ton registrar : 4 lignes DNS `A` (185.199.108-111.153) + `CNAME www` → `camiji.github.io`
+3. Camille adapte la config du site (domaine final, base `/`) — 5 min
+
+Tes visiteurs ne voient que `earlyreflect.com`. Zéro interruption : l'ancien site
+reste en ligne jusqu'à la bascule DNS.
+
+### Scénario B — ton propre hébergement, déploiement manuel
+
+Avec `npm run build`, le site complet tient dans un dossier `dist/` :
+
+```bash
+npm run build
+rsync -av --delete dist/ utilisateur@ton-serveur:/var/www/earlyreflect/
+```
+
+N'importe quel serveur web (nginx, Apache) sert ces fichiers tel quel. Le site
+est à jour à chaque rsync. Inconvénient : c'est toi qui pousses.
+
+### Scénario C — ton hébergement + déploiement automatique
+
+Comme le B, mais le push GitHub déclenche le déploiement (workflow qui fait le
+rsync à chaque mise à jour). La config se fait une fois avec Camille ; ensuite
+même usage que le scénario A : tu pushes, ça se déploie sur TON serveur.
+
+> Dans les trois cas, l'ajout d'un jeu reste identique : une fiche `.md` remplie,
+> un push. Seule change la destination du déploiement.
+
 ## Ce qu'il ne faut pas toucher
 
 - `src/components/EarlyReflections.astro` — le motif signature

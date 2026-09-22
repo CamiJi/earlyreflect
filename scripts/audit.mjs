@@ -34,9 +34,9 @@ for (const file of pages) {
   // Stubs de redirection (meta-refresh 1 ligne) : pas de checks de contenu
   if (statSync(file).size < 2000) continue;
 
-  // Title + description
-  const title = html.match(/<title>([^<]*)<\/title>/)?.[1];
-  const desc = html.match(/<meta name="description" content="([^"]*)"/)?.[1];
+  // Title + description (entités HTML décodées = mesure navigateur réelle)
+  const title = html.match(/<title>([^<]*)<\/title>/)?.[1]?.replace(/&amp;/g, '&');
+  const desc = html.match(/<meta name="description" content="([^"]*)"/)?.[1]?.replace(/&amp;/g, '&');
   if (!title) log('error', url, 'title manquant');
   else if (title.length > 65) log('warn', url, `title ${title.length} car. (>${65}, tronqué dans la SERP)`);
   if (!desc) log('error', url, 'meta description manquante');
