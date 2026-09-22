@@ -58,6 +58,20 @@ const content = {
             <p class="mt-2">{text}</p>
           </div>
         ))}
+        {
+          /* Backlink conception — retour Mathieu : créditer discret en mentions légales */
+          variant === 'legal' && (
+            <div>
+              <h2 class="font-semibold">{lang === 'fr' ? 'Conception du site' : 'Site design & development'}</h2>
+              <p class="mt-2">
+                {lang === 'fr' ? 'Conception et développement : ' : 'Design and development: '}
+                <a href="https://camilleaubert.com" rel="noopener" target="_blank" class="text-brand hover:underline">
+                  Camille Aubert — camilleaubert.com
+                </a>
+              </p>
+            </div>
+          )
+        }
       </div>
     </section>
   </main>

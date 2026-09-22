@@ -35,24 +35,5 @@ const otherLang: Lang = lang === 'en' ? 'fr' : 'en';
         <li><a href={pageUrl(otherLang, altPath)} hreflang={otherLang} class="tabular text-meta hover:text-brand">{otherLang.toUpperCase()}</a></li>
       </ul>
     </div>
-    <p class="text-meta mt-6 text-sm">
-      {
-        lang === 'fr' ? (
-          <>
-            Site réalisé par {' '}
-            <a href="https://camilleaubert.com" rel="noopener" target="_blank" class="hover:text-brand">
-              Camille Aubert
-            </a>
-          </>
-        ) : (
-          <>
-            Site by {' '}
-            <a href="https://camilleaubert.com" rel="noopener" target="_blank" class="hover:text-brand">
-              Camille Aubert
-            </a>
-          </>
-        )
-      }
-    </p>
   </div>
 </footer>
