@@ -58,8 +58,8 @@ export const pages = {
   music: {
     title: localized('Music', 'Musique'),
     intro: localized(
-      'Yakie — electronic and ambient music. France Inter commissions, vinyl releases and acousmatic pieces built from field recordings.',
-      'Yakie — musique électronique et ambient. Commandes France Inter, sorties vinyle et pièces acousmatiques à base de prises de terrain.',
+      'Yakie — electronic and ambient music: abstract hip-hop, acousmatic pieces and piano, built from field recordings. France Inter commissions, vinyl releases.',
+      'Yakie — musique électronique et ambient : abstract hip-hop, pièces acousmatiques et piano, à partir de prises de terrain. Commandes France Inter, sorties vinyle.',
     ),
     sections: [
       {
@@ -102,8 +102,16 @@ export const pages = {
     skills: {
       title: localized('Skills', 'Compétences'),
       items: localized(
-        'Linear audio · Interactive audio · Field recording · Tools',
-        'Audio linéaire · Audio interactif · Prise de son · Outils',
+        'Linear audio · Interactive audio · Field and studio recording · Tools · Musician: electronic, abstract hip-hop, acousmatic, piano',
+        'Audio linéaire · Audio interactif · Prise de son terrain et studio · Outils · Musicien : électronique, abstract hip-hop, acousmatique, piano',
+      ),
+    },
+    /** Éléments du vieux CV repris pour le SEO (mots-clés indexés par Google sur /cv/) */
+    affiliations: {
+      title: localized('Affiliations & extra', 'Affiliations & extra'),
+      items: localized(
+        'Sonothèque personnelle · Membre SACEM and SACD · Fluent written and spoken English',
+        'Sonothèque personnelle · Membre SACEM et SACD · Très bon niveau en anglais écrit et oral',
       ),
     },
     education: {
