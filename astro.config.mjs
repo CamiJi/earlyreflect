@@ -20,19 +20,21 @@ export default defineConfig({
    *  du sitemap WordPress (cv-2, musique-2, a-propos, son, demo… trouvées référencées).
    *  Destinations préfixées de la base (Astro ne préfixe pas les destinations) ;
    *  le replace évite le double slash quand BASE_PATH = '/'. */
-  redirects: {
-    '/audio/': `${BASE_PATH}/work/?discipline=field-recording`,
-    '/musique/': `${BASE_PATH}/music/`,
-    '/cv/': `${BASE_PATH}/about/`,
-    '/cv-2/': `${BASE_PATH}/about/`,
-    '/musique-2/': `${BASE_PATH}/music/`,
-    '/a-propos/': `${BASE_PATH}/fr/a-propos/`,
-    '/enseignement/': `${BASE_PATH}/consulting/`,
-    '/bande-demo-2/': `${BASE_PATH}/work/?discipline=show-reel`,
-    '/son/': `${BASE_PATH}/work/`,
-    '/demo/': `${BASE_PATH}/work/?discipline=show-reel`,
-    '/about-temp/': `${BASE_PATH}/about/`,
-  },
+  redirects: Object.fromEntries(
+    Object.entries({
+      '/audio/': '/work/?discipline=field-recording',
+      '/musique/': '/music/',
+      '/cv/': '/about/',
+      '/cv-2/': '/about/',
+      '/musique-2/': '/music/',
+      '/a-propos/': '/fr/a-propos/',
+      '/enseignement/': '/consulting/',
+      '/bande-demo-2/': '/work/?discipline=show-reel',
+      '/son/': '/work/',
+      '/demo/': '/work/?discipline=show-reel',
+      '/about-temp/': '/about/',
+    }).map(([from, to]) => [from, `${BASE_PATH.replace(/\/$/, '')}${to}`]),
+  ),
   vite: {
     plugins: [tailwindcss()],
   },
