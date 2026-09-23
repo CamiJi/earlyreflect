@@ -143,6 +143,9 @@ export function getLangFromUrl(url: URL): Lang {
 /** Base GitHub Pages (ex. '/earlyreflect'), normalisée */
 export const BASE = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
 
+/** Préfixe d'assets toujours normalisé (jamais de double slash, quelle que soit la base) */
+export const ASSETS = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/`;
+
 /**
  * Mapping des chemins localisés (spec §3).
  * Convention : on passe TOUJOURS le chemin canonique EN à pageUrl/localizedPath,

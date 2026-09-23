@@ -13,7 +13,7 @@ import LiteYouTube from '../../components/LiteYouTube.astro';
 import ProjectGrid from '../../components/ProjectGrid.astro';
 import { site } from '../../data/site';
 import { pages } from '../../data/pages';
-import { pageUrl, useTranslations, type Lang } from '../../i18n/ui';
+import { ASSETS, pageUrl, useTranslations, type Lang } from '../../i18n/ui';
 
 interface Props {
   lang: Lang;
@@ -113,7 +113,7 @@ const personSchema = {
         </div>
         <div class="flex justify-center lg:justify-end">
           <img
-            src={`${import.meta.env.BASE_URL}/images/clients-square.webp`}
+            src={`${ASSETS}images/clients-square.webp`}
             alt={
               lang === 'fr'
                 ? 'Clients et employeurs : Don’t Nod, Ubisoft, Quantic Dream, France Inter, ISART Digital'
@@ -132,7 +132,7 @@ const personSchema = {
     <section class="container-site section" aria-labelledby="credits-title">
       <h2 id="credits-title" class="text-lg font-bold">{t('home.creditsTitle')}</h2>
       <img
-        src={`${import.meta.env.BASE_URL}/images/banniere-jeux.webp`}
+        src={`${ASSETS}images/banniere-jeux.webp`}
         alt={
           lang === 'fr'
             ? 'Jeux sur lesquels j’ai travaillé : Heavy Rain, Detroit: Become Human, Watch Dogs, Watch Dogs: Legion, Tell Me Why, Banishers: Ghosts of New Eden, Aphelion'
