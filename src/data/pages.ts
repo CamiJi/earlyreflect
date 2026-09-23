@@ -93,7 +93,7 @@ export const pages = {
       'Sound designer senior dans le jeu vidéo depuis près de 20 ans (Quantic Dream, Ubisoft, Don’t Nod). Enseignant en audio interactif à ISART Digital, consultant et formateur Wwise/Unreal, compositeur sous le nom Yakie.',
     ),
     timeline: [
-      { years: '2019–', role: "Lead sound designer — Don't Nod" }, // [À VALIDER]
+      { years: '2019–', role: "Senior Sound Designer — Don't Nod" }, // [À VALIDER]
       { years: '2017–2018', role: 'Sound designer — Ubisoft' },
       { years: '2017–', role: 'Interactive audio teacher — ISART Digital (parallèle)' },
       { years: '2011–2016', role: 'Sound designer — Quantic Dream' },
