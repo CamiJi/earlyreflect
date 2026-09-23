@@ -40,39 +40,44 @@ export const BASE_PATH = '/';
    (OVH, Cloudflare…) sinon le domaine meurt avec le compte
 5. Mettre à jour la Search Console (nouveau domaine) — optionnel mais propre
 
-## ⚠️ CRITIQUE — si le domaine a été acheté via WordPress.com
+## ⚠️ CRITIQUE — le domaine est chez Wild West Domains (GoDaddy), connecté à WordPress.com
 
-WordPress.com devient alors le **registrar** du domaine, et celui-ci est lié au
-compte. Le danger n°1 du projet :
+Diagnostic du 2026-09-23 (RDAP + résolution DNS) :
 
-| Ce qu'il ne faut PAS faire | Ce qui se passe |
-|---|---|
-| Résilier le plan en acceptant de « supprimer » le domaine | Le domaine perd ses DNS → site mort |
-| Laisser le domaine orphelin | Grâce de ~30-45 j, puis relâché sur le marché : n'importe qui peut racheter `earlyreflect.com` |
-| Fermer le compte sans vérifier l'email WHOIS | Impossible de valider un transfert → domaine captif |
+- **Registrar réel** : Wild West Domains, LLC (filiale GoDaddy) — le domaine
+  n'est PAS enregistré chez WordPress.com, il y est seulement « connecté »
+- **Expiration** : 15 février 2028 (aucune urgence de renouvellement)
+- **Verrous** : transfer/delete/renew prohibited — protections standard, se
+  lèvent volontairement
+- **DNS servis par** : ns1-3.wordpress.com (le site actuel répond sur leurs IP)
 
-**Règle d'or : le domaine ne meurt JAMAIS en premier.**
+### Le blocage connu
 
-### Chemin A — garder le domaine chez WordPress.com (recommandé, zéro risque)
+Dans l'éditeur DNS de WordPress.com, l'enregistrement `A @` est marqué
+« Géré par WordPress.com » : **non éditable** — c'est l'A auto-géré pour leur
+hébergement. L'avertissement « serveurs de noms externes » s'affiche malgré des
+NS publics pointant chez eux.
 
-Un domaine peut vivre chez un registrar sans plan de site :
-1. Ne rien résilier. Passer le domaine en « domain-only » (WordPress.com propose
-   l'option : renouvellement seul, ~15-20 €/an)
-2. Éditer les DNS depuis My Sites → Upgrades → Domains → DNS records :
-   les 4 `A` + `CNAME` ci-dessus
-3. Résilier seulement le plan du SITE, jamais le domaine
+### Option 1 — tout dans l'interface WordPress.com (essayer d'abord)
 
-### Chemin B — transférer vers un registrar neutre (OVH, Cloudflare…)
+1. Cliquer le lien « Vous pouvez mettre à jour vos serveurs de noms ici »
+   (force le mode DNS géré par WordPress.com — les NS publics y sont déjà :
+   sans risque, et ça déverrouille l'éditeur)
+2. Remplacer l'enregistrement `A @` par les 4 IP GitHub :
+   `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
+3. `CNAME www` → `camiji.github.io` ; le `CNAME *` existant est inutile, à supprimer
+4. Avant tout ça : côté GitHub, Settings → Pages → Custom domain
+   `earlyreflect.com` (prépare le certificat HTTPS)
 
-1. Chez WordPress.com : déverrouiller le transfert + récupérer le **code
-   d'autorisation (EPP)** + vérifier que l'email de contact WHOIS est accessible
-2. Chez le nouveau registrar : initier le transfert avec ce code (~10-15 €/an)
-3. **Délai ICANN** : transfert refusé dans les 60 jours suivant un enregistrement
-   ou un changement WHOIS récent
-4. La procédure prend 5-7 jours — le site tourne normalement pendant le transfert
-5. Une fois le domaine arrivé : DNS vers GitHub Pages
+### Option 2 — basculer par GoDaddy/Wild West (le définitif)
 
-**Jamais** : résilier d'abord, récupérer après.
+Le domaine leur appartient depuis 2016 :
+1. Connexion au compte GoDaddy/Wild West → DNS du domaine
+2. Remettre les NS par défaut GoDaddy (`ns35/ns36.domaincontrol.com`) — la zone
+   WordPress.com devient inerte automatiquement
+3. Créer les mêmes records : 4 `A` @ + `CNAME www` → `camiji.github.io`
+4. C'est LA bascule : le site WordPress actuel cesse de répondre sur le domaine,
+   le nouveau prend le relais (contenu déjà migré)
 
 ## Ce que Mathieu peut faire lui-même (avec Copilot)
 
