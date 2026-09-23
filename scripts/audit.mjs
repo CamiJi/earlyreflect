@@ -93,14 +93,17 @@ for (const file of pages) {
 }
 
 // 3. Liens internes cassés
+const urlPrefix = `${SITE_URL}${BASE === '/' ? '' : BASE}`;
+const isInternal = (href) =>
+  href.startsWith(urlPrefix) || (BASE === '/' && href.startsWith('/') && !href.startsWith('//'));
 let broken = 0;
 for (const [url, file] of urlByPage) {
   const html = readFileSync(file, 'utf8');
   const hrefs = [...html.matchAll(/href="([^"]*)"/g)].map((m) => m[1]);
   for (const href of hrefs) {
-    if (!href.startsWith(BASE)) continue; // externe / ancres / assets CDN
+    if (!isInternal(href)) continue; // externe / ancres / assets CDN
     if (href.includes('?') || href.includes('#')) continue;
-    const clean = href.replace(BASE, '');
+    const clean = href.replace(urlPrefix, '').replace(BASE === '/' ? /^\/+/ : BASE, '/');
     const target = path.join(DIST, clean === '/' ? '' : clean.replace(/\/$/, ''), clean === '/' ? 'index.html' : 'index.html');
     const alt1 = path.join(DIST, clean.replace(/\/$/, ''), 'index.html');
     const alt2 = path.join(DIST, clean.replace(/\/$/, '') + '.html');
