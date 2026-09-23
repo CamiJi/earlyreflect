@@ -2,12 +2,6 @@ export type Lang = 'en' | 'fr';
 
 export const defaultLang: Lang = 'en';
 
-/** Langue par défaut à la racine : EN (spec §2.4) */
-export const languages: Record<Lang, string> = {
-  en: 'English',
-  fr: 'Français',
-};
-
 const ui = {
   disciplines: {
     'show-reel': { en: 'Show Reel', fr: 'Showreel' },
@@ -126,18 +120,6 @@ export function useTranslations(lang: Lang) {
     return path.split('.').reduce(walk, ui as unknown) as T;
   }
   return { t, tGroup };
-}
-
-/** URL alternée pour le sélecteur de langue (path sans préfixe de base) */
-export function alternateLangPath(path: string, target: Lang): string {
-  const clean = path.replace(/^\/(fr)?/, '');
-  return target === 'fr' ? `/fr${clean || '/'}` : clean || '/';
-}
-
-export function getLangFromUrl(url: URL): Lang {
-  const [, first] = url.pathname.replace(/^\//, '').split('/');
-  if (first === 'fr') return 'fr';
-  return defaultLang;
 }
 
 /** Base GitHub Pages (ex. '/earlyreflect'), normalisée */

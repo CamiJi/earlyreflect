@@ -1,19 +1,19 @@
-# earlyreflect.com — refonte statique
+# earlyreflect.com — site de Mathieu Fiorentini
 
-Refonte du site de Mathieu Fiorentini (sound designer) d'après son cahier des charges
-(Notion « Spec Refont Site Mathieu Fiorentini », v1 — septembre 2026).
+Refonte du portfolio de Mathieu Fiorentini (sound designer) — **en production sur
+https://earlyreflect.com** (hébergement GitHub Pages, gratuit, HTTPS Let's Encrypt).
 
-- **Stack** : [Astro](https://astro.build) 6 + Tailwind CSS 4 + TypeScript — site 100 % statique, zéro cookie
-- **Démo** : https://camijii.github.io/earlyreflect/
-- **Cible finale** : https://earlyreflect.com (bascule DNS, voir §Déploiement)
-- **Contenu** : collections Markdown bilingues EN (racine) / FR (`/fr/`), langue par défaut : EN
+- **Stack** : [Astro](https://astro.build) 6 + Tailwind CSS 4 + TypeScript — site 100 % statique, zéro cookie, 0 JS au chargement initial
+- **Langues** : EN à la racine, FR sous `/fr/` (défaut : EN)
+- **Contenu** : collections Markdown bilingues — **17 projets** migrés depuis l'ancien site
+- **Design** : tokens dans `src/styles/global.css` (palette brand `#007190`, paper `#F4F4F0`, Lato auto-hébergée), motif signature « early reflections » (`EarlyReflections.astro`)
 
 ## Démarrage
 
 ```bash
 nvm use          # Node 22 (voir .nvmrc)
 npm install
-npm run dev      # http://localhost:4321/earlyreflect
+npm run dev      # http://localhost:4321
 npm run build    # sortie : dist/
 npm run check    # TypeScript + Astro
 ```
@@ -21,82 +21,70 @@ npm run check    # TypeScript + Astro
 ## Structure
 
 ```
+config-domain.mjs                        # LE fichier de la bascule de domaine (fait)
 src/
-├── content/projects/{en,fr}/{slug}.md   # CPT « Projet » (spec §4.1)
+├── content/projects/{en,fr}/{slug}.md   # les projets (§4.1 de la spec)
 ├── components/
-│   ├── EarlyReflections.astro           # motif signature §6.4 (header/hero/progression audio)
-│   ├── LiteYouTube|LiteVimeo|SoundCloudFacade.astro  # façades §7 (iframe au clic seulement)
-│   ├── AudioPlayer.astro                # lecteur natif, progression = motif §7
-│   ├── ProjectCard|ProjectGrid.astro    # grille filtrable §5.2 (filtres client, fallback liens)
-│   └── pages/*.astro                    # pages §5.1→§5.7 partagées EN/FR
-├── layouts/Layout.astro                 # head SEO/hreflang/OG + skip link
+│   ├── EarlyReflections.astro           # motif signature (header/hero/progression audio)
+│   ├── WpImage.astro                    # images locales + srcset responsive
+│   ├── LiteYouTube|LiteVimeo|SoundCloudFacade.astro  # façades (iframe au clic seulement)
+│   ├── AudioPlayer.astro                # lecteur natif, progression = motif
+│   ├── ProjectCard|ProjectGrid.astro    # grille filtrable (fallback liens sans JS)
+│   └── pages/*.astro                    # pages partagées EN/FR
 ├── data/site.ts                         # réglages : socials, email, showreel, Formspree
-├── data/pages.ts                        # copy bilingue des pages (§5.4→§5.7)
-└── i18n/ui.ts                           # traductions + helpers d'URL
+├── data/pages.ts                        # copy bilingue (facettes, timeline, offres…)
+├── i18n/ui.ts                           # traductions + helpers d'URL (mapping chemins FR)
+└── pages/llms.txt.ts, llms-full.txt.ts, robots.txt.ts  # générés depuis le contenu
 ```
 
-## Modifier le contenu (guide Mathieu)
+## Ajouter un jeu (le guide pour Mathieu)
 
-### Ajouter un projet
-1. Créer `src/content/projects/en/mon-projet.md` **et** `src/content/projects/fr/mon-projet.md`
-2. Copier le frontmatter d'un projet existant (champs §4.1 : titre, studio, années, rôle,
-   summary ≤ 160 car., disciplines multi-valuées, `featured: true` pour la home, `mediaUrl`…)
-3. Le key art (16:9, ≥ 1600 px) va dans `public/images/` → `keyArt: "/earlyreflect/images/mon-projet.webp"`
-4. Commit + push → le site se redéploie tout seul (GitHub Actions)
+→ **[docs/ajouter-un-projet.md](docs/ajouter-un-projet.md)** + le modèle de fiche
+[docs/template-projet.md](docs/template-projet.md). En bref : dupliquer une fiche
+`.md` dans `en/` et `fr/`, remplir, `git push` — le site se redéploie tout seul.
 
-### Changer le showreel / accroche / logos / email
-Tout est centralisé dans `src/data/site.ts` et `src/data/pages.ts` — texte clair, une ligne par réglage.
-
-### Ce qu'il ne faut pas toucher
-- `src/components/EarlyReflections.astro` (motif signature), `src/styles/global.css` (tokens design),
-  `astro.config.mjs` (i18n + redirections), `.github/workflows/deploy.yml`.
+Pour une image brute (key art, pochette) :
+```bash
+node scripts/optimize-image.mjs mon-image.png nom-de-limage
+# → WebP optimisé + tailles responsives + les lignes à coller dans la fiche
+```
 
 ## Déploiement
 
-**Automatique** : tout push sur `main` → GitHub Actions build + deploy Pages.
-Voir le workflow : `.github/workflows/deploy.yml` (Node 22).
+Automatique : tout push sur `main` → GitHub Actions → Pages. Domaine
+`earlyreflect.com` branché (procédure et diagnostic DNS :
+[docs/brancher-le-domaine.md](docs/brancher-le-domaine.md)).
 
-**Bascule vers earlyreflect.com** (à faire quand Mathieu est prêt) :
-1. Repo GitHub → Settings → Pages → Custom domain : `earlyreflect.com` (+ valider)
-2. Chez le registrar du domaine, créer :
-   - `A` → `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
-   - `CNAME www` → `camijii.github.io`
-3. Attendre la propagation DNS, réactiver « Enforce HTTPS » dans Pages
-4. Mettre à jour `site` dans `astro.config.mjs` (`site: 'https://earlyreflect.com'`,
-   `base: '/'` + ajuster les chemins `/earlyreflect/…` dans `data/site.ts` et les redirects)
-5. Le site WordPress.com actuel reste en ligne jusqu'à l'étape 3 → zéro interruption SEO
+Redirections des anciennes URLs (émulées, meta-refresh) : `/audio/` →
+`/work/?discipline=field-recording`, `/musique/` → `/music/`, `/cv/` → `/about/`.
 
-**Redirections 301 émulées** (GitHub Pages ne fait pas de vraies 301) :
-`/audio/` → `/work/?discipline=field-recording`, `/musique/` → `/music/`, `/cv/` → `/about/`
-(stubs HTML meta-refresh générés par `astro.config.mjs` — spec §3).
-`/about/` et `/contact/` sont conservées à l'identique.
+## Discoverabilité IA
 
-## Formulaire de contact (Formspree)
+`/llms.txt` (index), `/llms-full.txt` (contenu intégral), `/persona.json` (identité
+structurée) — générés depuis les collections à chaque build. Crawlers IA
+explicitement autorisés dans robots.txt. Procédure : skill `ai-discoverability`.
 
-Le formulaire §5.7 utilise l'endpoint Formspree `mqpabajn` (déclaré dans
-`src/data/site.ts` et consommé par `ContactPage.astro`) :
-1. Vérifier le formulaire sur https://formspree.io (50 soumissions/mois selon le plan)
-2. Dans le dashboard Formspree, activer le spam filtering (Akismet inclus)
+## Scripts
 
-## Reste à faire — points [À VALIDER] de la spec
+| Script | Rôle |
+|---|---|
+| `audit.mjs` | Audit statique complet (SEO/a11y/liens/poids) du `dist/` |
+| `optimize-image.mjs` | Image brute → WebP responsive + lignes à coller |
+| `gen-og.mjs` | Régénère l'image Open Graph par défaut |
+| `compose-clients-square.mjs` | Recompose l'image clients du hero (fond transparent) |
+| `white-to-alpha.mjs` | Détourage fond blanc → alpha (usage ponctuel) |
+| `scrape-earlyreflect.mjs`, `gen-content.mjs`, `inventory-wp-assets.mjs`, `localize-wp-assets.mjs` | Migration initiale (historique) |
 
-- [ ] **§11.1** : ce repo remplace le choix « plan WordPress.com Business » — à confirmer avec Mathieu
-- [ ] **§9.6** : contenus à produire par Mathieu — photo portrait HD, bio EN/FR, key arts (droits à vérifier), CV PDF EN/FR, logos SVG monochromes
-- [ ] **§11.2** : Polylang n/a (i18n natif) — la traduction se fait en dupliquant le `.md` dans `fr/`
-- [ ] **§11.4** : mention d'Aphelion (NDA actif par défaut)
-- [ ] **§11.5** : visibilité de l'offre consulting
-- [ ] **§11.6** : commande France Inter 2020 ou 2021
-- [ ] **§11.7** : projets live/A/V dans Musique
-- [ ] **§11.8** : valider Schibsted Grotesk après maquette
-- [ ] YouTube : remplacer l'URL placeholder des socials par la vraie chaîne
-- [ ] Bandcamp : ajouter si retenu (§4.2)
+## Historique des décisions
 
-## Recette (spec §8)
+Les retours de Mathieu et leurs traitements : [docs/retour V1.md](docs/retour V1.md),
+[retour V2.md](docs/retour V2.md), [retour v3.md](docs/retour v3.md). L'option
+portage WordPress (estimée, non retenue pour l'instant) :
+[docs/portage-wordpress.md](docs/portage-wordpress.md).
 
-- [x] 0 iframe au premier chargement (façades) — zéro cookie, pas de bandeau
-- [x] Contrastes AA vérifiés : ink/paper 14.9, muted/paper 5.5, signal/paper 6.9, white/signal 7.4
-- [x] Skip link, focus visible `signal`, `prefers-reduced-motion` (motif statique)
-- [x] hreflang + x-default, canonical, OG
-- [x] Menu mobile `aria-expanded`, images lazy (sauf hero — aucun `<img>` dans le hero)
-- [ ] Lighthouse mobile ≥ 90 : à mesurer en production (curl-friendly, 0 JS avant interaction)
-- [ ] Test navigation clavier complète
+## Reste à faire (côté Mathieu)
+
+- [ ] **CV PDF français** (l'EN 2026 est en ligne — le FR est un placeholder)
+- [ ] **Key arts 16:9** des projets avec droits vérifiés (placeholders neutres en place)
+- [ ] **Date France Inter** : 2020 ou 2021 (marqué dans les contenus)
+- [ ] Étoffer les summaries FR courts (29-79 caractères)

@@ -1,5 +1,10 @@
 # Brancher earlyreflect.com — procédure de bascule
 
+> **✅ BASCULE EFFECTUÉE le 2026-09-23** : config-domain.mjs pointe sur
+> `https://earlyreflect.com` (base `/`), DNS vérifié (4 A GitHub + CNAME www),
+> certificat Let's Encrypt émis après nettoyage du `CNAME *` parasite.
+> Ce document reste en référence pour l'historique et le troubleshooting.
+
 **Réponse à « faut-il modifier le code et recompiler ? »** : oui, mais **2 lignes dans
 1 fichier + 1 push**. Tout le reste suit automatiquement (canonicals, sitemap,
 robots.txt, hreflang, CV, redirections, images) car tout est dérivé de
