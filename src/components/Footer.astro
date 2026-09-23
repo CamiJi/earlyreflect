@@ -20,15 +20,6 @@ const otherLang: Lang = lang === 'en' ? 'fr' : 'en';
         <EarlyReflections variant="mark" class="text-ink-muted" />
         <span class="font-semibold">{site.name}</span>
       </a>
-      <ul class="flex flex-wrap gap-4">
-        {site.socials.map((social) => (
-          <li>
-            <a href={social.url} rel="me noopener" target="_blank" class="text-meta hover:text-brand">
-              {social.label}
-            </a>
-          </li>
-        ))}
-      </ul>
       <ul class="flex flex-wrap gap-4 text-sm">
         <li><a href={pageUrl(lang, '/legal/')} class="text-meta hover:text-brand">{t('footer.legal')}</a></li>
         <li><a href={pageUrl(lang, '/privacy/')} class="text-meta hover:text-brand">{t('footer.privacy')}</a></li>
