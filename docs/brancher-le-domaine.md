@@ -40,6 +40,40 @@ export const BASE_PATH = '/';
    (OVH, Cloudflare…) sinon le domaine meurt avec le compte
 5. Mettre à jour la Search Console (nouveau domaine) — optionnel mais propre
 
+## ⚠️ CRITIQUE — si le domaine a été acheté via WordPress.com
+
+WordPress.com devient alors le **registrar** du domaine, et celui-ci est lié au
+compte. Le danger n°1 du projet :
+
+| Ce qu'il ne faut PAS faire | Ce qui se passe |
+|---|---|
+| Résilier le plan en acceptant de « supprimer » le domaine | Le domaine perd ses DNS → site mort |
+| Laisser le domaine orphelin | Grâce de ~30-45 j, puis relâché sur le marché : n'importe qui peut racheter `earlyreflect.com` |
+| Fermer le compte sans vérifier l'email WHOIS | Impossible de valider un transfert → domaine captif |
+
+**Règle d'or : le domaine ne meurt JAMAIS en premier.**
+
+### Chemin A — garder le domaine chez WordPress.com (recommandé, zéro risque)
+
+Un domaine peut vivre chez un registrar sans plan de site :
+1. Ne rien résilier. Passer le domaine en « domain-only » (WordPress.com propose
+   l'option : renouvellement seul, ~15-20 €/an)
+2. Éditer les DNS depuis My Sites → Upgrades → Domains → DNS records :
+   les 4 `A` + `CNAME` ci-dessus
+3. Résilier seulement le plan du SITE, jamais le domaine
+
+### Chemin B — transférer vers un registrar neutre (OVH, Cloudflare…)
+
+1. Chez WordPress.com : déverrouiller le transfert + récupérer le **code
+   d'autorisation (EPP)** + vérifier que l'email de contact WHOIS est accessible
+2. Chez le nouveau registrar : initier le transfert avec ce code (~10-15 €/an)
+3. **Délai ICANN** : transfert refusé dans les 60 jours suivant un enregistrement
+   ou un changement WHOIS récent
+4. La procédure prend 5-7 jours — le site tourne normalement pendant le transfert
+5. Une fois le domaine arrivé : DNS vers GitHub Pages
+
+**Jamais** : résilier d'abord, récupérer après.
+
 ## Ce que Mathieu peut faire lui-même (avec Copilot)
 
 Les étapes 1 (édition de `config-domain.mjs`) et 2 (push) : une contribution
