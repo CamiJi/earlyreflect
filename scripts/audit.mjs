@@ -7,7 +7,9 @@ import { readdirSync, readFileSync, statSync, existsSync } from 'node:fs';
 import path from 'node:path';
 
 const DIST = 'dist';
-const BASE = '/earlyreflect';
+// Domaine attendu : lu depuis la config centrale (la bascule de domaine met l'audit à jour)
+const SITE_URL = JSON.parse('"' + readFileSync('config-domain.mjs', 'utf8').match(/export const SITE_URL = '([^']+)'/)[1] + '"');
+const BASE = JSON.parse('"' + readFileSync('config-domain.mjs', 'utf8').match(/export const BASE_PATH = '([^']+)'/)[1] + '"').replace(/\/$/, '');
 const issues = { error: [], warn: [], info: [] };
 const log = (level, where, msg) => issues[level].push({ where, msg });
 
@@ -52,7 +54,7 @@ for (const file of pages) {
   // Canonical
   const canonical = html.match(/<link rel="canonical" href="([^"]*)"/)?.[1];
   if (!canonical) log('error', url, 'canonical manquante');
-  else if (!canonical.includes('camiji.github.io')) log('warn', url, `canonical inattendue : ${canonical}`);
+  else if (!canonical.startsWith(SITE_URL)) log('warn', url, `canonical inattendue : ${canonical}`);
 
   // og:image
   if (!html.match(/<meta property="og:image"/)) log('warn', url, 'og:image manquante');
