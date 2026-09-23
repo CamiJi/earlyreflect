@@ -73,11 +73,10 @@ Voir le workflow : `.github/workflows/deploy.yml` (Node 22).
 
 ## Formulaire de contact (Formspree)
 
-Le formulaire §5.7 est branché sur Formspree avec un **endpoint placeholder** :
-1. Créer un compte gratuit sur https://formspree.io (50 soumissions/mois)
-2. Créer un formulaire → récupérer l'ID (ex. `abcd1234`)
-3. Le coller dans `src/data/site.ts` → `formspreeId: 'abcd1234'`
-4. Dans le dashboard Formspree, activer le spam filtering (Akismet inclus)
+Le formulaire §5.7 utilise l'endpoint Formspree `mqpabajn` (déclaré dans
+`src/data/site.ts` et consommé par `ContactPage.astro`) :
+1. Vérifier le formulaire sur https://formspree.io (50 soumissions/mois selon le plan)
+2. Dans le dashboard Formspree, activer le spam filtering (Akismet inclus)
 
 ## Reste à faire — points [À VALIDER] de la spec
 

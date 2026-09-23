@@ -19,8 +19,8 @@ export const site = {
   ],
   /** [À VALIDER : lesquels] — Bandcamp à ajouter si retenu */
   socialsTodo: ['Bandcamp'],
-  /** Formspree — Mathieu crée le compte gratuit et remplace par son form ID */
-  formspreeId: 'YOUR_FORM_ID',
+  /** Formspree contact form ID */
+  formspreeId: 'mqpabajn',
   email: 'mathieu.fiorentini@gmail.com',
   credits: [
     'Quantic Dream',
