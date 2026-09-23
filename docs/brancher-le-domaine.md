@@ -79,6 +79,27 @@ Le domaine leur appartient depuis 2016 :
 4. C'est LA bascule : le site WordPress actuel cesse de répondre sur le domaine,
    le nouveau prend le relais (contenu déjà migré)
 
+## Troubleshooting du certificat (retour d'expérience du 23/09)
+
+Symptôme : le provisioning reste figé sur « 1 of 3 — Certificate Requested »
+pendant des heures, certificat `*.github.io` servi à la place.
+
+Cause trouvée : un **`CNAME *` → earlyreflect.com** (wildcard) dans la zone DNS
+crée des chemins de résolution ambigus qui font échouer la validation Let's
+Encrypt en silence.
+
+Fix : supprimer le wildcard, puis relancer (vider / re-remettre le Custom domain
+dans Settings → Pages). L'émission prend 10-30 min ensuite (le « up to 24
+hours » de l'UI est le pire cas, très rare).
+
+Vérifier l'avancement :
+```bash
+curl -s https://api.github.com/repos/CamiJi/earlyreflect/pages \
+  -H "Authorization: Bearer <token>" | python3 -c \
+  "import json,sys; d=json.load(sys.stdin); print(d['https_certificate']['state'])"
+# new → dns_changed → requesting → issued (✓)
+```
+
 ## Ce que Mathieu peut faire lui-même (avec Copilot)
 
 Les étapes 1 (édition de `config-domain.mjs`) et 2 (push) : une contribution
