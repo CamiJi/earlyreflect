@@ -37,9 +37,17 @@ Ce texte apparaît sous le média principal.
 
 ## Règles
 
-- **Key art** : image 16:9, minimum 1600 px de large, dans `public/images/` puis
-  ajouter `keyArt: "/earlyreflect/images/mon-jeu.webp"` et `keyArtAlt: "description"`
+- **Key art** : image 16:9, minimum 1600 px de large. Deux façons :
+  - **automatique (recommandé)** : pose ton image brute (PNG/JPG/WebP, même lourde)
+    et lance :
+    ```bash
+    node scripts/optimize-image.mjs mon-image.png banishers-key-art
+    ```
+    → génère le WebP optimisé + les tailles responsives, et t'affiche les 2 lignes
+    à coller dans la fiche (`keyArt` + `keyArtAlt`)
+  - **manuelle** : WebP 16:9 ≥ 1600 px dans `public/images/` puis
+    `keyArt: "/images/mon-jeu.webp"` et `keyArtAlt: "description"`
 - **summary** : ≤ 160 caractères — c'est ce que Google affiche
 - **disciplines** : au moins une, plusieurs possibles entre crochets séparées par virgules
 - Le projet apparaît automatiquement : grille Travaux, page Musique (si `music`),
-  RSS sitemap — aucun autre fichier à modifier
+  sitemap — aucun autre fichier à modifier
