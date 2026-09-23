@@ -77,13 +77,6 @@ const formspreeUrl = `https://formspree.io/f/${site.formspreeId}`;
         <button type="submit" class="btn-primary">{t('contact.send')}</button>
       </form>
 
-      <ul class="mt-10 flex flex-wrap gap-4">
-        {site.socials.map((social) => (
-          <li>
-            <a href={social.url} rel="me noopener" target="_blank" class="text-brand hover:underline">{social.label}</a>
-          </li>
-        ))}
-      </ul>
     </section>
   </main>
   <Footer lang={lang} altPath={altPath} />
