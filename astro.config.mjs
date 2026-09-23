@@ -3,10 +3,11 @@ import { defineConfig } from 'astro/config';
 
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
+import { SITE_URL, BASE_PATH } from './config-domain.mjs';
 
 export default defineConfig({
-  site: 'https://camiji.github.io',
-  base: '/earlyreflect',
+  site: SITE_URL,
+  base: BASE_PATH,
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'fr'],
@@ -16,11 +17,12 @@ export default defineConfig({
     },
   },
   /** Redirections 301 émulées (stubs HTML meta-refresh) — spec §3.
-   *  Destinations préfixées de la base (Astro ne préfixe pas les destinations). */
+   *  Destinations préfixées de la base (Astro ne préfixe pas les destinations) ;
+   *  le replace évite le double slash quand BASE_PATH = '/'. */
   redirects: {
-    '/audio/': '/earlyreflect/work/?discipline=field-recording',
-    '/musique/': '/earlyreflect/music/',
-    '/cv/': '/earlyreflect/about/',
+    '/audio/': `${BASE_PATH.replace(/\/$/, '')}/work/?discipline=field-recording`,
+    '/musique/': `${BASE_PATH.replace(/\/$/, '')}/music/`,
+    '/cv/': `${BASE_PATH.replace(/\/$/, '')}/about/`,
   },
   vite: {
     plugins: [tailwindcss()],
