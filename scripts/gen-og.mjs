@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Génère public/og-default.webp (1200×630) — image Open Graph par défaut.
- * Fond sombre, motif « early reflections » signal, nom du site.
+ * Fond paper, motif « early reflections » signal, nom du site.
  * Usage : node scripts/gen-og.mjs (une fois, résultat committé)
  */
 import sharp from 'sharp';
@@ -20,13 +20,13 @@ const bars = [
 ];
 
 const svg = `<svg width="${W}" height="${H}" xmlns="http://www.w3.org/2000/svg">
-  <rect width="${W}" height="${H}" fill="#0E1418"/>
+  <rect width="${W}" height="${H}" fill="#EFEDE8"/>
   ${bars
-    .map((b) => `<rect x="${b.x}" y="${(H - b.h) / 2}" width="${b.w}" height="${b.h}" rx="${b.w / 2}" fill="#E08A3C" opacity="${b.o}"/>`)
+    .map((b) => `<rect x="${b.x}" y="${(H - b.h) / 2}" width="${b.w}" height="${b.h}" rx="${b.w / 2}" fill="#C8703F" opacity="${b.o}"/>`)
     .join('\n  ')}
-  <text x="${W - 90}" y="${H / 2 - 60}" text-anchor="end" font-family="system-ui, -apple-system, sans-serif" font-size="58" font-weight="700" fill="#ECE6DA">Mathieu Fiorentini</text>
-  <text x="${W - 90}" y="${H / 2 + 10}" text-anchor="end" font-family="system-ui, -apple-system, sans-serif" font-size="30" fill="#9AA3A8">Senior sound designer · Wwise consultant · Composer</text>
-  <text x="${W - 90}" y="${H - 70}" text-anchor="end" font-family="system-ui, -apple-system, sans-serif" font-size="24" fill="#9AA3A8" opacity="0.7">earlyreflect.com</text>
+  <text x="${W - 90}" y="${H / 2 - 60}" text-anchor="end" font-family="system-ui, -apple-system, sans-serif" font-size="58" font-weight="700" fill="#121417">Mathieu Fiorentini</text>
+  <text x="${W - 90}" y="${H / 2 + 10}" text-anchor="end" font-family="system-ui, -apple-system, sans-serif" font-size="30" fill="#5F5C57">Senior sound designer · Wwise consultant · Composer</text>
+  <text x="${W - 90}" y="${H - 70}" text-anchor="end" font-family="system-ui, -apple-system, sans-serif" font-size="24" fill="#5F5C57" opacity="0.7">earlyreflect.com</text>
 </svg>`;
 
 await sharp(Buffer.from(svg)).webp({ quality: 90 }).toFile('public/og-default.webp');
