@@ -65,6 +65,19 @@
   body {
     @apply bg-bg font-sans text-text antialiased;
     font-size: var(--text-base);
+    position: relative;
+    isolation: isolate;
+  }
+
+  body::before {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    background-image: var(--background-texture);
+    background-repeat: repeat;
+    opacity: 0.09;
+    content: "";
+    pointer-events: none;
   }
 
   a:not(.btn, .btn-primary, .btn-secondary, .site-brand, .nav-link, .language-switch, [data-project-card], .lite-embed-trigger) {
