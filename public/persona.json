@@ -57,7 +57,7 @@
     "notable": "Two student projects awarded at BAFTA"
   },
   "consulting": {
-    "offers": ["Wwise / WAAPI consulting (tooling, automation, pipeline)", "Audio pipeline audit", "Training and workshops"],
+    "offers": ["Wwise / Unreal consulting (new pipeline setup or upgrades)", "Audio pipeline audit", "Training and workshops"],
     "tools": ["Wwise", "Unreal Engine", "Reaper", "Pro Tools", "Soundminer", "Kyma"]
   },
   "contact": {
