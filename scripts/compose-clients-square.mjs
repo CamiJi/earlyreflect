@@ -25,6 +25,20 @@ const CROPS = [
 ];
 
 const logos = [];
+const lightenLogo = async (buf) => {
+  const { data, info } = await sharp(buf).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+  for (let i = 0; i < data.length; i += info.channels) {
+    if (Math.max(data[i], data[i + 1], data[i + 2]) < 160) {
+      data[i] = 236;
+      data[i + 1] = 236;
+      data[i + 2] = 236;
+    }
+  }
+  return sharp(data, {
+    raw: { width: info.width, height: info.height, channels: info.channels },
+  }).png().toBuffer();
+};
+
 for (const crop of CROPS) {
   // bounding box verticale réelle dans la tranche
   const slice = await sharp(SRC).extract({ left: crop.left, top: 0, width: crop.width, height: H }).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
@@ -40,10 +54,10 @@ for (const crop of CROPS) {
   }
   logos.push({
     name: crop.name,
-    buf: await sharp(SRC)
+    buf: await lightenLogo(await sharp(SRC)
       .extract({ left: crop.left + x0, top: y0, width: x1 - x0, height: y1 - y0 })
       .png()
-      .toBuffer(),
+      .toBuffer()),
   });
   console.log(`✓ ${crop.name} : ${x1 - x0}×${y1 - y0}px`);
 }

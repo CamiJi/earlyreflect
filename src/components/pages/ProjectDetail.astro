@@ -117,20 +117,20 @@ const schema = {
       <!-- Navigation précédent / suivant -->
       <nav class="mt-16 flex justify-between border-t border-border pt-6" aria-label={lang === 'fr' ? 'Navigation entre projets' : 'Project navigation'}>
         {prev ? (
-          <a href={projectUrl(lang, prev.id.replace(lang + '/', ''))} class="hover:text-accent">
+          <a href={projectUrl(lang, prev.id.replace(lang + '/', ''))} class="hover:text-text">
             ← <span class="font-medium">{prev.data.title}</span>
             <span class="sr-only">{t('work.previousProject')}</span>
           </a>
         ) : (
-          <EarlyReflections variant="mark" class="text-border" />
+          <EarlyReflections variant="mark" />
         )}
         {next ? (
-          <a href={projectUrl(lang, next.id.replace(lang + '/', ''))} class="hover:text-accent">
+          <a href={projectUrl(lang, next.id.replace(lang + '/', ''))} class="hover:text-text">
             <span class="font-medium">{next.data.title}</span> →
             <span class="sr-only">{t('work.nextProject')}</span>
           </a>
         ) : (
-          <EarlyReflections variant="mark" class="text-border" />
+          <EarlyReflections variant="mark" />
         )}
       </nav>
     </article>
@@ -142,6 +142,7 @@ const schema = {
   .prose-er :where(p) {
     margin-top: 1rem;
     line-height: 1.7;
+    color: var(--color-text-muted);
   }
   .prose-er :where(h2) {
     margin-top: 2rem;

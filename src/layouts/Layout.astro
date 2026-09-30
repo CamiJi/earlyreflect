@@ -49,7 +49,7 @@ const alternates = noAlternate || !altPath
     <link rel="icon" type="image/png" sizes="16x16" href={`${base}favicon-16.png`} />
     <link rel="apple-touch-icon" sizes="180x180" href={`${base}apple-touch-icon.png`} />
     <link rel="canonical" href={canonical} />
-    <meta name="theme-color" content="#EFEDE8" />
+    <meta name="theme-color" content="#161618" />
     <meta name="generator" content={Astro.generator} />
 
     {alternates.map((alt) => <link rel="alternate" hreflang={alt.lang} href={alt.href} />)}
@@ -70,6 +70,14 @@ const alternates = noAlternate || !altPath
     {schemaList.map((node) => <script is:inline type="application/ld+json" set:html={JSON.stringify(node)} />)}
   </head>
   <body>
+    <svg aria-hidden="true" width="0" height="0" class="absolute">
+      <defs>
+        <linearGradient id="brand-gradient" x1="0" y1="0" x2="112" y2="0" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="var(--color-accent)" />
+          <stop offset="100%" stop-color="var(--color-accent-2)" />
+        </linearGradient>
+      </defs>
+    </svg>
     <a
       href="#main"
       class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:bg-surface focus:px-4 focus:py-2"

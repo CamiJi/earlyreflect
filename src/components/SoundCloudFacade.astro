@@ -14,7 +14,7 @@ interface Props {
 
 const { url, title, class: className = '' } = Astro.props;
 const embedBase = 'https://w.soundcloud.com/player/?url=';
-const embedUrl = `${embedBase}${encodeURIComponent(url)}&color=%232e46c8&auto_play=true`;
+const embedUrl = `${embedBase}${encodeURIComponent(url)}&color=%232CCDF2&auto_play=true`;
 
 let artwork: string | null = null;
 try {
@@ -35,12 +35,12 @@ try {
         <img src={artwork} alt="" loading="lazy" width="500" height="500" class="absolute inset-0 h-full w-full object-cover" />
       ) : (
         <div class="absolute inset-0 flex items-center justify-center bg-border" aria-hidden="true">
-          <EarlyReflections variant="hero" class="text-accent-2/40" />
+          <EarlyReflections variant="hero" />
         </div>
       )
     }
     <span class="absolute inset-0 z-10 flex items-center justify-center" aria-hidden="true">
-      <span class="flex h-14 w-14 items-center justify-center rounded-full bg-accent text-surface transition-transform group-hover:scale-105">
+      <span class="flex h-14 w-14 items-center justify-center rounded-full bg-accent text-on-accent transition-transform group-hover:scale-105">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
           <path d="M6 4l10 6-10 6V4z"></path>
         </svg>
