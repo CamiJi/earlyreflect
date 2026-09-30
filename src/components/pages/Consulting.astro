@@ -56,7 +56,9 @@ const requestType = lang === 'fr' ? 'Consulting' : 'Consulting';
       <ul class="measure mt-4 space-y-2">
         {p.publications.items.map((item) => (
           <li>
-            <a href={item.url} rel="noopener" target="_blank" class="text-brand hover:underline">{item.label}</a>
+            <a href={typeof item.url === 'string' ? item.url : item.url[lang]} rel="noopener" target="_blank" class="text-brand hover:underline">
+              {typeof item.label === 'string' ? item.label : item.label[lang]}
+            </a>
           </li>
         ))}
       </ul>
