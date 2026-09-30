@@ -114,13 +114,15 @@ const personSchema = {
         <div class="flex justify-center lg:justify-end">
           <img
             src={`${ASSETS}images/clients-square.webp`}
+            srcset={`${ASSETS}images/clients-square_300.webp 300w, ${ASSETS}images/clients-square_768.webp 768w, ${ASSETS}images/clients-square_1280.webp 1280w, ${ASSETS}images/clients-square.webp 1920w`}
+            sizes="(min-width: 1024px) 480px, 320px"
             alt={
               lang === 'fr'
                 ? 'Clients et employeurs : Don’t Nod, Ubisoft, Quantic Dream, France Inter, ISART Digital'
                 : 'Clients and employers: Don’t Nod, Ubisoft, Quantic Dream, France Inter, ISART Digital'
             }
-            width="1024"
-            height="1024"
+            width="1920"
+            height="1920"
             loading="eager"
             class="w-full max-w-[320px] opacity-[0.85] lg:max-w-[480px]"
           />
