@@ -81,7 +81,7 @@ Les blocs Radio, Sorties et Distinction viennent ensuite.
 Motif : ce sont les morceaux écoutables qui accrochent, pas le texte descriptif.
 4. Design général
 4.1 Typographie
-Police : Satoshi (grotesque neutre).
+Police : Lato (ou équivalent grotesque neutre).
 Hébergement local de la police, pas d'appel à Google Fonts (performance et RGPD).
 Ne charger que les graisses utilisées, en woff2, avec font-display: swap.
 Chiffres tabulaires pour les années et les dates.

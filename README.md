@@ -6,7 +6,7 @@ https://earlyreflect.com** (hébergement GitHub Pages, gratuit, HTTPS Let's Encr
 - **Stack** : [Astro](https://astro.build) 6 + Tailwind CSS 4 + TypeScript — site 100 % statique, zéro cookie, 0 JS au chargement initial
 - **Langues** : EN à la racine, FR sous `/fr/` (défaut : EN)
 - **Contenu** : collections Markdown bilingues — **17 projets** migrés depuis l'ancien site
-- **Design** : tokens dans `src/styles/global.css` (palette brand `#007190`, paper `#F4F4F0`, Satoshi auto-hébergée), motif signature « early reflections » (`EarlyReflections.astro`)
+- **Design** : tokens dans `src/styles/global.css` (palette brand `#007190`, paper `#F4F4F0`, Lato auto-hébergée), motif signature « early reflections » (`EarlyReflections.astro`)
 
 ## Démarrage
 
