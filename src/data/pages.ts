@@ -128,7 +128,7 @@ export const pages = {
       title: localized('Education', 'Formation'),
       text: localized('Supinfogame — game design, sound design major (2009).', 'Supinfogame — game design, spécialité sound design (2009).'), // [À VALIDER]
     },
-    cvLabel: localized('Download CV (PDF)', 'Télécharger le CV (PDF)'),
+    cvLabel: localized('Download CV', 'Télécharger le CV (PDF)'),
   },
 
   contactTypes: ['studio', 'consulting', 'teaching', 'music', 'other'] as const,
