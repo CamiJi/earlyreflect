@@ -17,18 +17,19 @@
 }
 
 /* ============================================================
-   Design tokens — retour V1 §4.2 (remplace spec §6.2)
+   Palette Nuit spectrale
    ============================================================ */
 @theme {
-  --color-bg: #EFEDE8;
-  --color-surface: #F8F7F4;
-  --color-text: #121417;
-  --color-text-muted: #5F5C57;
-  --color-border: #D8D5CE;
-  --color-accent: #9A3D19;
-  --color-accent-2: #C8703F;
-  --color-tag-bg: #1F3A33;
-  --color-tag-text: #F8F7F4;
+  --color-bg: #0E1418;
+  --color-surface: #16202A;
+  --color-text: #ECE6DA;
+  --color-text-muted: #9AA3A8;
+  --color-border: #26323C;
+  --color-accent: #7FD3D6;
+  --color-accent-2: #E08A3C;
+  --color-tag-bg: #1E3A40;
+  --color-tag-text: #BFEFF0;
+  --color-glow: rgba(127,211,214,.22);
 
   /* §4.1 Typographie — Satoshi, base 18px, ratio 1.25 → 18/22.5/28/35/44/55 */
   --font-sans: "Satoshi", system-ui, sans-serif;
@@ -57,6 +58,8 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    color-scheme: dark;
+    background-color: var(--color-bg);
   }
 
   body {
@@ -64,21 +67,55 @@
     font-size: var(--text-base);
   }
 
-  a:not(.btn, .btn-primary, .btn-secondary, .site-brand, .nav-link, .language-switch, [data-project-card], .lite-embed-trigger) {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--color-text);
+  }
+
+  a:not(.btn, .btn-primary, .btn-secondary, .site-brand, .nav-link, .language-switch, [data-project-card], .lite-embed-trigger, footer a) {
     color: var(--color-accent);
     text-decoration: underline;
     text-underline-offset: 4px;
-    transition: opacity 150ms;
+    transition: color 150ms;
   }
 
-  a:not(.btn, .btn-primary, .btn-secondary, .site-brand, .nav-link, .language-switch, [data-project-card], .lite-embed-trigger):hover {
-    opacity: 0.8;
+  a:not(.btn, .btn-primary, .btn-secondary, .site-brand, .nav-link, .language-switch, [data-project-card], .lite-embed-trigger, footer a):hover {
+    color: var(--color-text);
   }
 
-  .site-nav a[aria-current='page'] {
+  .site-header {
+    background-color: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .site-nav .nav-link {
+    color: var(--color-text-muted);
+    transition: color 150ms;
+  }
+
+  .site-nav .nav-link:hover {
+    color: var(--color-text);
+  }
+
+  .site-nav .nav-link[aria-current='page'] {
+    color: var(--color-text);
+    font-weight: 500;
     text-decoration: underline;
     text-decoration-color: var(--color-accent);
     text-underline-offset: 4px;
+  }
+
+  .site-nav .language-switch {
+    color: var(--color-text-muted);
+  }
+
+  .site-nav .language-switch:hover {
+    color: var(--color-text);
+    border-color: var(--color-accent);
   }
 
   .btn-primary,
@@ -88,18 +125,33 @@
 
   .site-nav button {
     color: var(--color-text);
-    background-color: var(--color-bg);
+    background-color: transparent;
+    border-color: var(--color-border);
+  }
+
+  #menu-toggle[aria-expanded='true'] + #main-nav {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
   }
 
   input,
   textarea,
   select {
     color: var(--color-text);
+    background-color: var(--color-surface);
+    border-color: var(--color-border);
   }
 
   ::placeholder {
     color: var(--color-text-muted);
     opacity: 1;
+  }
+
+  form label {
+    color: var(--color-accent-2);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
   }
 
   /* Focus clavier = signal (§8 accessibilité) */
@@ -109,8 +161,15 @@
     border-radius: var(--radius-media);
   }
 
+  input:focus,
+  textarea:focus,
+  select:focus {
+    border-color: var(--color-accent);
+    outline-color: var(--color-accent);
+  }
+
   ::selection {
-    background-color: color-mix(in srgb, var(--color-accent) 20%, transparent);
+    background-color: var(--color-glow);
     color: var(--color-text);
   }
 
@@ -121,6 +180,21 @@
 }
 
 @layer components {
+  footer {
+    color: var(--color-text-muted);
+    background-color: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+  }
+
+  footer a {
+    color: var(--color-text-muted);
+    transition: color 150ms;
+  }
+
+  footer a:hover {
+    color: var(--color-text);
+  }
+
   /* Conteneur : 1200px max, gouttières 24px (§6.5) */
   .container-site {
     @apply mx-auto w-full max-w-(--max-width) px-(--spacing-gutter);
@@ -141,6 +215,16 @@
     @apply text-text-muted;
   }
 
+  .project-card {
+    color: var(--color-text);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+  }
+
+  .prose-er :where(li)::marker {
+    color: var(--color-text-muted);
+  }
+
   /* Boutons : texte explicite, sans flèche (§6.5) */
   .btn,
   .btn-primary,
@@ -148,14 +232,14 @@
     @apply inline-flex items-center rounded-(--radius-media) px-5 py-3 text-base font-medium transition-colors;
   }
   .btn-primary {
-    @apply bg-accent text-surface hover:opacity-80;
+    @apply bg-accent text-bg hover:text-text;
     /* outline signal invisible sur fond signal → contour ink décalé (§8) */
     &:focus-visible {
       outline-color: var(--color-text);
     }
   }
   .btn-secondary {
-    @apply border border-border text-text hover:border-text-muted;
+    @apply border border-accent bg-transparent text-accent hover:text-text;
   }
 
   /* Pastilles de discipline (§5.2) */
@@ -163,7 +247,7 @@
     @apply inline-flex items-center rounded-full border border-tag-bg bg-tag-bg px-3 py-0.5 text-sm text-tag-text;
   }
   .pill-active {
-    @apply border-accent bg-accent text-surface;
+    @apply border-accent bg-accent text-bg;
   }
 
   /* Images : pas d'ombre, rayon 2px max, ratio 16:9 (§6.5) */
