@@ -66,18 +66,26 @@
     @apply bg-bg font-sans text-text antialiased;
     font-size: var(--text-base);
     position: relative;
+    min-height: 100%;
     isolation: isolate;
   }
 
   body::before {
     position: absolute;
     z-index: -1;
-    inset: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    aspect-ratio: 1 / 5;
     background-image: var(--background-texture);
-    background-repeat: repeat;
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    background-position: top center;
     opacity: 0.09;
     content: "";
     pointer-events: none;
+    mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
   }
 
   a:not(.btn, .btn-primary, .btn-secondary, .site-brand, .nav-link, .language-switch, [data-project-card], .lite-embed-trigger) {
