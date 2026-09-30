@@ -44,14 +44,6 @@ export const pages = {
       title: localized('Publications', 'Publications'),
       items: [
         {
-          label: 'Audiokinetic blog — Tell Me Why (sound design, mixing)',
-          url: 'https://blog.audiokinetic.com/', // [À VALIDER : URLs exactes des articles]
-        },
-        {
-          label: 'Symbolic Sound interview — Beyond: Two Souls and Kyma',
-          url: 'https://kyma.symbolicsound.com/', // [À VALIDER : URL exacte de l'interview]
-        },
-        {
           label: localized(
             'Xbox Wire — Aphelion: sound and music',
             'Xbox Wire — Aphelion : les secrets d’une ambiance sonore immersive',
@@ -60,6 +52,14 @@ export const pages = {
             'https://news.xbox.com/en-us/2026/04/27/aphelion-sound-and-music/',
             'https://news.xbox.com/fr-fr/2026/04/27/aphelion-lequipe-audio-devoile-les-secrets-dune-ambiance-sonore-immersive/',
           ),
+        },
+        {
+          label: 'Audiokinetic blog — Tell Me Why (sound design, mixing)',
+          url: 'https://blog.audiokinetic.com/', // [À VALIDER : URLs exactes des articles]
+        },
+        {
+          label: 'Symbolic Sound interview — Beyond: Two Souls and Kyma',
+          url: 'https://kyma.symbolicsound.com/', // [À VALIDER : URL exacte de l'interview]
         },
       ],
     },
