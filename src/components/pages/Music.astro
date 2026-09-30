@@ -5,7 +5,6 @@ import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import ProjectGrid from '../../components/ProjectGrid.astro';
-import WpImage from '../../components/WpImage.astro';
 import { useTranslations, pageUrl, type Lang } from '../../i18n/ui';
 import { pages } from '../../data/pages';
 
@@ -17,6 +16,7 @@ const { lang } = Astro.props;
 const { t, tGroup } = useTranslations(lang);
 const p = pages.music;
 const altPath = '/music/';
+const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
 
 const musicProjects = (await getCollection('projects'))
   .filter((proj) => proj.id.startsWith(`${lang}/`) && proj.data.disciplines.includes('music'))
@@ -28,9 +28,16 @@ const musicProjects = (await getCollection('projects'))
   <main id="main">
     <section class="container-site section !pt-16">
       <div class="grid items-center gap-8 md:grid-cols-[1fr_2fr]">
-        <WpImage
-          asset="yakieUniverse"
+        <img
+          src={`${base}images/music-artwork_1024.jpg`}
+          srcset={`${base}images/music-artwork_300.jpg 300w, ${base}images/music-artwork_768.jpg 768w, ${base}images/music-artwork_1024.jpg 1024w`}
           sizes="(max-width: 768px) 100vw, 400px"
+          alt={lang === 'fr'
+            ? 'Paysage abstrait de crêtes montagneuses superposées dans des brumes turquoise et vertes, avec des accents roses'
+            : 'Abstract landscape of layered mountain ridges in teal and green mist with pink accents'}
+          width="1024"
+          height="1024"
+          loading="lazy"
           class="w-full max-w-xs rounded-(--radius-media)"
         />
         <div>
