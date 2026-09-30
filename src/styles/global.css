@@ -6,18 +6,31 @@
 @import "@fontsource/lato/700.css";
 
 /* ============================================================
-   Design tokens — retour V1 §4.2 (remplace spec §6.2)
+   Design tokens — palette Affinée 4b
    ============================================================ */
+:root {
+  color-scheme: dark;
+  --color-bg: #161618;
+  --color-surface: #1F1F22;
+  --color-text: #ECECEC;
+  --color-text-muted: #A1A1A6;
+  --color-border: #2E2E33;
+  --color-accent: #2CCDF2;
+  --color-accent-2: #FF7A1F;
+  --color-button-secondary: #4A4A50;
+  --color-on-accent: #161618;
+  --gradient-accent: linear-gradient(90deg, var(--color-accent), var(--color-accent-2));
+}
+
 @theme {
-  --color-bg: #EFEDE8;
-  --color-surface: #F8F7F4;
-  --color-text: #121417;
-  --color-text-muted: #5F5C57;
-  --color-border: #D8D5CE;
-  --color-accent: #9A3D19;
-  --color-accent-2: #C8703F;
-  --color-tag-bg: #1F3A33;
-  --color-tag-text: #F8F7F4;
+  --color-bg: #161618;
+  --color-surface: #1F1F22;
+  --color-text: #ECECEC;
+  --color-text-muted: #A1A1A6;
+  --color-border: #2E2E33;
+  --color-accent: #2CCDF2;
+  --color-accent-2: #FF7A1F;
+  --color-on-accent: #161618;
 
   /* §4.1 Typographie — Lato, base 18px, ratio 1.25 → 18/22.5/28/35/44/55 */
   --font-sans: "Lato", system-ui, sans-serif;
@@ -46,6 +59,7 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    background-color: var(--color-bg);
   }
 
   body {
@@ -57,11 +71,11 @@
     color: var(--color-accent);
     text-decoration: underline;
     text-underline-offset: 4px;
-    transition: opacity 150ms;
+    transition: color 150ms;
   }
 
   a:not(.btn, .btn-primary, .btn-secondary, .site-brand, .nav-link, .language-switch, [data-project-card], .lite-embed-trigger):hover {
-    opacity: 0.8;
+    color: var(--color-text);
   }
 
   .site-nav a[aria-current='page'] {
@@ -99,8 +113,8 @@
   }
 
   ::selection {
-    background-color: color-mix(in srgb, var(--color-accent) 20%, transparent);
-    color: var(--color-text);
+    background-color: var(--color-accent);
+    color: var(--color-on-accent);
   }
 
   /* Chiffres tabulaires pour années et dates (§6.3) */
@@ -134,25 +148,32 @@
   .btn,
   .btn-primary,
   .btn-secondary {
-    @apply inline-flex items-center rounded-(--radius-media) px-5 py-3 text-base font-medium transition-colors;
+    @apply inline-flex items-center px-5 py-3 text-base font-medium transition-colors;
+    border-radius: 3px;
   }
   .btn-primary {
-    @apply bg-accent text-surface hover:opacity-80;
-    /* outline signal invisible sur fond signal → contour ink décalé (§8) */
-    &:focus-visible {
-      outline-color: var(--color-text);
+    @apply text-on-accent;
+    background-image: var(--gradient-accent);
+    transition: filter 150ms;
+    &:hover {
+      filter: brightness(1.08);
     }
   }
   .btn-secondary {
-    @apply border border-border text-text hover:border-text-muted;
+    @apply border text-text;
+    border-color: var(--color-button-secondary);
+    background-color: transparent;
+    &:hover {
+      border-color: var(--color-text-muted);
+    }
   }
 
   /* Pastilles de discipline (§5.2) */
   .pill {
-    @apply inline-flex items-center rounded-full border border-tag-bg bg-tag-bg px-3 py-0.5 text-sm text-tag-text;
+    @apply inline-flex items-center rounded-full border border-border bg-surface px-3 py-0.5 text-sm text-text-muted;
   }
   .pill-active {
-    @apply border-accent bg-accent text-surface;
+    @apply border-accent bg-surface text-accent;
   }
 
   /* Images : pas d'ombre, rayon 2px max, ratio 16:9 (§6.5) */

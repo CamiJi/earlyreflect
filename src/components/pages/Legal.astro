@@ -55,7 +55,7 @@ const content = {
         {content.map(([heading, text]) => (
           <div>
             <h2 class="font-semibold">{heading}</h2>
-            <p class="mt-2">{text}</p>
+            <p class="text-meta mt-2">{text}</p>
           </div>
         ))}
         {
@@ -63,7 +63,7 @@ const content = {
           variant === 'legal' && (
             <div>
               <h2 class="font-semibold">{lang === 'fr' ? 'Conception du site' : 'Site design & development'}</h2>
-              <p class="mt-2">
+              <p class="text-meta mt-2">
                 {lang === 'fr' ? 'Conception et développement : ' : 'Design and development: '}
                 <a href="https://camilleaubert.com" rel="noopener" target="_blank" class="text-accent">
                   Camille Aubert — camilleaubert.com
