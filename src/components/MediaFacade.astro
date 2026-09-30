@@ -37,12 +37,12 @@ const audioFile = mediaUrl && /\.(mp3|wav|ogg|m4a|flac)$/i.test(mediaUrl);
   nda.active ? (
     <figure class={className}>
       {keyArt && (
-        <div class="media-16x9 bg-rule">
+        <div class="media-16x9 bg-border">
           <img src={keyArt} alt={keyArtAlt ?? ''} width="1600" height="900" loading="lazy" />
         </div>
       )}
-      <figcaption class="media-caption text-meta mt-2 flex items-center gap-3 rounded-(--radius-media) border border-rule bg-surface p-4">
-        <EarlyReflections variant="bars" class="text-ink-muted" />
+      <figcaption class="media-caption text-meta mt-2 flex items-center gap-3 rounded-(--radius-media) border border-border bg-surface p-4">
+        <EarlyReflections variant="bars" class="text-text-muted" />
         <span>
           {t('work.underNda')}
           {nda.note && <span class="block text-sm"> {nda.note}</span>}
@@ -71,7 +71,7 @@ const audioFile = mediaUrl && /\.(mp3|wav|ogg|m4a|flac)$/i.test(mediaUrl);
     </figure>
   ) : mediaUrl ? (
     <figure class={className}>
-      <p class="text-meta">Média : <a href={mediaUrl} rel="noopener" target="_blank" class="text-brand">{mediaUrl}</a></p>
+      <p class="text-meta">Média : <a href={mediaUrl} rel="noopener" target="_blank" class="text-accent">{mediaUrl}</a></p>
       {mediaCaption && <figcaption class="media-caption text-meta mt-2">{mediaCaption}</figcaption>}
     </figure>
   ) : null
