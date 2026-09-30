@@ -1,9 +1,20 @@
 @import "tailwindcss";
 
-/* Lato — self-hosted (retour V1 §4.1 : grotesque neutre, graisses utilisées seulement) */
-@import "@fontsource/lato/400.css";
-@import "@fontsource/lato/400-italic.css";
-@import "@fontsource/lato/700.css";
+@font-face {
+  font-family: "Satoshi";
+  src: url("../assets/fonts/Satoshi-Variable.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Satoshi";
+  src: url("../assets/fonts/Satoshi-VariableItalic.woff2") format("woff2");
+  font-style: italic;
+  font-weight: 400 700;
+  font-display: swap;
+}
 
 /* ============================================================
    Design tokens — retour V1 §4.2 (remplace spec §6.2)
@@ -19,8 +30,8 @@
   --color-tag-bg: #1F3A33;
   --color-tag-text: #F8F7F4;
 
-  /* §4.1 Typographie — Lato, base 18px, ratio 1.25 → 18/22.5/28/35/44/55 */
-  --font-sans: "Lato", system-ui, sans-serif;
+  /* §4.1 Typographie — Satoshi, base 18px, ratio 1.25 → 18/22.5/28/35/44/55 */
+  --font-sans: "Satoshi", system-ui, sans-serif;
   --text-base: 1.125rem; /* 18px */
   --text-base--line-height: 1.6;
   --text-md: 1.25rem; /* 22.5px */
