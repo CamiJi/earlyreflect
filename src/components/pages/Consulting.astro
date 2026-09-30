@@ -30,7 +30,7 @@ const requestType = lang === 'fr' ? 'Consulting' : 'Consulting';
       <h2 id="offers-title" class="text-lg font-bold">{lang === 'fr' ? 'Offres' : 'Services'}</h2>
       <div class="mt-8 grid gap-8 md:grid-cols-3">
         {p.offers.map((offer) => (
-          <div class="rounded-(--radius-media) border border-rule bg-surface p-6">
+          <div class="rounded-(--radius-media) border border-border bg-surface p-6">
             <h3 class="font-semibold">{offer.title[lang]}</h3>
             <p class="text-meta mt-2">{offer.text[lang]}</p>
           </div>
@@ -56,7 +56,7 @@ const requestType = lang === 'fr' ? 'Consulting' : 'Consulting';
       <ul class="measure mt-4 space-y-2">
         {p.publications.items.map((item) => (
           <li>
-            <a href={typeof item.url === 'string' ? item.url : item.url[lang]} rel="noopener" target="_blank" class="text-brand hover:underline">
+            <a href={typeof item.url === 'string' ? item.url : item.url[lang]} rel="noopener" target="_blank" class="text-accent">
               {typeof item.label === 'string' ? item.label : item.label[lang]}
             </a>
           </li>

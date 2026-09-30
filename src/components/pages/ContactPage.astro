@@ -38,7 +38,7 @@ const formspreeUrl = `https://formspree.io/f/${site.formspreeId}`;
             type="text"
             required
             autocomplete="name"
-            class="mt-2 w-full rounded-(--radius-media) border border-rule bg-surface px-4 py-3 focus:border-brand"
+            class="mt-2 w-full rounded-(--radius-media) border border-border bg-surface px-4 py-3 focus:border-accent"
           />
         </div>
         <div>
@@ -49,7 +49,7 @@ const formspreeUrl = `https://formspree.io/f/${site.formspreeId}`;
             type="email"
             required
             autocomplete="email"
-            class="mt-2 w-full rounded-(--radius-media) border border-rule bg-surface px-4 py-3 focus:border-brand"
+            class="mt-2 w-full rounded-(--radius-media) border border-border bg-surface px-4 py-3 focus:border-accent"
           />
         </div>
         <div>
@@ -57,7 +57,7 @@ const formspreeUrl = `https://formspree.io/f/${site.formspreeId}`;
           <select
             id="request-type"
             name="request-type"
-            class="mt-2 w-full rounded-(--radius-media) border border-rule bg-surface px-4 py-3 focus:border-brand"
+            class="mt-2 w-full rounded-(--radius-media) border border-border bg-surface px-4 py-3 focus:border-accent"
           >
             {pages.contactTypes.map((type) => (
               <option value={type}>{tGroup('contact.requestTypes')[type][lang]}</option>
@@ -71,7 +71,7 @@ const formspreeUrl = `https://formspree.io/f/${site.formspreeId}`;
             name="message"
             required
             rows="6"
-            class="mt-2 w-full rounded-(--radius-media) border border-rule bg-surface px-4 py-3 focus:border-brand"
+            class="mt-2 w-full rounded-(--radius-media) border border-border bg-surface px-4 py-3 focus:border-accent"
           ></textarea>
         </div>
         <button type="submit" class="btn-primary">{t('contact.send')}</button>
