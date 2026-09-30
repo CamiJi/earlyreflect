@@ -12,10 +12,10 @@ export const pages = {
     ),
     offers: [
       {
-        title: localized('Wwise / WAAPI consulting', 'Consulting Wwise / WAAPI'),
+        title: localized('Wwise / Unreal consulting', 'Consulting Wwise / Unreal'),
         text: localized(
-          'Tooling, automation and pipeline: custom WAAPI scripts, project hygiene, mixing architecture, team workflows.',
-          'Outils, automatisation et pipeline : scripts WAAPI sur mesure, hygiène de projet, architecture de mix, workflows d’équipe.',
+          'New pipeline setup or existing pipeline upgrades: Wwise–Unreal tooling, debug tools, mixing architecture.',
+          'Mise en place de nouveaux pipelines ou mise à niveau de pipelines existants : outils Wwise–Unreal, outils de debug, architecture de mix.',
         ),
       },
       {
