@@ -68,14 +68,14 @@ export const pages = {
   music: {
     title: localized('Music', 'Musique'),
     intro: localized(
-      'Yakie — electronic and ambient music: abstract hip-hop, acousmatic pieces and piano, built from field recordings. France Inter commissions, vinyl releases.',
+      'Electronica and ambient music, acousmatic pieces and piano, built from field recordings. Commissioned work for France Inter, vinyl releases, and live shows.',
       'Yakie — musique électronique et ambient : abstract hip-hop, pièces acousmatiques et piano, à partir de prises de terrain. Commandes France Inter, sorties vinyle.',
     ),
     sections: [
       {
         title: localized('Radio', 'Radio'),
         text: localized(
-          'SACEM commission for France Inter: jingles for shows and podcasts (e.g. « 13 Novembre, l’enquête », « Le code a changé »).', // [À VALIDER : depuis 2020 ou 2021]
+          'Radio France commissioned work for France Inter: jingles for shows and podcasts (e.g. « 13 Novembre, l’enquête », « Le code a changé »), plus night-shift transitions broadcast three times a week as part of the station’s main sonic identity.',
           'Commande SACEM pour France Inter : génériques d’émissions et de podcasts (ex. « 13 Novembre, l’enquête », « Le code a changé »).', // [À VALIDER : depuis 2020 ou 2021]
         ),
       },
