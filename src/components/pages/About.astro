@@ -45,7 +45,7 @@ const metaDesc = lang === 'fr'
     <!-- Parcours : timeline chronologique inversée (frise justifiée ici) -->
     <section class="container-site section" aria-labelledby="timeline-title">
       <h2 id="timeline-title" class="text-lg font-bold">{lang === 'fr' ? 'Parcours' : 'Career'}</h2>
-      <ol class="measure mt-6 space-y-0 border-l-2 border-text-muted">
+      <ol class="measure mt-6 space-y-0 border-l-2 border-border">
         {p.timeline.map((step) => (
           <li class="tabular relative pb-8 pl-8 last:pb-0">
             <span class="absolute -left-[5px] top-1.5 h-2 w-2 rounded-full bg-accent-2" aria-hidden="true"></span>

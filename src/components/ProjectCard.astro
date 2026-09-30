@@ -33,13 +33,13 @@ const href = projectUrl(lang, slug);
         />
       ) : (
         <div class="flex h-full items-center justify-center" aria-hidden="true">
-          <EarlyReflections variant="hero" class="text-accent-2/60 transition-transform duration-300 group-hover:scale-105" />
+          <EarlyReflections variant="hero" class="text-accent-2/25 transition-transform duration-300 group-hover:scale-105" />
         </div>
       )
     }
     {
       nda.active && (
-        <span class="absolute top-2 right-2 rounded bg-bg/90 px-2 py-0.5 text-sm text-text">
+        <span class="absolute top-2 right-2 rounded bg-text/80 px-2 py-0.5 text-sm text-surface">
           {t('work.underNda')}
         </span>
       )
