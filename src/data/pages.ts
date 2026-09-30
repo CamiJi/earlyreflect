@@ -104,8 +104,8 @@ export const pages = {
     ),
     timeline: [
       { years: '2019 - Present', role: "Senior Sound Designer — Don't Nod" }, // [À VALIDER]
-      { years: '2017–2018', role: 'Sound designer — Ubisoft' },
-      { years: '2017 - Present', role: 'Interactive audio teacher — ISART Digital (parallèle)' },
+      { years: '2017–2019', role: 'Sound designer — Ubisoft' },
+      { years: '2017 - Present', role: 'Interactive audio teacher — ISART Digital' },
       { years: '2011–2016', role: 'Sound designer — Quantic Dream' },
       { years: '2009–2011', role: 'Sound designer — freelance' }, // [À VALIDER]
     ],
